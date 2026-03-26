@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Build Your Cake – Cakerie</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ========== BUILD PAGE - CUSTOM STYLES ========== */
+
+    /* ADDITIONAL KEYFRAMES FOR BUILD PAGE */
+    @keyframes slideInFormUp {
+      from { opacity: 0; transform: translateY(60px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes formFieldGlow {
+      0%, 100% { box-shadow: 0 0 0 rgba(200,116,90,0.2); }
+      50% { box-shadow: 0 0 15px rgba(200,116,90,0.4); }
+    }
+
+    @keyframes checkboxPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes priceFlip {
+      from { opacity: 0; transform: rotateY(90deg); }
+      to { opacity: 1; transform: rotateY(0deg); }
+    }
+
+    @keyframes buttonHoverGlow {
+      0%, 100% { box-shadow: 0 0 20px rgba(200,116,90,0.3); }
+      50% { box-shadow: 0 0 35px rgba(200,116,90,0.6); }
+    }
+
+    @keyframes labelFloat {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes expandBorder {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    /* PAGE LAYOUT */
+    .build-page {
+      margin-top: 72px;
+      background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1515 100%);
+      min-height: 100vh;
+      padding: 80px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .build-page::before {
+      content: '';
+      position: fixed;
+      top: 72px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(200,116,90,0.08) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(212,169,106,0.06) 0%, transparent 40%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .build-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* HEADER */
+    .build-header {
+      text-align: center;
+      margin-bottom: 60px;
+      animation: fadeInDown 0.8s ease 0.2s both;
+    }
+
+    .build-header .section-label {
+      color: var(--accent-gold);
+      animation: fadeInUp 0.6s ease backwards;
+    }
+
+    .build-title {
+      font-family: var(--font-serif);
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 700;
+      color: var(--text-primary);
+      margin: 16px 0 12px;
+      animation: fadeInUp 0.8s ease 0.2s both;
+    }
+
+    .build-subtitle {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+      animation: fadeInUp 0.8s ease 0.3s both;
+    }
+
+    /* MAIN FORM LAYOUT */
+    .build-content {
+      display: grid;
+      grid-template-columns: 1fr 350px;
+      gap: 40px;
+      animation: fadeInUp 0.8s ease 0.4s both;
+    }
+
+    @media (max-width: 1024px) {
+      .build-content {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* FORM WRAPPER */
+    .form-wrapper {
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 50px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      animation: shimmer 3s linear infinite;
+      background-size: 200% auto;
+    }
+
+    /* FORM SECTIONS */
+    .form-section {
+      margin-bottom: 40px;
+      animation: slideInFormUp 0.8s ease backwards;
+    }
+
+    .form-section:nth-child(1) { animation-delay: 0.5s; }
+    .form-section:nth-child(2) { animation-delay: 0.6s; }
+    .form-section:nth-child(3) { animation-delay: 0.7s; }
+    .form-section:nth-child(4) { animation-delay: 0.8s; }
+    .form-section:nth-child(5) { animation-delay: 0.9s; }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--accent-gold);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: 1px;
+      animation: labelFloat 0.6s ease backwards;
+    }
+
+    .section-title::before {
+      content: '';
+      flex: 0 0 3px;
+      height: 20px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-gold));
+      border-radius: 2px;
+      animation: expandBorder 0.6s ease-out 0.1s forwards;
+    }
+
+    /* FORM GROUPS */
+    .form-group {
+      margin-bottom: 24px;
+      animation: fadeInUp 0.5s ease backwards;
+    }
+
+    .form-group:nth-child(1) { animation-delay: 0s; }
+    .form-group:nth-child(2) { animation-delay: 0.1s; }
+    .form-group:nth-child(3) { animation-delay: 0.2s; }
+
+    /* LABELS */
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 10px;
+      transition: color 0.3s ease;
+    }
+
+    /* INPUTS & SELECTS */
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="date"],
+    input[type="number"],
+    input[type="file"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 13px 16px;
+      background: rgba(22, 22, 22, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 14px;
+      transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+      position: relative;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    input[type="date"]:focus,
+    input[type="number"]:focus,
+    input[type="file"]:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      background: rgba(40, 40, 40, 0.8);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(200, 116, 90, 0.15);
+    }
+
+    input::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* CUSTOM SELECT */
+    select {
+      cursor: pointer;
+      padding-right: 32px;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d4a96a' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 20px;
+      padding-right: 38px;
+    }
+
+    /* TWO COLUMN INPUTS */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* RADIO & CHECKBOX CUSTOM STYLING */
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    @media (max-width: 768px) {
+      .options-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .radio-group,
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .radio-option,
+    .checkbox-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      position: relative;
+      animation: slideInFormUp 0.5s ease backwards;
+    }
+
+    .radio-option:nth-child(1) { animation-delay: 0s; }
+    .radio-option:nth-child(2) { animation-delay: 0.1s; }
+    .radio-option:nth-child(3) { animation-delay: 0.2s; }
+    .radio-option:nth-child(4) { animation-delay: 0.3s; }
+
+    .radio-option input[type="radio"],
+    .checkbox-option input[type="checkbox"] {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--accent);
+      background: transparent;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .checkbox-option input[type="checkbox"] {
+      border-radius: 4px;
+    }
+
+    .radio-option input[type="radio"]:checked,
+    .checkbox-option input[type="checkbox"]:checked {
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(200, 116, 90, 0.6);
+      animation: checkboxPulse 0.3s ease;
+    }
+
+    .radio-option input[type="radio"]:checked::after {
+      content: '✓';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .radio-option label,
+    .checkbox-option label {
+      font-size: 13px;
+      color: var(--text-light);
+      cursor: pointer;
+      text-transform: capitalize;
+      margin: 0;
+      transition: color 0.3s ease;
+    }
+
+    .radio-option:hover label,
+    .checkbox-option:hover label {
+      color: var(--accent);
+    }
+
+    /* FILE UPLOAD */
+    .file-upload-wrapper {
+      position: relative;
+      margin-bottom: 24px;
+    }
+
+    .file-upload-input {
+      display: none;
+    }
+
+    .file-upload-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 28px;
+      background: linear-gradient(135deg, rgba(200,116,90,0.08) 0%, rgba(212,169,106,0.04) 100%);
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      animation: slideInFormUp 0.6s ease backwards;
+    }
+
+    .file-upload-label:hover {
+      border-color: var(--accent);
+      background: linear-gradient(135deg, rgba(200,116,90,0.15) 0%, rgba(212,169,106,0.08) 100%);
+      color: var(--accent);
+    }
+
+    .file-upload-input:checked ~ .file-upload-label {
+      border-color: var(--accent);
+      background: linear-gradient(135deg, rgba(200,116,90,0.2) 0%, rgba(212,169,106,0.1) 100%);
+    }
+
+    .file-icon {
+      font-size: 24px;
+    }
+
+    /* TEXTAREA */
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+      font-family: var(--font-body);
+    }
+
+    textarea:focus {
+      animation: formFieldGlow 2s ease infinite;
+    }
+
+    /* PRICE SIDEBAR */
+    .price-sidebar {
+      animation: fadeInRight 0.8s ease 0.5s both;
+    }
+
+    .price-card {
+      background: linear-gradient(135deg, var(--bg-card) 0%, rgba(26,26,26,0.8) 100%);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 30px;
+      position: sticky;
+      top: 100px;
+      animation: slideInFormUp 0.8s ease 0.5s both;
+    }
+
+    .price-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      border-radius: 12px 12px 0 0;
+      animation: shimmer 3s linear infinite;
+      background-size: 200% auto;
+    }
+
+    .price-title {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--accent-gold);
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+
+    .price-items {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .price-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      animation: fadeInUp 0.5s ease backwards;
+    }
+
+    .price-item:nth-child(1) { animation-delay: 0s; }
+    .price-item:nth-child(2) { animation-delay: 0.1s; }
+    .price-item:nth-child(3) { animation-delay: 0.2s; }
+    .price-item:nth-child(4) { animation-delay: 0.3s; }
+    .price-item:nth-child(5) { animation-delay: 0.4s; }
+
+    .price-amount {
+      color: var(--accent-gold);
+      font-weight: 600;
+    }
+
+    .price-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 0;
+      margin-bottom: 24px;
+    }
+
+    .price-label {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-light);
+    }
+
+    .price-value {
+      font-family: var(--font-serif);
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--accent);
+      animation: priceFlip 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+
+    .price-tag {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      color: white;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      animation: badgePop 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.3s both;
+    }
+
+    /* SUMMARY */
+    .summary-section {
+      background: linear-gradient(135deg, rgba(200,116,90,0.08) 0%, rgba(212,169,106,0.04) 100%);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 24px;
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      animation: fadeInUp 0.6s ease 0.2s both;
+    }
+
+    /* SUBMIT BUTTON */
+    .submit-btn {
+      width: 100%;
+      padding: 16px 28px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      color: white;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.8s ease 0.6s both;
+    }
+
+    .submit-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--accent-light), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(200, 116, 90, 0.5);
+      animation: buttonHoverGlow 1.5s ease infinite;
+    }
+
+    .submit-btn:hover::before {
+      opacity: 1;
+    }
+
+    .submit-btn span {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .build-page {
+        padding: 60px 24px;
+      }
+
+      .form-wrapper {
+        padding: 32px 24px;
+      }
+
+      .build-header {
+        margin-bottom: 40px;
+      }
+
+      .build-title {
+        font-size: 32px;
+      }
+
+      .price-card {
+        top: auto;
+        position: relative;
+      }
+
+      .options-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ANIMATION STAGGER */
+    .form-group {
+      opacity: 0;
+      animation: slideInFormUp 0.6s ease forwards;
+    }
+
+    .form-group:nth-child(1) { animation-delay: 0.5s; }
+    .form-group:nth-child(2) { animation-delay: 0.55s; }
+    .form-group:nth-child(3) { animation-delay: 0.6s; }
+    .form-group:nth-child(4) { animation-delay: 0.65s; }
+    .form-group:nth-child(5) { animation-delay: 0.7s; }
+
+    /* ===== RESPONSIVE MEDIA QUERIES FOR BUILD.HTML ===== */
+
+    @media (max-width: 1024px) {
+      .build-page {
+        padding: 60px 32px;
+      }
+      .build-header {
+        margin-bottom: 40px;
+      }
+      .form-wrapper {
+        padding: 40px;
+      }
+      .price-card {
+        top: 120px;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .build-page {
+        margin-top: 64px;
+        padding: 40px 20px;
+      }
+      .build-title {
+        font-size: clamp(28px, 4vw, 44px);
+      }
+      .build-subtitle {
+        font-size: 14px;
+      }
+      .build-header {
+        margin-bottom: 32px;
+      }
+      .build-content {
+        gap: 24px;
+      }
+      .form-wrapper {
+        padding: 32px 20px;
+        border-radius: 8px;
+      }
+      .section-title {
+        font-size: 16px;
+        gap: 8px;
+      }
+      .form-group {
+        margin-bottom: 18px;
+      }
+      label {
+        font-size: 12px;
+        margin-bottom: 8px;
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="tel"],
+      input[type="date"],
+      input[type="number"],
+      input[type="file"],
+      select,
+      textarea {
+        padding: 11px 14px;
+        font-size: 13px;
+        border-radius: 5px;
+      }
+      .form-row {
+        gap: 16px;
+      }
+      .options-grid {
+        gap: 12px;
+      }
+      .price-card {
+        position: relative;
+        top: auto;
+        margin-top: 24px;
+        padding: 24px 20px;
+      }
+      .price-title {
+        font-size: 14px;
+        margin-bottom: 16px;
+      }
+      .price-value {
+        font-size: 28px;
+      }
+      .file-upload-label {
+        padding: 20px;
+        font-size: 12px;
+      }
+      .file-icon {
+        font-size: 20px;
+      }
+    }
+
+    @media (max-width: 639px) {
+      .build-page {
+        margin-top: 64px;
+        padding: 32px 12px;
+      }
+      .build-title {
+        font-size: clamp(20px, 3.5vw, 36px);
+      }
+      .build-subtitle {
+        font-size: 13px;
+      }
+      .build-header {
+        margin-bottom: 24px;
+      }
+      .form-wrapper {
+        padding: 24px 16px;
+      }
+      .section-title {
+        font-size: 15px;
+      }
+      .form-group {
+        margin-bottom: 16px;
+      }
+      label {
+        font-size: 11px;
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="tel"],
+      input[type="date"],
+      input[type="number"],
+      input[type="file"],
+      select,
+      textarea {
+        padding: 10px 12px;
+        font-size: 12px;
+      }
+      .form-row {
+        gap: 12px;
+      }
+      .options-grid {
+        gap: 10px;
+      }
+      .radio-option,
+      .checkbox-option {
+        gap: 10px;
+      }
+      .radio-option input[type="radio"],
+      .checkbox-option input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+      }
+      .price-card {
+        padding: 20px 16px;
+      }
+      .price-title {
+        font-size: 13px;
+      }
+      .price-value {
+        font-size: 24px;
+      }
+      .file-upload-label {
+        padding: 16px 12px;
+        font-size: 11px;
+      }
+      textarea {
+        min-height: 80px;
+      }
+    }
+
+    @media (max-width: 479px) {
+      .build-page {
+        margin-top: 56px;
+        padding: 24px 8px;
+      }
+      .build-title {
+        font-size: clamp(18px, 3vw, 32px);
+      }
+      .build-subtitle {
+        font-size: 12px;
+      }
+      .build-header {
+        margin-bottom: 20px;
+      }
+      .form-wrapper {
+        padding: 20px 12px;
+        border-radius: 6px;
+      }
+      .section-title {
+        font-size: 13px;
+        gap: 6px;
+      }
+      .form-group {
+        margin-bottom: 14px;
+      }
+      label {
+        font-size: 10px;
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="tel"],
+      input[type="date"],
+      input[type="number"],
+      input[type="file"],
+      select,
+      textarea {
+        padding: 9px 11px;
+        font-size: 11px;
+      }
+      .form-row {
+        gap: 10px;
+      }
+      .options-grid {
+        gap: 8px;
+      }
+      .radio-option,
+      .checkbox-option {
+        gap: 8px;
+      }
+      .radio-option input[type="radio"],
+      .checkbox-option input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+      }
+      .radio-option label,
+      .checkbox-option label {
+        font-size: 12px;
+      }
+      .price-card {
+        padding: 16px 12px;
+      }
+      .price-title {
+        font-size: 12px;
+        margin-bottom: 12px;
+      }
+      .price-item {
+        font-size: 12px;
+      }
+      .price-value {
+        font-size: 22px;
+      }
+      .price-label {
+        font-size: 12px;
+      }
+      .file-upload-label {
+        padding: 14px 10px;
+        font-size: 10px;
+      }
+      .file-icon {
+        font-size: 18px;
+      }
+      textarea {
+        min-height: 70px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAVIGATION -->
+  <nav class="navbar">
+  <a href="index.html" class="nav-logo">Cakerie</a>
+  
+  <!-- Hamburger Container -->
+  <div class="hamburger">
+    <input type="checkbox" id="menu-toggle" class="hamburger-checkbox">
+    <label for="menu-toggle" class="hamburger-label">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+  </div>
+  
+  <!-- IMPORTANT: nav-links must be sibling of hamburger for ~ selector to work -->
+  <ul class="nav-links">
+    <li><a href="index.html" >Home</a></li>
+    <li><a href="explore.html">Explore Cakes</a></li>
+    <li><a href="build.html" class="active">Build Your Cake</a></li>
+  </ul>
+  
+  <div class="nav-icons">
+    <a href="#" class="nav-icon" title="Search">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="m21 21-4.35-4.35"/>
+      </svg>
+    </a>
+    <a href="#" class="nav-icon" title="Cart">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 0 1-8 0"/>
+      </svg>
+    </a>
+    <a href="#" class="nav-icon" title="Settings">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+    </a>
+  </div>
+</nav>
+
+  <!-- BUILD PAGE -->
+  <div class="build-page">
+    <div class="build-container">
+      <!-- HEADER -->
+      <div class="build-header">
+        <span class="section-label">Create Your Masterpiece</span>
+        <h1 class="build-title">Design Your Dream Cake</h1>
+        <p class="build-subtitle">Customize every element to match your vision. Our expert bakers will bring your creation to life.</p>
+      </div>
+
+      <!-- MAIN CONTENT -->
+      <div class="build-content">
+        <!-- FORM -->
+        <form class="form-wrapper">
+          <!-- CAKE BASE SECTION -->
+          <div class="form-section">
+            <h3 class="section-title">Cake Base & Size</h3>
+            
+            <div class="form-group">
+              <label for="cake-size">Select Size</label>
+              <select id="cake-size" name="cake-size" required>
+                <option value="">Choose a size...</option>
+                <option value="small">Small (4-6 servings) - ₹1,500</option>
+                <option value="medium">Medium (8-12 servings) - ₹2,500</option>
+                <option value="large">Large (14-20 servings) - ₹3,500</option>
+                <option value="xl">Extra Large (24+ servings) - ₹5,000</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Cake Flavor</label>
+              <div class="options-grid">
+                <div class="radio-group">
+                  <div class="radio-option">
+                    <input type="radio" id="vanilla" name="flavor" value="vanilla" required>
+                    <label for="vanilla">Vanilla Classic</label>
+                  </div>
+                  <div class="radio-option">
+                    <input type="radio" id="chocolate" name="flavor" value="chocolate">
+                    <label for="chocolate">Rich Chocolate</label>
+                  </div>
+                </div>
+                <div class="radio-group">
+                  <div class="radio-option">
+                    <input type="radio" id="redvelvet" name="flavor" value="redvelvet">
+                    <label for="redvelvet">Red Velvet</label>
+                  </div>
+                  <div class="radio-option">
+                    <input type="radio" id="carrot" name="flavor" value="carrot">
+                    <label for="carrot">Carrot Cake</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Frosting Type</label>
+              <div class="options-grid">
+                <div class="radio-group">
+                  <div class="radio-option">
+                    <input type="radio" id="buttercream" name="frosting" value="buttercream" required>
+                    <label for="buttercream">Buttercream</label>
+                  </div>
+                  <div class="radio-option">
+                    <input type="radio" id="ganache" name="frosting" value="ganache">
+                    <label for="ganache">Chocolate Ganache</label>
+                  </div>
+                </div>
+                <div class="radio-group">
+                  <div class="radio-option">
+                    <input type="radio" id="fondant" name="frosting" value="fondant">
+                    <label for="fondant">Fondant</label>
+                  </div>
+                  <div class="radio-option">
+                    <input type="radio" id="cream" name="frosting" value="cream">
+                    <label for="cream">Fresh Whipped Cream</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FILLINGS SECTION -->
+          <div class="form-section">
+            <h3 class="section-title">Fillings & Add-ons</h3>
+            
+            <div class="form-group">
+              <label>Select Fillings</label>
+              <div class="options-grid">
+                <div class="checkbox-group">
+                  <div class="checkbox-option">
+                    <input type="checkbox" id="vanilla-fill" name="filling" value="vanilla">
+                    <label for="vanilla-fill">Vanilla Custard</label>
+                  </div>
+                  <div class="checkbox-option">
+                    <input type="checkbox" id="chocolate-fill" name="filling" value="chocolate">
+                    <label for="chocolate-fill">Chocolate Mousse</label>
+                  </div>
+                </div>
+                <div class="checkbox-group">
+                  <div class="checkbox-option">
+                    <input type="checkbox" id="raspberry" name="filling" value="raspberry">
+                    <label for="raspberry">Raspberry Jam</label>
+                  </div>
+                  <div class="checkbox-option">
+                    <input type="checkbox" id="caramel" name="filling" value="caramel">
+                    <label for="caramel">Salted Caramel</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Toppings & Decorations</label>
+              <div class="options-grid">
+                <div class="checkbox-group">
+                  <div class="checkbox-option">
+                    <input type="checkbox" id="sprinkles" name="topping" value="sprinkles">
+                    <label for="sprinkles">Rainbow Sprinkles</label>
+                  </div>
+                  <div class="checkbox-option">
+                    <input type="checkbox" id="edible-gold" name="topping" value="gold">
+                    <label for="edible-gold">Edible Gold Leaf</label>
+                  </div>
+                </div>
+                <div class="checkbox-group">
+                  <div class="checkbox-option">
+                    <input type="checkbox" id="fresh-berries" name="topping" value="berries">
+                    <label for="fresh-berries">Fresh Berries</label>
+                  </div>
+                  <div class="checkbox-option">
+                    <input type="checkbox" id="macarons" name="topping" value="macarons">
+                    <label for="macarons">Macarons</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PERSONALIZATION SECTION -->
+          <div class="form-section">
+            <h3 class="section-title">Personalization & Design</h3>
+            
+            <div class="form-group">
+              <label for="topper-text">Custom Cake Topper Text</label>
+              <input type="text" id="topper-text" name="topper_text" placeholder="e.g., Happy Birthday Sarah!">
+            </div>
+
+            <div class="form-group">
+              <label for="color">Frosting Color Preference</label>
+              <input type="text" id="color" name="color" placeholder="e.g., Blush Pink, Navy Blue, Gold">
+            </div>
+
+            <div class="form-group">
+              <label for="design-file">Upload Reference Design<span style="color: var(--text-muted);"> (Optional)</span></label>
+              <div class="file-upload-wrapper">
+                <input type="file" id="design-file" name="design_file" class="file-upload-input" accept="image/*">
+                <label for="design-file" class="file-upload-label">
+                  <span class="file-icon">📁</span>
+                  <span>Click to upload your design reference image</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="special-notes">Special Instructions & Dietary Notes</label>
+              <textarea id="special-notes" name="special_notes" placeholder="Any allergies? Special requests? Dietary requirements? Tell us everything..."></textarea>
+            </div>
+          </div>
+
+          <!-- DELIVERY SECTION -->
+          <div class="form-section">
+            <h3 class="section-title">Delivery & Contact</h3>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="full-name">Full Name</label>
+                <input type="text" id="full-name" name="full_name" required placeholder="John Doe">
+              </div>
+              <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required placeholder="you@example.com">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" required placeholder="+91 98765 43210">
+              </div>
+              <div class="form-group">
+                <label for="delivery-date">Desired Delivery/Pickup Date</label>
+                <input type="date" id="delivery-date" name="delivery_date" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="address">Delivery Address</label>
+              <input type="text" id="address" name="address" required placeholder="Enter your complete address">
+            </div>
+
+            <div class="form-group">
+              <label>Delivery Method</label>
+              <div class="radio-group">
+                <div class="radio-option">
+                  <input type="radio" id="delivery" name="delivery_method" value="delivery" required>
+                  <label for="delivery">Home Delivery - ₹100</label>
+                </div>
+                <div class="radio-option">
+                  <input type="radio" id="pickup" name="delivery_method" value="pickup">
+                  <label for="pickup">Store Pickup - Free</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TERMS SECTION -->
+          <div class="form-section">
+            <div class="form-group">
+              <div class="checkbox-option">
+                <input type="checkbox" id="terms" name="terms" required>
+                <label for="terms" style="margin: 0;">I agree to the terms and conditions</label>
+              </div>
+            </div>
+
+            <button type="submit" class="submit-btn">
+              <span>Complete Your Order</span>
+            </button>
+          </div>
+        </form>
+
+        <!-- PRICE SIDEBAR -->
+        <div class="price-sidebar">
+          <div class="price-card">
+            <div class="price-title">Order Summary</div>
+            
+            <div class="price-items">
+              <div class="price-item">
+                <span>Base Cake</span>
+                <span class="price-amount">₹2,500</span>
+              </div>
+              <div class="price-item">
+                <span>Fillings & Toppings</span>
+                <span class="price-amount">₹500</span>
+              </div>
+              <div class="price-item">
+                <span>Customization</span>
+                <span class="price-amount">₹300</span>
+              </div>
+              <div class="price-item">
+                <span>Delivery</span>
+                <span class="price-amount">₹100</span>
+              </div>
+              <div class="price-item">
+                <span>Design Reference</span>
+                <span class="price-amount">₹250</span>
+              </div>
+            </div>
+
+            <div class="price-total">
+              <span class="price-label">Total Price</span>
+              <span class="price-value">₹3,650</span>
+            </div>
+
+            <div class="summary-section">
+              <strong style="color: var(--accent); display: block; margin-bottom: 8px;">Note:</strong>
+              Final price will be confirmed after our design review team approves your reference design and customization details. We'll contact you within 24 hours with the final quote.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="footer-logo">Cakerie</a>
+        <p class="footer-tagline">Artisan cakes crafted with love for life's most precious moments.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-icon" title="Instagram">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="#" class="social-icon" title="Facebook">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="#" class="social-icon" title="Pinterest">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.372-12 12 0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
+          </a>
+          <a href="#" class="social-icon" title="YouTube">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-heading">Quick Links</div>
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="explore.html">Explore Cakes</a>
+          <a href="build.html">Build Your Cake</a>
+         
+        </div>
+      </div>
+      <div>
+        <div class="footer-heading">Support</div>
+        <div class="footer-links">
+          <a href="#">Customize a Cake</a>
+          <a href="#">Delivery Info</a>
+          <a href="#">Contact Us</a>
+          <a href="#">FAQ</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-heading">Visit Us</div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">📍</span>
+          <span>12 Pâtisserie Lane, Mumbai 400001</span>
+        </div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">📞</span>
+          <span>+91 98765 43210</span>
+        </div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">✉</span>
+          <span>hello@cakerie.in</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2025 CAKERIE. All rights reserved. Crafted with <span class="heart">❤</span>
+    </div>
+  </footer>
+
+</body>
+</html>
