@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
-/* ==================== EXPLORE PAGE ENHANCED ==================== */
+
 
 * {
   margin: 0;
@@ -37,30 +37,10 @@ body::before {
   z-index: 1;
 }
 
-/* ==================== KEYFRAMES ==================== */
+
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(40px) scale(0.95); }
   to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-@keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slideInLeft {
-  from { opacity: 0; transform: translateX(-50px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes slideInRight {
-  from { opacity: 0; transform: translateX(50px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes shimmer {
-  0% { background-position: -1000px 0; }
-  100% { background-position: 1000px 0; }
 }
 
 @keyframes cardGlow {
@@ -72,38 +52,9 @@ body::before {
   }
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-}
-
-@keyframes imageZoom {
-  from { transform: scale(1); filter: brightness(0.8); }
-  to { transform: scale(1.15); filter: brightness(1.1); }
-}
-
 @keyframes filterButtonPulse {
   0%, 100% { box-shadow: 0 0 0 rgba(255, 111, 145, 0.4); }
   50% { box-shadow: 0 0 15px rgba(255, 111, 145, 0.8); }
-}
-
-@keyframes expandWidth {
-  from { width: 0; }
-  to { width: 100%; }
-}
-
-@keyframes rotateGlow {
-  0% { 
-    box-shadow: 0 0 10px rgba(255, 111, 145, 0.2);
-    transform: rotate(0deg);
-  }
-  50% {
-    box-shadow: 0 0 25px rgba(255, 111, 145, 0.5);
-  }
-  100% { 
-    box-shadow: 0 0 10px rgba(255, 111, 145, 0.2);
-    transform: rotate(0deg);
-  }
 }
 
 @keyframes priceFlash {
@@ -111,28 +62,7 @@ body::before {
   50% { color: #ff9aac; text-shadow: 0 0 15px rgba(255, 111, 145, 0.7); }
 }
 
-@keyframes badgeFlip {
-  from { transform: rotateY(90deg) scale(0.5); opacity: 0; }
-  to { transform: rotateY(0deg) scale(1); opacity: 1; }
-}
 
-@keyframes textReveal {
-  from { 
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes borderGlow {
-  0%, 100% { border-color: rgba(255, 111, 145, 0.3); }
-  50% { border-color: rgba(255, 111, 145, 0.8); }
-}
-
-/* ==================== NAVBAR ==================== */
 nav {
   display: flex;
   justify-content: space-between;
@@ -200,8 +130,6 @@ nav ul li:hover {
   color: #ff9aac;
   opacity: 1;
 }
-
-/* ==================== HERO SECTION ==================== */
 .hero {
   height: 350px;
   background: url('https://images.unsplash.com/photo-1551024601-bec78aea704b') center/cover;
@@ -243,7 +171,7 @@ nav ul li:hover {
   background-clip: text;
 }
 
-/* ==================== FILTERS ==================== */
+
 .filters {
   display: flex;
   gap: 15px;
@@ -305,7 +233,6 @@ nav ul li:hover {
   transform: scale(0.98);
 }
 
-/* ==================== GRID LAYOUT ==================== */
 .grid {
   padding: 0 60px 80px;
   display: grid;
@@ -315,7 +242,6 @@ nav ul li:hover {
   z-index: 2;
 }
 
-/* ==================== CARD STYLES ==================== */
 .card {
   background: linear-gradient(135deg, #111, #1a1a1a);
   border-radius: 16px;
@@ -350,11 +276,28 @@ nav ul li:hover {
 .card::before {
   content: '';
   position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 100%);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(to top, 
+    rgba(0, 0, 0, 0.85) 0%, 
+    rgba(0, 0, 0, 0.4) 40%, 
+    transparent 80%
+  );
   opacity: 0.8;
-  transition: opacity 0.6s ease, background 0.6s ease;
+  transition: opacity 0.4s ease;
   z-index: 2;
+  pointer-events: none;  
+}
+
+.card:hover::before {
+  opacity: 0.5;
+  background: linear-gradient(to top, 
+    rgba(0, 0, 0, 0.95) 0%, 
+    rgba(255, 111, 145, 0.2) 40%, 
+    transparent 100%
+  );
 }
 
 .card::after {
@@ -409,7 +352,6 @@ nav ul li:hover {
   animation: priceFlash 2s ease infinite;
 }
 
-/* CARD HOVER EFFECTS */
 .card:hover {
   transform: translateY(-15px) scale(1.02);
   border-color: rgba(255, 111, 145, 0.6);
@@ -444,7 +386,6 @@ nav ul li:hover {
   text-shadow: 0 0 20px rgba(255, 111, 145, 0.6);
 }
 
-/* ==================== FOOTER ==================== */
 footer {
   background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 20, 0.9));
   padding: 60px 60px 30px;
@@ -467,7 +408,7 @@ footer > *:nth-child(1) { animation-delay: 0.5s; }
 footer > *:nth-child(2) { animation-delay: 0.55s; }
 footer > *:nth-child(3) { animation-delay: 0.6s; }
 
-/* ==================== RESPONSIVE DESIGN ==================== */
+
 @media (max-width: 1200px) {
   .grid {
     grid-template-columns: repeat(3, 1fr);
@@ -492,11 +433,7 @@ footer > *:nth-child(3) { animation-delay: 0.6s; }
     padding: 0 24px 60px;
   }
 
-  nav {
-    padding: 16px 24px;
-    flex-direction: column;
-    gap: 16px;
-  }
+  
 
   .filters {
     padding: 24px;
@@ -561,30 +498,9 @@ footer > *:nth-child(3) { animation-delay: 0.6s; }
   }
 }
 
-/* ==================== CTA SECTION - BUILD YOUR OWN ==================== */
-@keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
-}
-
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(50px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes pulse-slow {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-}
-
-@keyframes borderFlash {
-  0%, 100% { border-color: rgba(255, 111, 145, 0.3); }
-  50% { border-color: rgba(255, 111, 145, 0.8); }
-}
-
-@keyframes iconFloat {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-8px) rotate(5deg); }
 }
 
 .cta-section {
@@ -813,7 +729,6 @@ footer > *:nth-child(3) { animation-delay: 0.6s; }
   gap: 8px;
 }
 
-/* RESPONSIVE */
 @media (max-width: 1200px) {
   .benefits-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -876,8 +791,6 @@ footer > *:nth-child(3) { animation-delay: 0.6s; }
     padding: 20px 16px;
   }
 }
-
-  /* ===== RESPONSIVE MEDIA QUERIES FOR EXPLORE.HTML ===== */
 
   @media (max-width: 1024px) {
     .explore-page-title {
@@ -991,46 +904,46 @@ footer > *:nth-child(3) { animation-delay: 0.6s; }
 <nav class="navbar">
   <a href="index.html" class="nav-logo">Cakerie</a>
   
-  <!-- Hamburger Container -->
-  <div class="hamburger">
-    <input type="checkbox" id="menu-toggle" class="hamburger-checkbox">
-    <label for="menu-toggle" class="hamburger-label">
-      <span></span>
-      <span></span>
-      <span></span>
-    </label>
-  </div>
-  
-  <!-- IMPORTANT: nav-links must be sibling of hamburger for ~ selector to work -->
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="explore.html" class="active">Explore Cakes</a></li>
     <li><a href="build.html">Build Your Cake</a></li>
   </ul>
   
-  <div class="nav-icons">
-    <a href="#" class="nav-icon" title="Search">
-      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <circle cx="11" cy="11" r="8"/>
-        <path d="m21 21-4.35-4.35"/>
-      </svg>
-    </a>
-    <a href="#" class="nav-icon" title="Cart">
-      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-        <line x1="3" y1="6" x2="21" y2="6"/>
-        <path d="M16 10a4 4 0 0 1-8 0"/>
-      </svg>
-    </a>
-    <a href="#" class="nav-icon" title="Settings">
-      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="3"/>
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-      </svg>
-    </a>
+  <div class="nav-right">
+    <div class="nav-icons">
+      <a href="#" class="nav-icon" title="Search">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="m21 21-4.35-4.35"/>
+        </svg>
+      </a>
+      <a href="#" class="nav-icon" title="Cart">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+      </a>
+      <a href="#" class="nav-icon" title="Settings">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </a>
+    </div>
+    
+    <!-- Hamburger at the END (right side) -->
+    <div class="hamburger">
+      <input type="checkbox" id="menu-toggle" class="hamburger-checkbox">
+      <label for="menu-toggle" class="hamburger-label">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+    </div>
   </div>
 </nav>
-
 
 <section class="hero">
   <h1>Explore Cakes</h1>
@@ -1078,7 +991,7 @@ footer > *:nth-child(3) { animation-delay: 0.6s; }
   <div class="card-content">
     <small>Wedding</small>
     <h3>Golden Tier Royale</h3>
-    <div class="price">₹1,999</div>
+    <div class="price">₹999</div>
   </div>
 </div>
 
@@ -1132,7 +1045,7 @@ footer > *:nth-child(3) { animation-delay: 0.6s; }
   <div class="card-content">
     <small>Birthday</small>
     <h3>Photo Memory Cake</h3>
-    <div class="price">₹2,199</div>
+    <div class="price">₹1,199</div>
   </div>
 </div>
 

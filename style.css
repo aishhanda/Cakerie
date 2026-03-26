@@ -460,48 +460,7 @@ ul { list-style: none; }
   box-shadow: 0 4px 15px rgba(200,116,90,0.4);
 }
 
-/* ===== TICKER / MARQUEE ===== */
-.ticker-wrap {
-  background: var(--accent);
-  padding: 12px 0;
-  overflow: hidden;
-  position: relative;
-}
-.ticker-wrap::before,
-.ticker-wrap::after {
-  content: '';
-  position: absolute;
-  top: 0; bottom: 0;
-  width: 80px;
-  z-index: 2;
-}
-.ticker-wrap::before { left: 0; background: linear-gradient(90deg, var(--accent), transparent); }
-.ticker-wrap::after  { right: 0; background: linear-gradient(-90deg, var(--accent), transparent); }
 
-.ticker-track {
-  display: flex;
-  gap: 0;
-  white-space: nowrap;
-  animation: marquee 22s linear infinite;
-  width: max-content;
-}
-.ticker-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #fff;
-  padding: 0 30px;
-}
-.ticker-dot {
-  width: 4px; height: 4px;
-  background: rgba(255,255,255,0.6);
-  border-radius: 50%;
-  display: inline-block;
-}
 
 /* ===== PRODUCT CARD ===== */
 .product-card {
@@ -866,18 +825,7 @@ footer {
   background: var(--accent);
 }
 
-/* ===== ANIMATIONS UTILITY ===== */
-.animate-float { animation: float 4s ease-in-out infinite; }
-.animate-pulse-glow { animation: pulse-glow 2.5s ease infinite; }
-.animate-fade-in-up { animation: fadeInUp 0.8s ease both; }
-.anim-delay-1 { animation-delay: 0.1s; }
-.anim-delay-2 { animation-delay: 0.2s; }
-.anim-delay-3 { animation-delay: 0.3s; }
-.anim-delay-4 { animation-delay: 0.4s; }
-.anim-delay-5 { animation-delay: 0.5s; }
-.anim-delay-6 { animation-delay: 0.6s; }
-.anim-delay-7 { animation-delay: 0.7s; }
-.anim-delay-8 { animation-delay: 0.8s; }
+
 
 /* ===== SHIMMER TEXT ===== */
 .shimmer-text {

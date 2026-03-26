@@ -6,9 +6,7 @@
   <title>Build Your Cake – Cakerie</title>
   <link rel="stylesheet" href="style.css"/>
   <style>
-    /* ========== BUILD PAGE - CUSTOM STYLES ========== */
-
-    /* ADDITIONAL KEYFRAMES FOR BUILD PAGE */
+  
     @keyframes slideInFormUp {
       from { opacity: 0; transform: translateY(60px) scale(0.95); }
       to { opacity: 1; transform: translateY(0) scale(1); }
@@ -44,8 +42,6 @@
       from { width: 0; }
       to { width: 100%; }
     }
-
-    /* PAGE LAYOUT */
     .build-page {
       margin-top: 72px;
       background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1515 100%);
@@ -54,7 +50,6 @@
       position: relative;
       overflow: hidden;
     }
-
     .build-page::before {
       content: '';
       position: fixed;
@@ -68,26 +63,21 @@
       pointer-events: none;
       z-index: 1;
     }
-
     .build-container {
       max-width: 1200px;
       margin: 0 auto;
       position: relative;
       z-index: 2;
     }
-
-    /* HEADER */
     .build-header {
       text-align: center;
       margin-bottom: 60px;
       animation: fadeInDown 0.8s ease 0.2s both;
     }
-
     .build-header .section-label {
       color: var(--accent-gold);
       animation: fadeInUp 0.6s ease backwards;
     }
-
     .build-title {
       font-family: var(--font-serif);
       font-size: clamp(36px, 5vw, 56px);
@@ -96,7 +86,6 @@
       margin: 16px 0 12px;
       animation: fadeInUp 0.8s ease 0.2s both;
     }
-
     .build-subtitle {
       font-size: 16px;
       color: var(--text-muted);
@@ -104,22 +93,17 @@
       margin: 0 auto;
       animation: fadeInUp 0.8s ease 0.3s both;
     }
-
-    /* MAIN FORM LAYOUT */
     .build-content {
       display: grid;
       grid-template-columns: 1fr 350px;
       gap: 40px;
       animation: fadeInUp 0.8s ease 0.4s both;
     }
-
     @media (max-width: 1024px) {
       .build-content {
         grid-template-columns: 1fr;
       }
     }
-
-    /* FORM WRAPPER */
     .form-wrapper {
       background: var(--bg-card2);
       border: 1px solid var(--border);
@@ -128,7 +112,6 @@
       position: relative;
       overflow: hidden;
     }
-
     .form-wrapper::before {
       content: '';
       position: absolute;
@@ -140,19 +123,15 @@
       animation: shimmer 3s linear infinite;
       background-size: 200% auto;
     }
-
-    /* FORM SECTIONS */
     .form-section {
       margin-bottom: 40px;
       animation: slideInFormUp 0.8s ease backwards;
     }
-
     .form-section:nth-child(1) { animation-delay: 0.5s; }
     .form-section:nth-child(2) { animation-delay: 0.6s; }
     .form-section:nth-child(3) { animation-delay: 0.7s; }
     .form-section:nth-child(4) { animation-delay: 0.8s; }
     .form-section:nth-child(5) { animation-delay: 0.9s; }
-
     .section-title {
       font-family: var(--font-display);
       font-size: 18px;
@@ -165,7 +144,6 @@
       letter-spacing: 1px;
       animation: labelFloat 0.6s ease backwards;
     }
-
     .section-title::before {
       content: '';
       flex: 0 0 3px;
@@ -174,18 +152,13 @@
       border-radius: 2px;
       animation: expandBorder 0.6s ease-out 0.1s forwards;
     }
-
-    /* FORM GROUPS */
     .form-group {
       margin-bottom: 24px;
       animation: fadeInUp 0.5s ease backwards;
     }
-
     .form-group:nth-child(1) { animation-delay: 0s; }
     .form-group:nth-child(2) { animation-delay: 0.1s; }
     .form-group:nth-child(3) { animation-delay: 0.2s; }
-
-    /* LABELS */
     label {
       display: block;
       font-size: 13px;
@@ -196,8 +169,6 @@
       margin-bottom: 10px;
       transition: color 0.3s ease;
     }
-
-    /* INPUTS & SELECTS */
     input[type="text"],
     input[type="email"],
     input[type="tel"],
@@ -217,7 +188,6 @@
       transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
       position: relative;
     }
-
     input[type="text"]:focus,
     input[type="email"]:focus,
     input[type="tel"]:focus,
@@ -231,12 +201,9 @@
       border-color: var(--accent);
       box-shadow: 0 0 0 3px rgba(200, 116, 90, 0.15);
     }
-
     input::placeholder {
       color: var(--text-muted);
     }
-
-    /* CUSTOM SELECT */
     select {
       cursor: pointer;
       padding-right: 32px;
@@ -247,40 +214,32 @@
       background-size: 20px;
       padding-right: 38px;
     }
-
-    /* TWO COLUMN INPUTS */
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 20px;
     }
-
     @media (max-width: 768px) {
       .form-row {
         grid-template-columns: 1fr;
       }
     }
-
-    /* RADIO & CHECKBOX CUSTOM STYLING */
     .options-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 15px;
     }
-
     @media (max-width: 768px) {
       .options-grid {
         grid-template-columns: 1fr;
       }
     }
-
     .radio-group,
     .checkbox-group {
       display: flex;
       flex-direction: column;
       gap: 14px;
     }
-
     .radio-option,
     .checkbox-option {
       display: flex;
@@ -290,12 +249,10 @@
       position: relative;
       animation: slideInFormUp 0.5s ease backwards;
     }
-
     .radio-option:nth-child(1) { animation-delay: 0s; }
     .radio-option:nth-child(2) { animation-delay: 0.1s; }
     .radio-option:nth-child(3) { animation-delay: 0.2s; }
     .radio-option:nth-child(4) { animation-delay: 0.3s; }
-
     .radio-option input[type="radio"],
     .checkbox-option input[type="checkbox"] {
       appearance: none;
@@ -309,18 +266,15 @@
       position: relative;
       flex-shrink: 0;
     }
-
     .checkbox-option input[type="checkbox"] {
       border-radius: 4px;
     }
-
     .radio-option input[type="radio"]:checked,
     .checkbox-option input[type="checkbox"]:checked {
       background: var(--accent);
       box-shadow: 0 0 12px rgba(200, 116, 90, 0.6);
       animation: checkboxPulse 0.3s ease;
     }
-
     .radio-option input[type="radio"]:checked::after {
       content: '✓';
       position: absolute;
@@ -331,7 +285,6 @@
       font-size: 12px;
       font-weight: 700;
     }
-
     .radio-option label,
     .checkbox-option label {
       font-size: 13px;
@@ -341,22 +294,17 @@
       margin: 0;
       transition: color 0.3s ease;
     }
-
     .radio-option:hover label,
     .checkbox-option:hover label {
       color: var(--accent);
     }
-
-    /* FILE UPLOAD */
     .file-upload-wrapper {
       position: relative;
       margin-bottom: 24px;
     }
-
     .file-upload-input {
       display: none;
     }
-
     .file-upload-label {
       display: flex;
       align-items: center;
@@ -375,38 +323,29 @@
       letter-spacing: 1px;
       animation: slideInFormUp 0.6s ease backwards;
     }
-
     .file-upload-label:hover {
       border-color: var(--accent);
       background: linear-gradient(135deg, rgba(200,116,90,0.15) 0%, rgba(212,169,106,0.08) 100%);
       color: var(--accent);
     }
-
     .file-upload-input:checked ~ .file-upload-label {
       border-color: var(--accent);
       background: linear-gradient(135deg, rgba(200,116,90,0.2) 0%, rgba(212,169,106,0.1) 100%);
     }
-
     .file-icon {
       font-size: 24px;
     }
-
-    /* TEXTAREA */
     textarea {
       resize: vertical;
       min-height: 100px;
       font-family: var(--font-body);
     }
-
     textarea:focus {
       animation: formFieldGlow 2s ease infinite;
     }
-
-    /* PRICE SIDEBAR */
     .price-sidebar {
       animation: fadeInRight 0.8s ease 0.5s both;
     }
-
     .price-card {
       background: linear-gradient(135deg, var(--bg-card) 0%, rgba(26,26,26,0.8) 100%);
       border: 1px solid var(--border);
@@ -416,7 +355,6 @@
       top: 100px;
       animation: slideInFormUp 0.8s ease 0.5s both;
     }
-
     .price-card::before {
       content: '';
       position: absolute;
@@ -429,7 +367,6 @@
       animation: shimmer 3s linear infinite;
       background-size: 200% auto;
     }
-
     .price-title {
       font-family: var(--font-display);
       font-size: 16px;
@@ -438,7 +375,6 @@
       margin-bottom: 20px;
       letter-spacing: 1px;
     }
-
     .price-items {
       display: flex;
       flex-direction: column;
@@ -447,7 +383,6 @@
       padding-bottom: 20px;
       border-bottom: 1px solid var(--border-subtle);
     }
-
     .price-item {
       display: flex;
       justify-content: space-between;
@@ -456,18 +391,15 @@
       color: var(--text-muted);
       animation: fadeInUp 0.5s ease backwards;
     }
-
     .price-item:nth-child(1) { animation-delay: 0s; }
     .price-item:nth-child(2) { animation-delay: 0.1s; }
     .price-item:nth-child(3) { animation-delay: 0.2s; }
     .price-item:nth-child(4) { animation-delay: 0.3s; }
     .price-item:nth-child(5) { animation-delay: 0.4s; }
-
     .price-amount {
       color: var(--accent-gold);
       font-weight: 600;
     }
-
     .price-total {
       display: flex;
       justify-content: space-between;
@@ -476,7 +408,6 @@
       padding: 16px 0;
       margin-bottom: 24px;
     }
-
     .price-label {
       font-size: 13px;
       font-weight: 600;
@@ -484,7 +415,6 @@
       letter-spacing: 1px;
       color: var(--text-light);
     }
-
     .price-value {
       font-family: var(--font-serif);
       font-size: 32px;
@@ -492,7 +422,6 @@
       color: var(--accent);
       animation: priceFlip 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
     }
-
     .price-tag {
       display: inline-block;
       background: linear-gradient(135deg, var(--accent), var(--accent-light));
@@ -505,8 +434,6 @@
       letter-spacing: 0.5px;
       animation: badgePop 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.3s both;
     }
-
-    /* SUMMARY */
     .summary-section {
       background: linear-gradient(135deg, rgba(200,116,90,0.08) 0%, rgba(212,169,106,0.04) 100%);
       border: 1px solid var(--border);
@@ -518,8 +445,6 @@
       line-height: 1.6;
       animation: fadeInUp 0.6s ease 0.2s both;
     }
-
-    /* SUBMIT BUTTON */
     .submit-btn {
       width: 100%;
       padding: 16px 28px;
@@ -538,7 +463,6 @@
       overflow: hidden;
       animation: fadeInUp 0.8s ease 0.6s both;
     }
-
     .submit-btn::before {
       content: '';
       position: absolute;
@@ -547,64 +471,48 @@
       opacity: 0;
       transition: opacity 0.3s ease;
     }
-
     .submit-btn:hover {
       transform: translateY(-3px);
       box-shadow: 0 15px 40px rgba(200, 116, 90, 0.5);
       animation: buttonHoverGlow 1.5s ease infinite;
     }
-
     .submit-btn:hover::before {
       opacity: 1;
     }
-
     .submit-btn span {
       position: relative;
       z-index: 1;
     }
-
-    /* RESPONSIVE */
     @media (max-width: 768px) {
       .build-page {
         padding: 60px 24px;
       }
-
       .form-wrapper {
         padding: 32px 24px;
       }
-
       .build-header {
         margin-bottom: 40px;
       }
-
       .build-title {
         font-size: 32px;
       }
-
       .price-card {
         top: auto;
         position: relative;
       }
-
       .options-grid {
         grid-template-columns: 1fr;
       }
     }
-
-    /* ANIMATION STAGGER */
     .form-group {
       opacity: 0;
       animation: slideInFormUp 0.6s ease forwards;
     }
-
     .form-group:nth-child(1) { animation-delay: 0.5s; }
     .form-group:nth-child(2) { animation-delay: 0.55s; }
     .form-group:nth-child(3) { animation-delay: 0.6s; }
     .form-group:nth-child(4) { animation-delay: 0.65s; }
     .form-group:nth-child(5) { animation-delay: 0.7s; }
-
-    /* ===== RESPONSIVE MEDIA QUERIES FOR BUILD.HTML ===== */
-
     @media (max-width: 1024px) {
       .build-page {
         padding: 60px 32px;
@@ -619,7 +527,6 @@
         top: 120px;
       }
     }
-
     @media (max-width: 767px) {
       .build-page {
         margin-top: 64px;
@@ -691,7 +598,6 @@
         font-size: 20px;
       }
     }
-
     @media (max-width: 639px) {
       .build-page {
         margin-top: 64px;
@@ -761,7 +667,6 @@
         min-height: 80px;
       }
     }
-
     @media (max-width: 479px) {
       .build-page {
         margin-top: 56px;
@@ -851,11 +756,8 @@
 </head>
 
 <body>
-  <!-- NAVIGATION -->
   <nav class="navbar">
   <a href="index.html" class="nav-logo">Cakerie</a>
-  
-  <!-- Hamburger Container -->
   <div class="hamburger">
     <input type="checkbox" id="menu-toggle" class="hamburger-checkbox">
     <label for="menu-toggle" class="hamburger-label">
@@ -864,14 +766,11 @@
       <span></span>
     </label>
   </div>
-  
-  <!-- IMPORTANT: nav-links must be sibling of hamburger for ~ selector to work -->
   <ul class="nav-links">
     <li><a href="index.html" >Home</a></li>
     <li><a href="explore.html">Explore Cakes</a></li>
     <li><a href="build.html" class="active">Build Your Cake</a></li>
   </ul>
-  
   <div class="nav-icons">
     <a href="#" class="nav-icon" title="Search">
       <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -894,25 +793,17 @@
     </a>
   </div>
 </nav>
-
-  <!-- BUILD PAGE -->
   <div class="build-page">
     <div class="build-container">
-      <!-- HEADER -->
       <div class="build-header">
         <span class="section-label">Create Your Masterpiece</span>
         <h1 class="build-title">Design Your Dream Cake</h1>
         <p class="build-subtitle">Customize every element to match your vision. Our expert bakers will bring your creation to life.</p>
       </div>
-
-      <!-- MAIN CONTENT -->
       <div class="build-content">
-        <!-- FORM -->
         <form class="form-wrapper">
-          <!-- CAKE BASE SECTION -->
           <div class="form-section">
             <h3 class="section-title">Cake Base & Size</h3>
-            
             <div class="form-group">
               <label for="cake-size">Select Size</label>
               <select id="cake-size" name="cake-size" required>
@@ -923,7 +814,6 @@
                 <option value="xl">Extra Large (24+ servings) - ₹5,000</option>
               </select>
             </div>
-
             <div class="form-group">
               <label>Cake Flavor</label>
               <div class="options-grid">
@@ -977,7 +867,7 @@
             </div>
           </div>
 
-          <!-- FILLINGS SECTION -->
+          
           <div class="form-section">
             <h3 class="section-title">Fillings & Add-ons</h3>
             
@@ -1034,7 +924,7 @@
             </div>
           </div>
 
-          <!-- PERSONALIZATION SECTION -->
+    
           <div class="form-section">
             <h3 class="section-title">Personalization & Design</h3>
             
@@ -1065,7 +955,6 @@
             </div>
           </div>
 
-          <!-- DELIVERY SECTION -->
           <div class="form-section">
             <h3 class="section-title">Delivery & Contact</h3>
             
@@ -1111,7 +1000,7 @@
             </div>
           </div>
 
-          <!-- TERMS SECTION -->
+     
           <div class="form-section">
             <div class="form-group">
               <div class="checkbox-option">
@@ -1126,7 +1015,6 @@
           </div>
         </form>
 
-        <!-- PRICE SIDEBAR -->
         <div class="price-sidebar">
           <div class="price-card">
             <div class="price-title">Order Summary</div>
@@ -1169,7 +1057,6 @@
     </div>
   </div>
 
-  <!-- ===== FOOTER ===== -->
   <footer>
     <div class="footer-grid">
       <div>
