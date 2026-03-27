@@ -206,7 +206,6 @@
     }
     select {
       cursor: pointer;
-      padding-right: 32px;
       appearance: none;
       background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d4a96a' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
       background-repeat: no-repeat;
@@ -275,16 +274,7 @@
       box-shadow: 0 0 12px rgba(200, 116, 90, 0.6);
       animation: checkboxPulse 0.3s ease;
     }
-    .radio-option input[type="radio"]:checked::after {
-      content: '✓';
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      color: white;
-      font-size: 12px;
-      font-weight: 700;
-    }
+    
     .radio-option label,
     .checkbox-option label {
       font-size: 13px;
@@ -797,7 +787,7 @@
     <div class="build-container">
       <div class="build-header">
         <span class="section-label">Create Your Masterpiece</span>
-        <h1 class="build-title">Design Your Dream Cake</h1>
+        <h1 class="build-title">Design Your Cake</h1>
         <p class="build-subtitle">Customize every element to match your vision. Our expert bakers will bring your creation to life.</p>
       </div>
       <div class="build-content">
@@ -807,11 +797,11 @@
             <div class="form-group">
               <label for="cake-size">Select Size</label>
               <select id="cake-size" name="cake-size" required>
-                <option value="">Choose a size...</option>
-                <option value="small">Small (4-6 servings) - ₹1,500</option>
-                <option value="medium">Medium (8-12 servings) - ₹2,500</option>
-                <option value="large">Large (14-20 servings) - ₹3,500</option>
-                <option value="xl">Extra Large (24+ servings) - ₹5,000</option>
+                <option value="" selected disabled>Choose a size...</option>
+                <option value="small">Small (4-6 servings) - ₹500</option>
+                <option value="medium">Medium (8-12 servings) - ₹1000</option>
+                <option value="large">Large (14-20 servings) - ₹1500</option>
+                <option value="xl">Extra Large (24+ servings) - ₹1850</option>
               </select>
             </div>
             <div class="form-group">
@@ -837,9 +827,48 @@
                     <label for="carrot">Carrot Cake</label>
                   </div>
                 </div>
+                <div class="radio-group">
+                  <div class="radio-option">
+                    <input type="radio" id="coffeeWalnut" name="flavor" value="coffeeWalnut" required>
+                    <label for="coffeeWalnut">Coffee Walnut</label>
+                  </div>
+                  <div class="radio-option">
+                    <input type="radio" id="CaramelPraline" name="flavor" value="CaramelPraline">
+                    <label for="CaramelPraline">Salted Caramel & Praline</label>
+                  </div>
+                </div>
+                <div class="radio-group">
+                  <div class="radio-option">
+                    <input type="radio" id="chocolateRasberry" name="flavor" value="chocolateRasberry">
+                    <label for="chocolateRasberry">White Chocolate Raspberry</label>
+                  </div>
+                  <div class="radio-option">
+                    <input type="radio" id="PistachioRose" name="flavor" value="PistachioRose">
+                    <label for="PistachioRose">Pistachio Rose</label>
+                  </div>
+                </div>
+                <div class="radio-group">
+                  <div class="radio-option">
+                    <input type="radio" id="SaffronCardamom" name="flavor" value="SaffronCardamom" required>
+                    <label for="SaffronCardamom">Saffron Cardamom</label>
+                  </div>
+                  <div class="radio-option">
+                    <input type="radio" id="BlackForest" name="flavor" value="BlackForest">
+                    <label for="BlackForest">Black Forest Cherry</label>
+                  </div>
+                </div>
+                <div class="radio-group">
+                  <div class="radio-option">
+                    <input type="radio" id="AlmondBattenberg" name="flavor" value="AlmondBattenberg">
+                    <label for="AlmondBattenberg">Almond Battenberg</label>
+                  </div>
+                  <div class="radio-option">
+                    <input type="radio" id="SwedishPrincess" name="flavor" value="SwedishPrincess">
+                    <label for="SwedishPrincess">Swedish Princess</label>
+                  </div>
+                </div>
               </div>
             </div>
-
             <div class="form-group">
               <label>Frosting Type</label>
               <div class="options-grid">
@@ -863,14 +892,38 @@
                     <label for="cream">Fresh Whipped Cream</label>
                   </div>
                 </div>
+                <div class="radio-group">
+                  <div class="radio-option">
+                    <input type="radio" id="CreamCheese" name="frosting" value="CreamCheese" required>
+                    <label for="CreamCheese">Cream Cheese</label>
+                  </div>
+                  <div class="radio-option">
+                    <input type="radio" id="RoyalIcing" name="frosting" value="RoyalIcing">
+                    <label for="RoyalIcing">Royal Icing</label>
+                  </div>
+                </div>
+                <div class="radio-group">
+                  <div class="radio-option">
+                    <input type="radio" id="Marzipan" name="frosting" value="Marzipan">
+                    <label for="Marzipan">Marzipan</label>
+                  </div>
+                  <div class="radio-option">
+                    <input type="radio" id="creamPatissiere" name="frosting" value="creamPatissiere">
+                    <label for="creamPatissiere">Cream Patissiere</label>
+                  </div>
+                </div>
+                <div class="radio-group">
+                  <div class="radio-option">
+                    <input type="radio" id="ItalianMeringue" name="frosting" value="ItalianMeringue" required>
+                    <label for="ItalianMeringue">Italian Meringue</label>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          
           <div class="form-section">
             <h3 class="section-title">Fillings & Add-ons</h3>
-            
             <div class="form-group">
               <label>Select Fillings</label>
               <div class="options-grid">
@@ -894,6 +947,27 @@
                     <label for="caramel">Salted Caramel</label>
                   </div>
                 </div>
+                <div class="checkbox-group">
+                  <div class="checkbox-option">
+                    <input type="checkbox" id="StrawberryCompote" name="filling" value="StrawberryCompote">
+                    <label for="StrawberryCompote">Strawberry Compote</label>
+                  </div>
+                  <div class="checkbox-option">
+                    <input type="checkbox" id="WhippedMascarpone" name="filling" value="WhippedMascarpone">
+                    <label for="WhippedMascarpone">Whipped Mascarpone</label>
+                  </div>
+                </div>
+                <div class="checkbox-group">
+                  <div class="checkbox-option">
+                    <input type="checkbox" id="ApricotGlaze" name="filling" value="ApricotGlaze">
+                    <label for="ApricotGlaze">Apricot Glaze</label>
+                  </div>
+                  <div class="checkbox-option">
+                    <input type="checkbox" id="cSugar Pearls" name="filling" value="Sugar Pearls">
+                    <label for="chocolate-fill">Sugar Pearls</label>
+                  </div>
+                </div>
+                
               </div>
             </div>
 
@@ -912,6 +986,16 @@
                 </div>
                 <div class="checkbox-group">
                   <div class="checkbox-option">
+                    <input type="checkbox" id="CornelliPiping" name="topping" value="CornelliPiping">
+                    <label for="CornelliPiping">Cornelli Piping</label>
+                  </div>
+                  <div class="checkbox-option">
+                    <input type="checkbox" id="CrystallizedFlowers" name="topping" value="CrystallizedFlowers">
+                    <label for="CrystallizedFlowers">Crystallized Flowers</label>
+                  </div>
+                </div>
+                <div class="checkbox-group">
+                  <div class="checkbox-option">
                     <input type="checkbox" id="fresh-berries" name="topping" value="berries">
                     <label for="fresh-berries">Fresh Berries</label>
                   </div>
@@ -924,7 +1008,6 @@
             </div>
           </div>
 
-    
           <div class="form-section">
             <h3 class="section-title">Personalization & Design</h3>
             
@@ -961,7 +1044,7 @@
             <div class="form-row">
               <div class="form-group">
                 <label for="full-name">Full Name</label>
-                <input type="text" id="full-name" name="full_name" required placeholder="John Doe">
+                <input type="text" id="full-name" name="full_name" required placeholder="Geeta Sharma">
               </div>
               <div class="form-group">
                 <label for="email">Email Address</label>
@@ -1022,7 +1105,7 @@
             <div class="price-items">
               <div class="price-item">
                 <span>Base Cake</span>
-                <span class="price-amount">₹2,500</span>
+                <span class="price-amount">₹500</span>
               </div>
               <div class="price-item">
                 <span>Fillings & Toppings</span>
@@ -1044,7 +1127,7 @@
 
             <div class="price-total">
               <span class="price-label">Total Price</span>
-              <span class="price-value">₹3,650</span>
+              <span class="price-value">₹1,650</span>
             </div>
 
             <div class="summary-section">
