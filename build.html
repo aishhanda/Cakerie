@@ -292,9 +292,7 @@
       position: relative;
       margin-bottom: 24px;
     }
-    .file-upload-input {
-      display: none;
-    }
+   
     .file-upload-label {
       display: flex;
       align-items: center;
@@ -1032,7 +1030,7 @@
             <div class="form-group">
               <label for="design-file">Upload Reference Design<span style="color: var(--text-muted);"> (Optional)</span></label>
               <div class="file-upload-wrapper">
-                <input type="file" id="design-file" name="design_file" class="file-upload-input" accept="image/*">
+                <input type="file" id="design-file" name="design_file" class="file-upload-input" hidden="hidden" accept="image/*">
                 <label for="design-file" class="file-upload-label">
                   <span class="file-icon">📁</span>
                   <span class="file-upload-text">Click to upload your design reference image</span>
@@ -1205,6 +1203,8 @@
       © 2025 CAKERIE. All rights reserved. Crafted with <span class="heart">❤</span>
     </div>
   </footer>
+
 <script src="script.js"></script>
+
 </body>
 </html>
