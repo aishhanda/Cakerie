@@ -318,13 +318,13 @@
       background: linear-gradient(135deg, rgba(200,116,90,0.15) 0%, rgba(212,169,106,0.08) 100%);
       color: var(--accent);
     }
-    .file-upload-input:checked ~ .file-upload-label {
-      border-color: var(--accent);
-      background: linear-gradient(135deg, rgba(200,116,90,0.2) 0%, rgba(212,169,106,0.1) 100%);
-    }
+   
     .file-icon {
       font-size: 24px;
+      transition: transform 0.3s ease;
     }
+
+
     textarea {
       resize: vertical;
       min-height: 100px;
@@ -748,41 +748,46 @@
 <body>
   <nav class="navbar">
   <a href="index.html" class="nav-logo">Cakerie</a>
-  <div class="hamburger">
-    <input type="checkbox" id="menu-toggle" class="hamburger-checkbox">
-    <label for="menu-toggle" class="hamburger-label">
-      <span></span>
-      <span></span>
-      <span></span>
-    </label>
-  </div>
+  
   <ul class="nav-links">
-    <li><a href="index.html" >Home</a></li>
+    <li><a href="index.html">Home</a></li>
     <li><a href="explore.html">Explore Cakes</a></li>
     <li><a href="build.html" class="active">Build Your Cake</a></li>
   </ul>
-  <div class="nav-icons">
-    <a href="#" class="nav-icon" title="Search">
-      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <circle cx="11" cy="11" r="8"/>
-        <path d="m21 21-4.35-4.35"/>
-      </svg>
-    </a>
-    <a href="#" class="nav-icon" title="Cart">
-      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-        <line x1="3" y1="6" x2="21" y2="6"/>
-        <path d="M16 10a4 4 0 0 1-8 0"/>
-      </svg>
-    </a>
-    <a href="#" class="nav-icon" title="Settings">
-      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="3"/>
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-      </svg>
-    </a>
+  
+  <div class="nav-right">
+    <div class="nav-icons">
+      <a href="#" class="nav-icon" title="Search">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="m21 21-4.35-4.35"/>
+        </svg>
+      </a>
+      <a href="#" class="nav-icon" title="Cart">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+      </a>
+      <a href="#" class="nav-icon" title="Settings">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </a>
+    </div>
+    
+   
+    <div class="hamburger">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#e8957a" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+</svg>
+  </div>
   </div>
 </nav>
+
+
   <div class="build-page">
     <div class="build-container">
       <div class="build-header">
@@ -790,10 +795,12 @@
         <h1 class="build-title">Design Your Cake</h1>
         <p class="build-subtitle">Customize every element to match your vision. Our expert bakers will bring your creation to life.</p>
       </div>
+
       <div class="build-content">
         <form class="form-wrapper">
           <div class="form-section">
             <h3 class="section-title">Cake Base & Size</h3>
+
             <div class="form-group">
               <label for="cake-size">Select Size</label>
               <select id="cake-size" name="cake-size" required>
@@ -804,6 +811,7 @@
                 <option value="xl">Extra Large (24+ servings) - ₹1850</option>
               </select>
             </div>
+
             <div class="form-group">
               <label>Cake Flavor</label>
               <div class="options-grid">
@@ -1027,7 +1035,7 @@
                 <input type="file" id="design-file" name="design_file" class="file-upload-input" accept="image/*">
                 <label for="design-file" class="file-upload-label">
                   <span class="file-icon">📁</span>
-                  <span>Click to upload your design reference image</span>
+                  <span class="file-upload-text">Click to upload your design reference image</span>
                 </label>
               </div>
             </div>
@@ -1083,7 +1091,6 @@
             </div>
           </div>
 
-     
           <div class="form-section">
             <div class="form-group">
               <div class="checkbox-option">
@@ -1198,6 +1205,6 @@
       © 2025 CAKERIE. All rights reserved. Crafted with <span class="heart">❤</span>
     </div>
   </footer>
-
+<script src="script.js"></script>
 </body>
 </html>

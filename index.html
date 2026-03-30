@@ -17,13 +17,16 @@
       display: flex;
       align-items: center;
     }
+
+    
+
     .hero-slide {
       position: absolute;
       inset: 0;
       opacity: 0;
       transition: opacity 1.2s ease;
     }
-    .hero-slide:nth-child(1) { animation: heroSlide1 18s ease infinite; }
+    /* .hero-slide:nth-child(1) { animation: heroSlide1 18s ease infinite; }
     .hero-slide:nth-child(2) { animation: heroSlide2 18s ease infinite; }
     .hero-slide:nth-child(3) { animation: heroSlide3 18s ease infinite; }
 
@@ -41,10 +44,15 @@
       0%, 60%  { opacity: 0; }
       65%, 95% { opacity: 1; }
       100%     { opacity: 0; }
-    }
+    } */
+
+    .hero-slide.active {
+    opacity: 1;
+  }
 
     .hero-slide img {
-      width: 100%; height: 100%;
+      width: 100%; 
+      height: 100%;
       object-fit: cover;
       animation: kenBurns 18s ease infinite;
     }
@@ -119,6 +127,16 @@
       z-index: 5;
       animation: fadeIn 1s ease 1.5s both;
     }
+    
+.dot.active {
+  background: var(--accent);
+  width: 30px;
+}
+
+.dot:hover {
+  background: var(--accent-light);
+}
+
 .ticker-wrap {
   background: var(--accent);
   padding: 12px 0;
@@ -646,13 +664,10 @@
     
    
     <div class="hamburger">
-      <input type="checkbox" id="menu-toggle" class="hamburger-checkbox">
-      <label for="menu-toggle" class="hamburger-label">
-        <span></span>
-        <span></span>
-        <span></span>
-      </label>
-    </div>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#e8957a" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+</svg>
+  </div>
   </div>
 </nav>
   <section class="hero">
@@ -976,5 +991,6 @@
       ©️ 2025 CAKERIE. All rights reserved. Crafted with <span class="heart">❤</span>
     </div>
   </footer>
+  <script src="script.js"></script>
 </body>
 </html>

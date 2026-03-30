@@ -255,50 +255,6 @@ ul { list-style: none; }
   cursor: pointer;
 }
 
-.hamburger-checkbox {
-  position: absolute;
-  opacity: 0;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-  z-index: 2;
-  margin: 0;
-}
-
-.hamburger-label {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 24px;
-  height: 18px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  pointer-events: none;
-}
-
-.hamburger-label span {
-  display: block;
-  width: 100%;
-  height: 2px;
-  background: var(--accent-light);
-  border-radius: 2px;
-  transition: all 0.3s ease;
-}
-
-
-.hamburger-checkbox:checked + .hamburger-label span:nth-child(1) {
-  transform: translateY(8px) rotate(45deg);
-}
-
-.hamburger-checkbox:checked + .hamburger-label span:nth-child(2) {
-  opacity: 0;
-}
-
-.hamburger-checkbox:checked + .hamburger-label span:nth-child(3) {
-  transform: translateY(-8px) rotate(-45deg);
-}
 
 
 @media (max-width: 767px) {
@@ -306,21 +262,11 @@ ul { list-style: none; }
     padding: 0 20px;
     height: 64px;
   }
-  
-  .nav-logo {
-    font-size: 24px;
-  }
-  
 
-  .hamburger {
-    display: block;
-  }
-  
-  
   .nav-links {
     position: fixed;
     top: 64px;
-    left: -100%;
+    left: 100%;
     width: 100%;
     height: calc(100vh - 64px);
     background: rgba(13, 13, 13, 0.98);
@@ -328,18 +274,24 @@ ul { list-style: none; }
     flex-direction: column;
     justify-content: center;
     gap: 30px;
-    transition: left 0.4s ease;
     z-index: 999;
     margin: 0;
     padding: 40px;
+    transition: left 0.4s ease;
   }
   
+  .nav-logo {
+    font-size: 24px;
+  }
   
-  .hamburger-checkbox:checked ~ .nav-links {
+  .nav-links.show{
     left: 0;
   }
-  
 
+  .hamburger {
+    display: block;
+  }
+  
   .nav-links a {
     font-size: 18px;
     padding: 12px 0;
@@ -364,6 +316,13 @@ ul { list-style: none; }
   .nav-links {
     top: 60px;
     height: calc(100vh - 60px);
+  }
+  
+  
+  /* More specific selector */
+  .nav-links.show {
+    left: 0!important;
+   
   }
 }
 
@@ -1337,6 +1296,10 @@ footer {
   
   .nav-links {
     display: none;
+  }
+  
+  .nav-links.show {
+    display: flex !important;
   }
   
   .nav-icons {
