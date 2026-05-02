@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Orders – Cakerie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    body {
+      background: var(--bg-dark);
+    }
+    main {
+      padding: 120px 40px 60px;
+      min-height: calc(100vh - 72px);
+    }
+    .orders-header {
+      text-align: center;
+      margin-bottom: 40px;
+      animation: fadeInUp 0.8s ease both;
+    }
+    .orders-title {
+      font-family: var(--font-serif);
+      font-size: clamp(34px, 5vw, 48px);
+      color: var(--text-primary);
+      margin-bottom: 10px;
+    }
+    .orders-subtitle {
+      color: var(--text-light);
+      font-size: 14px;
+      max-width: 680px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+    .orders-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+    }
+    .order-card {
+      background: #121212;
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: 0 22px 60px rgba(0,0,0,0.35);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+      overflow: hidden;
+    }
+    .order-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(200,116,90,0.2);
+    }
+    .order-title {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      color: var(--text-primary);
+      margin-bottom: 14px;
+    }
+    .order-details {
+      color: var(--text-light);
+      font-size: 14px;
+      margin-bottom: 8px;
+      line-height: 1.7;
+    }
+    .order-status {
+      margin: 18px 0 22px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .status-delivered { color: #4caf50; }
+    .status-pending { color: #ff9800; }
+    .status-cancelled { color: #f44336; }
+    .order-actions {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      gap: 12px;
+      margin-bottom: 18px;
+      align-items: center;
+    }
+    .order-actions a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      min-width: 110px;
+      text-align: center;
+    }
+    .order-actions .btn-view {
+      background: var(--accent);
+      color: #111;
+    }
+    .order-actions .btn-reorder {
+      border: 1px solid rgba(255, 182, 193, 0.45);
+      color: #fff;
+      background: transparent;
+    }
+    .order-actions .btn-reorder:hover {
+      background: rgba(255, 182, 193, 0.12);
+    }
+    .track-bar {
+      height: 8px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+    .progress {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #ffb6c1, #e8957a);
+      border-radius: 999px;
+      transition: width 0.5s ease;
+    }
+    .order-note {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 18px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 1024px) {
+      .orders-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 767px) {
+      main { padding: 100px 20px 40px; }
+      .orders-grid { grid-template-columns: 1fr; }
+    }
+    /* Order card with image */
+    .order-card { display: flex; gap: 18px; align-items: flex-start; }
+    .order-thumb { width: 120px; height: 100px; border-radius: 12px; overflow: hidden; flex-shrink: 0; background: linear-gradient(135deg,#1a1515,#0f0f0f); display:flex;align-items:center;justify-content:center }
+    .order-thumb img{width:100%;height:100%;object-fit:cover}
+    .order-meta { flex:1 }
+    .order-meta .order-title { margin:0 0 6px }
+    .order-meta .order-details { margin:2px 0 }
+
+    /* Modal */
+    .order-modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:2000}
+    .order-modal{background:#0f0f0f;padding:20px;border-radius:12px;width:92%;max-width:760px;border:1px solid rgba(255,255,255,0.04);color:#fff}
+    .order-modal h3{margin:0 0 12px}
+    .order-items{display:flex;flex-direction:column;gap:12px;margin-bottom:12px}
+    .order-item-row{display:flex;gap:12px;align-items:center}
+    .order-item-row img{width:64px;height:64px;object-fit:cover;border-radius:8px}
+    .order-modal .row{display:flex;justify-content:space-between;margin-top:8px}
+    .btn-plain{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#fff;padding:8px 12px;border-radius:8px;cursor:pointer}
+    .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-light));color:#111;padding:10px 14px;border-radius:10px;border:none;cursor:pointer}
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">Cakerie</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="explore.html">Explore Cakes</a></li>
+      <li><a href="build.html">Build Your Cake</a></li>
+      <li><a href="order.html" class="active">Orders</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <div class="nav-icons">
+        <a href="#" class="nav-icon" title="Search">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.35-4.35"/>
+          </svg>
+        </a>
+<a href="cart.html" class="nav-icon active" title="Cart">          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+        </a>
+        <a href="#" class="nav-icon" title="Settings">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </a>
+      </div>
+      <div class="hamburger">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#e8957a" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="orders-header">
+      <span class="section-label">Track Every Order</span>
+      <h1 class="orders-title">Your Orders</h1>
+      <p class="orders-subtitle">Review the latest delivery statuses, reorder your favorites, and keep track of every cake journey from oven to doorstep.</p>
+    </div>
+
+    <div id="ordersGrid" class="orders-grid">
+      <!-- orders will be rendered here -->
+    </div>
+
+    <!-- Order modal -->
+    <div id="orderModalBackdrop" class="order-modal-backdrop" aria-hidden="true">
+      <div class="order-modal" role="dialog" aria-modal="true">
+        <h3 id="modalTitle">Order</h3>
+        <div id="modalContent">
+          <div class="order-items" id="modalItems"></div>
+          <div class="row"><div><strong>Subtotal</strong></div><div id="modalSubtotal">₹0</div></div>
+          <div class="row"><div><strong>Shipping</strong></div><div id="modalShipping">₹0</div></div>
+          <div class="row"><div><strong>Tax</strong></div><div id="modalTax">₹0</div></div>
+          <div class="row"><div><strong>Total</strong></div><div id="modalTotal">₹0</div></div>
+          <hr style="border:none;border-top:1px solid rgba(255,255,255,0.04);margin:12px 0">
+          <div><strong>Customer</strong></div>
+          <div id="modalCustomer" style="color:#cfcfcf;font-size:14px;margin-top:6px"></div>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px">
+          <button id="modalClose" class="btn-plain">Close</button>
+          <button id="modalReorder" class="btn-plain">Reorder</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="footer-logo">Cakerie</a>
+        <p class="footer-tagline">Artisan cakes crafted with love for life's most precious moments.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-icon" title="Instagram">IG</a>
+          <a href="#" class="social-icon" title="Facebook">FB</a>
+          <a href="#" class="social-icon" title="Pinterest">PT</a>
+          <a href="#" class="social-icon" title="YouTube">YT</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-heading">Quick Links</div>
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="explore.html">Explore Cakes</a>
+          <a href="build.html">Build Your Cake</a>
+          <a href="order.html">Orders</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-heading">Support</div>
+        <div class="footer-links">
+          <a href="#">Customize a Cake</a>
+          <a href="#">Delivery Info</a>
+          <a href="#">Contact Us</a>
+          <a href="#">FAQ</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-heading">Visit Us</div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">📍</span>
+          <span>12 Pâtisserie Lane, Mumbai 400001</span>
+        </div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">📞</span>
+          <span>+91 98765 43210</span>
+        </div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">✉</span>
+          <span>hello@cakerie.in</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      ©️ 2026 CAKERIE. All rights reserved. Crafted with <span class="heart">❤</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="cart.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Animate progress bars on load
+      const progressBars = document.querySelectorAll('.progress');
+      progressBars.forEach(bar => {
+        const width = bar.style.width;
+        bar.style.width = '0%';
+        setTimeout(() => {
+          bar.style.width = width;
+        }, 500);
+      });
+
+      // Add click effect to reorder buttons
+      const reorderBtns = document.querySelectorAll('.btn-reorder');
+      reorderBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          btn.textContent = 'Added to Cart!';
+          btn.style.background = 'var(--accent)';
+          btn.style.color = '#111';
+          setTimeout(() => {
+            btn.textContent = 'Reorder';
+            btn.style.background = 'transparent';
+            btn.style.color = '#fff';
+          }, 2000);
+        });
+      });
+
+      // Add glow effect to status on hover
+      const statuses = document.querySelectorAll('.order-status');
+      statuses.forEach(status => {
+        status.addEventListener('mouseenter', () => {
+          status.style.textShadow = '0 0 10px currentColor';
+        });
+        status.addEventListener('mouseleave', () => {
+          status.style.textShadow = 'none';
+        });
+      });
+
+      // Simulate real-time updates with confetti for delivered orders
+      function createConfetti() {
+        const confetti = document.createElement('div');
+        confetti.style.position = 'absolute';
+        confetti.style.width = '10px';
+        confetti.style.height = '10px';
+        confetti.style.background = 'var(--accent)';
+        confetti.style.borderRadius = '50%';
+        confetti.style.pointerEvents = 'none';
+        confetti.style.animation = 'fall 3s linear forwards';
+        document.body.appendChild(confetti);
+
+        const x = Math.random() * window.innerWidth;
+        const y = Math.random() * window.innerHeight;
+        confetti.style.left = x + 'px';
+        confetti.style.top = y + 'px';
+
+        setTimeout(() => confetti.remove(), 3000);
+      }
+
+      // Enhanced tracking simulation
+      // load orders from localStorage (most recent first)
+      var stored = [];
+      try{ stored = window.readOrders ? window.readOrders() : JSON.parse(localStorage.getItem('cakerie_orders')||'[]'); }catch(e){ stored = []; }
+      const orderData = stored.map(function(o){
+        return {
+          id: o.id || ('#' + Math.floor(Math.random()*90000+10000)),
+          title: (o.items && o.items[0] && (o.items[0].title||o.items[0].name)) || 'Order',
+          status: o.status || 'Preparing',
+          progress: o.status === 'Delivered' ? 100 : (o.status === 'Cancelled' ? 20 : 30),
+          note: o.customer && o.customer.notes ? o.customer.notes : (o.note || ''),
+          date: o.date ? new Date(o.date).toLocaleString() : new Date().toLocaleString()
+        };
+      });
+
+      const statusClasses = {
+        Delivered: 'status-delivered',
+        Pending: 'status-pending',
+        Cancelled: 'status-cancelled',
+        'Out for Delivery': 'status-pending',
+        Preparing: 'status-pending'
+      };
+
+      function renderOrders() {
+        var grid = document.getElementById('ordersGrid');
+        grid.innerHTML = '';
+        if(!orderData || !orderData.length){ grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#bbb;padding:48px">No orders yet.</div>'; return; }
+        orderData.forEach(function(order){
+            var card = document.createElement('div'); card.className = 'order-card';
+            // determine thumbnail from stored orders, fallback to provided Unsplash image
+            var stored = getStoredOrders();
+            var storedOrder = (stored||[]).find(function(o){ return (o.id && o.id.toString()===order.id.toString()); });
+            var imgSrc = (storedOrder && storedOrder.items && storedOrder.items[0] && storedOrder.items[0].img) ? storedOrder.items[0].img : 'https://plus.unsplash.com/premium_vector-1713986485734-8d5eea98b771?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+            var thumb = '<div class="order-thumb"><img src="'+imgSrc+'" alt="order thumbnail"></div>';
+            var meta = '<div class="order-meta">'+
+              '<div class="order-title">'+(order.title||'Order')+'</div>'+
+              '<div class="order-details">Order ID: '+order.id+'</div>'+
+              '<div class="order-details">Date: '+(order.date||'')+'</div>'+
+              '<div class="order-status '+(order.status === 'Delivered' ? 'status-delivered' : (order.status === 'Cancelled' ? 'status-cancelled' : 'status-pending'))+'">'+order.status+'</div>'+
+              '<div style="margin-top:8px">'+(order.note||'')+'</div>'+
+              '<div class="order-actions" style="margin-top:12px">'+
+                '<button class="btn-plain btn-view" data-id="'+order.id+'">View</button>'+
+                '<button class="btn-plain btn-reorder" data-id="'+order.id+'">Reorder</button>'+
+              '</div>'+
+              '</div>';
+            var prog = '<div style="width:120px;flex-shrink:0"><div class="track-bar"><div class="progress" style="width:'+ (order.progress||0) +'%"></div></div></div>';
+            card.innerHTML = thumb + meta + prog;
+            grid.appendChild(card);
+          });
+
+        // wire buttons
+        document.querySelectorAll('.btn-view').forEach(function(b){ b.addEventListener('click', function(e){ e.preventDefault(); openOrderModal(b.getAttribute('data-id')); }); });
+        document.querySelectorAll('.btn-reorder').forEach(function(b){ b.addEventListener('click', function(e){ e.preventDefault(); doReorder(b.getAttribute('data-id')); }); });
+      }
+
+      function getStoredOrders(){ try{ return window.readOrders ? window.readOrders() : JSON.parse(localStorage.getItem('cakerie_orders')||'[]'); }catch(e){ return []; } }
+
+      function openOrderModal(id){
+        var orders = getStoredOrders();
+        var ord = orders.find(function(o){ return (o.id && o.id.toString()===id.toString()); });
+        if(!ord) return alert('Order not found');
+        // populate modal
+        document.getElementById('modalTitle').textContent = (ord.items && ord.items[0] && (ord.items[0].title||ord.items[0].name)) || 'Order '+ord.id;
+        var itemsEl = document.getElementById('modalItems'); itemsEl.innerHTML = '';
+        (ord.items||[]).forEach(function(it){
+          var row = document.createElement('div'); row.className = 'order-item-row';
+          var img = document.createElement('img'); img.src = it.img || 'https://plus.unsplash.com/premium_vector-1713986485734-8d5eea98b771?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+          var txt = document.createElement('div'); txt.innerHTML = '<div style="font-weight:600">'+(it.title||it.name||'Item')+'</div><div style="color:#bbb">Qty: '+(it.qty||it.quantity||1)+'</div>';
+          var price = document.createElement('div'); price.innerHTML = '<div style="font-weight:700;color:var(--accent)">₹'+(it.price||0)+'</div>';
+          row.appendChild(img); row.appendChild(txt); row.appendChild(price);
+          itemsEl.appendChild(row);
+        });
+        var totals = ord.totals || { sub:0, shipping:0, tax:0, total:0 };
+        document.getElementById('modalSubtotal').textContent = '₹'+(totals.sub||0);
+        document.getElementById('modalShipping').textContent = '₹'+(totals.shipping||0);
+
+        // show loyalty discount row if present
+        var existingLoyalty = document.getElementById('modalLoyaltyRow');
+        var loyaltyAmt = 0;
+        if(totals.loyalty_discount) loyaltyAmt = Number(totals.loyalty_discount) || 0;
+        else if(totals.loyalty_redeemed) loyaltyAmt = Number(totals.loyalty_redeemed) || 0;
+        if(loyaltyAmt > 0){
+          if(!existingLoyalty){
+            var div = document.createElement('div'); div.className = 'row'; div.id = 'modalLoyaltyRow';
+            div.innerHTML = '<div><strong>Loyalty discount</strong></div><div id="modalLoyalty">-₹0</div>';
+            var modalContent = document.getElementById('modalContent');
+            // insert after shipping row (which is 2nd row). Find the shipping node and insert after it.
+            var rows = modalContent.querySelectorAll('.row');
+            if(rows && rows[1]) rows[1].parentNode.insertBefore(div, rows[2] || null);
+            else modalContent.insertBefore(div, document.getElementById('modalTotal'));
+          }
+          document.getElementById('modalLoyalty').textContent = '-₹' + (loyaltyAmt);
+        } else {
+          if(existingLoyalty) existingLoyalty.parentNode.removeChild(existingLoyalty);
+        }
+
+        document.getElementById('modalTax').textContent = '₹'+(totals.tax||0);
+        document.getElementById('modalTotal').textContent = '₹'+(totals.total||0);
+        var cust = ord.customer || {};
+        document.getElementById('modalCustomer').innerHTML = '<div>'+ (cust.name||'') +'</div><div>'+ (cust.phone||'') +'</div><div style="color:#bbb">'+ (cust.address||'') +'</div>';
+        // store current order id on modal reorder btn
+        document.getElementById('modalReorder').setAttribute('data-id', ord.id);
+        document.getElementById('orderModalBackdrop').style.display = 'flex';
+      }
+
+      document.getElementById('modalClose').addEventListener('click', function(){ document.getElementById('orderModalBackdrop').style.display = 'none'; });
+      document.getElementById('modalReorder').addEventListener('click', function(){ var id = this.getAttribute('data-id'); doReorder(id); });
+
+      function doReorder(id){
+        var orders = getStoredOrders();
+        var ord = orders.find(function(o){ return (o.id && o.id.toString()===id.toString()); });
+        if(!ord) return alert('Order not found');
+        // merge items into cart
+        try{
+          var cart = window.readCart ? window.readCart() : JSON.parse(localStorage.getItem('cakerie_cart')||'[]');
+          (ord.items||[]).forEach(function(it){
+            // try to find same item by name
+            var existing = cart.find(function(c){ return (c.title===it.title || c.name===it.name); });
+            if(existing){ existing.qty = (existing.qty||existing.quantity||1) + (it.qty||it.quantity||1); }
+            else { cart.push({ title: it.title||it.name, img: it.img, price: it.price||0, qty: it.qty||it.quantity||1 }); }
+          });
+          if(window.writeCart) window.writeCart(cart); else localStorage.setItem('cakerie_cart', JSON.stringify(cart));
+          // update cart counts if available
+          if(window.updateCartCount) window.updateCartCount();
+          // close modal and navigate to cart
+          document.getElementById('orderModalBackdrop').style.display = 'none';
+          window.location.href = 'cart.html';
+        }catch(e){ alert('Failed to reorder'); }
+      }
+
+      function getNextStatus(current) {
+        if (current === 'Preparing') return 'Out for Delivery';
+        if (current === 'Out for Delivery') return 'Delivered';
+        return current;
+      }
+
+      function getProgressForStatus(status) {
+        if (status === 'Preparing') return 30;
+        if (status === 'Out for Delivery') return 70;
+        if (status === 'Delivered') return 100;
+        if (status === 'Cancelled') return 20;
+        return 0;
+      }
+
+      function simulateTracking() {
+        orderData.forEach(order => {
+          if (order.status === 'Preparing' || order.status === 'Out for Delivery') {
+            order.status = getNextStatus(order.status);
+            order.progress = getProgressForStatus(order.status);
+            order.note = order.status === 'Out for Delivery'
+              ? 'Your cake is on the way — soon at your doorstep.'
+              : 'Delivered successfully. Enjoy!';
+          }
+        });
+        updateOrderCards();
+      }
+
+      renderOrders();
+
+      // Simulate status progress every 8 seconds (advance stored orders)
+      setInterval(function(){
+        // advance statuses in storage
+        try{
+          var orders = window.readOrders ? window.readOrders() : JSON.parse(localStorage.getItem('cakerie_orders')||'[]');
+          var changed = false;
+          orders = orders.map(function(o){
+            if(o.status === 'Preparing'){ o.status = 'Out for Delivery'; changed = true; }
+            else if(o.status === 'Out for Delivery'){ o.status = 'Delivered'; changed = true; }
+            return o;
+          });
+          if(changed){ localStorage.setItem('cakerie_orders', JSON.stringify(orders)); location.reload(); }
+        }catch(e){}
+      }, 8000);
+
+      // Add CSS for confetti animation
+      const style = document.createElement('style');
+      style.innerHTML = `
+        @keyframes fall {
+          to {
+            transform: translateY(100vh) rotate(360deg);
+            opacity: 0;
+          }
+        }
+      `;
+      document.head.appendChild(style);
+    });
+  </script>
+  
+</body>
+</html>

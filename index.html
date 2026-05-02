@@ -22,29 +22,11 @@
 
     .hero-slide {
       position: absolute;
-      inset: 0;
+      inset: 0; 
       opacity: 0;
       transition: opacity 1.2s ease;
     }
-    /* .hero-slide:nth-child(1) { animation: heroSlide1 18s ease infinite; }
-    .hero-slide:nth-child(2) { animation: heroSlide2 18s ease infinite; }
-    .hero-slide:nth-child(3) { animation: heroSlide3 18s ease infinite; }
-
-    @keyframes heroSlide1 {
-      0%, 30%  { opacity: 1; }
-      35%, 65% { opacity: 0; }
-      70%, 100%{ opacity: 0; }
-    }
-    @keyframes heroSlide2 {
-      0%, 30%  { opacity: 0; }
-      35%, 65% { opacity: 1; }
-      70%, 100%{ opacity: 0; }
-    }
-    @keyframes heroSlide3 {
-      0%, 60%  { opacity: 0; }
-      65%, 95% { opacity: 1; }
-      100%     { opacity: 0; }
-    } */
+    
 
     .hero-slide.active {
     opacity: 1;
@@ -637,6 +619,7 @@
     <li><a href="index.html" class="active">Home</a></li>
     <li><a href="explore.html">Explore Cakes</a></li>
     <li><a href="build.html">Build Your Cake</a></li>
+    <li><a href="order.html" >Orders</a></li>
   </ul>
   
   <div class="nav-right">
@@ -647,12 +630,13 @@
           <path d="m21 21-4.35-4.35"/>
         </svg>
       </a>
-      <a href="#" class="nav-icon" title="Cart">
+      <a href="cart.html" class="nav-icon" title="Cart">
         <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
           <line x1="3" y1="6" x2="21" y2="6"/>
           <path d="M16 10a4 4 0 0 1-8 0"/>
         </svg>
+        <span class="cart-count" aria-hidden="true">0</span>
       </a>
       <a href="#" class="nav-icon" title="Settings">
         <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -738,7 +722,7 @@
             <p class="product-card-desc">Layers of velvety chocolate sponge with cream cheese frosting.</p>
             <div class="product-card-footer">
               <span class="product-price">₹999</span>
-              <button class="btn-cart">Add to Cart</button>
+              
             </div>
           </div>
         </div>
@@ -755,7 +739,7 @@
             <p class="product-card-desc">Box of 4 velvety salted caramel cupcakes in seasonal flavour.</p>
             <div class="product-card-footer">
               <span class="product-price">₹849</span>
-              <button class="btn-cart">Add to Cart</button>
+            
             </div>
           </div>
         </div>
@@ -775,7 +759,7 @@
             <p class="product-card-desc">Exquisite three-tiered masterpiece with edible gold leaf and fresh florals.</p>
             <div class="product-card-footer">
               <span class="product-price">₹999</span>
-              <button class="btn-cart">Add to Cart</button>
+             
             </div>
           </div>
         </div>
@@ -794,7 +778,7 @@
             <p class="product-card-desc">Dark Belgian chocolate ganache with salted caramel layers.</p>
             <div class="product-card-footer">
               <span class="product-price">₹895</span>
-              <button class="btn-cart">Add to Cart</button>
+             
             </div>
           </div>
         </div>
@@ -812,7 +796,7 @@
             <p class="product-card-desc">Box of 4 velvety salted caramel cupcakes in seasonal flavour.</p>
             <div class="product-card-footer">
               <span class="product-price">₹849</span>
-              <button class="btn-cart">Add to Cart</button>
+              
             </div>
           </div>
         </div>
@@ -992,5 +976,6 @@
     </div>
   </footer>
   <script src="script.js"></script>
+  <script src="cart.js"></script>
 </body>
 </html>

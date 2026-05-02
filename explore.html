@@ -153,6 +153,14 @@ body::before {
   animation: filterButtonPulse 2s ease infinite;
 }
 
+.filters button.active-filter {
+  background: linear-gradient(135deg, #ff6f91, #ff9aac);
+  color: #fff;
+  border-color: #ff6f91;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(255, 111, 145, 0.45);
+}
+
 .filters button:active {
   transform: scale(0.98);
 }
@@ -664,6 +672,9 @@ body::before {
     padding: 20px 16px;
   }
 }
+
+
+
 </style>
 </head>
 <body>
@@ -674,6 +685,7 @@ body::before {
     <li><a href="index.html" >Home</a></li>
     <li><a href="explore.html" class="active">Explore Cakes</a></li>
     <li><a href="build.html">Build Your Cake</a></li>
+    <li><a href="order.html" >Orders</a></li>
   </ul>
   
   <div class="nav-right">
@@ -684,12 +696,13 @@ body::before {
           <path d="m21 21-4.35-4.35"/>
         </svg>
       </a>
-      <a href="#" class="nav-icon" title="Cart">
+      <a href="cart.html" class="nav-icon" title="Cart">
         <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
           <line x1="3" y1="6" x2="21" y2="6"/>
           <path d="M16 10a4 4 0 0 1-8 0"/>
         </svg>
+        <span class="cart-count" aria-hidden="true">0</span>
       </a>
       <a href="#" class="nav-icon" title="Settings">
         <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -969,5 +982,59 @@ body::before {
     </div>
   </footer>
 <script src="script.js"></script>
+<script src="cart.js"></script>
+<script>
+// Add-to-cart behavior (uses cart.js helpers)
+document.addEventListener('DOMContentLoaded', function () {
+  // Filter buttons: show/hide cards by category
+  var filterButtons = document.querySelectorAll('.filters button');
+  function applyFilter(btn){
+    var cat = (btn.textContent||'').trim().toLowerCase();
+    filterButtons.forEach(function(b){ b.classList.remove('active-filter'); });
+    btn.classList.add('active-filter');
+    document.querySelectorAll('.grid .card').forEach(function(card){
+      var tag = (card.querySelector('.card-content small') && card.querySelector('.card-content small').textContent || '').trim().toLowerCase();
+      if(cat === 'all cakes' || cat === 'all') { card.style.display = ''; }
+      else if(tag.indexOf(cat) !== -1) { card.style.display = ''; }
+      else { card.style.display = 'none'; }
+    });
+  }
+  filterButtons.forEach(function(b, i){
+    b.addEventListener('click', function(e){ e.preventDefault(); applyFilter(b); });
+    // default first button active
+    if(i===0) b.classList.add('active-filter');
+  });
+
+  document.querySelectorAll('.card').forEach(function(card){
+    var titleEl = card.querySelector('.card-content h3');
+    var priceEl = card.querySelector('.card-content .price');
+    var imgEl = card.querySelector('img');
+    var title = titleEl ? titleEl.textContent.trim() : 'Item';
+    var priceText = priceEl ? priceEl.textContent.trim() : '0';
+    var price = parseFloat(priceText.replace(/[^0-9.]/g,'')) || 0;
+
+    var btn = document.createElement('button');
+    btn.className = 'add-cart'; btn.type = 'button'; btn.setAttribute('aria-label', 'Add to cart');
+    btn.textContent = 'Add to Cart';
+
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var cart = readCart();
+      var id = (title + '|' + price).replace(/\s+/g,'_');
+      var existing = cart.find(function(it){ return it.id === id; });
+      if(existing){ existing.qty = (existing.qty || 1) + 1; }
+      else { cart.push({ id: id, title: title, price: price, qty: 1, img: imgEl ? imgEl.src : '' }); }
+      writeCart(cart);
+      updateCartCount();
+      showCartToast(title + ' added to cart');
+    });
+
+    card.appendChild(btn);
+  });
+
+  // ensure badge updated
+  updateCartCount();
+});
+</script>
 </body>
 </html>
