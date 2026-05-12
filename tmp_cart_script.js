@@ -1,205 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Cakerie Cart</title>
-<link rel="stylesheet" href="style.css" />
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
 
-body{background:linear-gradient(135deg,#0b0b0b,#1a1515);color:#fff;font-family:Poppins, sans-serif;margin:0}
-.cart-hero{max-width:1100px;margin:28px auto;  padding:22px;border-radius:14px;background:linear-gradient(135deg,rgba(255,111,145,0.03),transparent);border:1px solid rgba(255,111,145,0.06)}
-.cart-hero h1{margin:0;font-family:Playfair Display;font-size:28px;color:#fff}
-.cart-hero p{margin:6px 0 0;color:#ddd;font-size:14px}
-.cart-wrap{max-width:1100px;margin:20px auto;padding:0 16px}
-.cart-grid{display:grid;grid-template-columns:1fr 360px;gap:24px}
-.cart-list{background:linear-gradient(135deg,#0f0f0f,#141414);padding:18px;border-radius:12px;border:1px solid rgba(255,111,145,0.04)}
-.cart-item{display:flex;gap:16px;padding:14px;border-radius:10px;align-items:center;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);margin-bottom:12px}
-.cart-item img{width:110px;height:78px;object-fit:cover;border-radius:8px;flex-shrink:0}
-.cart-item .meta h3{margin:0;font-family:Playfair Display;font-size:16px;color:#fff}
-.cart-item .meta .meta-sub{color:#bbb;font-size:13px;margin-top:6px}
-.cart-item .meta .price{margin-top:8px;color:var(--accent);font-weight:700}
-.cart-item .controls{margin-left:auto;text-align:right;display:flex;flex-direction:column;gap:8px}
-.qty-controls{display:flex;gap:8px;align-items:center}
-.qty-controls button{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#fff;padding:6px 10px;border-radius:8px;cursor:pointer}
-.remove-link{background:transparent;border:none;color:#ff9aac;cursor:pointer;font-size:13px}
-.checkout-panel{background:linear-gradient(135deg,#0f0f0f,#111);padding:20px;border-radius:12px;border:1px solid rgba(255,111,145,0.04)}
-.checkout-panel h3{margin:0 0 12px;font-family:Playfair Display}
-.totals{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
-.totals .row{display:flex;justify-content:space-between;color:#ccc}
-.totals .total{font-size:20px;color:#fff;font-weight:700}
-.pay-methods{display:flex;flex-direction:column;gap:8px;margin:12px 0}
-.pay-methods label{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;background:rgba(255,255,255,0.04);cursor:pointer;border:1px solid rgba(255,255,255,0.08);transition:all 0.25s ease}
-.pay-methods label:hover{background:rgba(255,255,255,0.08)}
-.delivery-methods{display:flex;flex-direction:column;gap:10px;margin-top:10px}
-.delivery-methods label{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:12px;background:rgba(255,255,255,0.04);cursor:pointer;border:1px solid rgba(255,255,255,0.08);transition:all 0.25s ease}
-.delivery-methods label:hover{background:rgba(255,255,255,0.08)}
-.option-tag{font-size:12px;color:#b5f2c7;font-weight:700}
-.delivery-details{margin-top:16px;display:grid;grid-template-columns:1fr;gap:10px}
-.delivery-details input,.delivery-details textarea{width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:#fff}
-.hidden{display:none!important}
-.addr input,.addr textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:#fff}
-.btn-place{display:block;width:100%;padding:12px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:700;cursor:pointer}
-.small-muted{font-size:13px;color:#bbb}
-.promo-applied{color:#bfe6c8;font-weight:700}
-.est-delivery{font-size:13px;color:#ddd;margin-top:8px}
-.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:9999}
-.modal{background:#0f0f0f;padding:20px;border-radius:12px;width:90%;max-width:520px;border:1px solid rgba(255,111,145,0.06)}
-.modal h4{margin:0 0 12px}
-.modal .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
-@media(max-width:900px){.cart-grid{grid-template-columns:1fr}.cart-hero{margin:18px 12px}}
-  /* cartDishant empty-view styles (merged) */
-  .cart-header{text-align:center;margin-bottom:40px}
-  .cart-title{font-family:Playfair Display, serif;font-size:34px;color:var(--text-primary,#fff);margin-bottom:10px}
-  .cart-subtitle{color:var(--text-light,#ddd);font-size:14px;max-width:680px;margin:0 auto;line-height:1.8}
-  .cart-empty{text-align:center;padding:60px 20px}
-  .cart-empty h3{color:var(--text-primary,#fff);margin-bottom:20px;font-size:22px}
-  .cart-empty p{color:#bbb;margin-bottom:20px}
-  .cart-empty a{background:var(--accent,#221f20);color:#111;padding:12px 20px;border-radius:999px;text-decoration:none;font-weight:600}
-  @media(max-width:900px){.cart-empty{padding:40px 12px}}
-  /* spacer to offset fixed navbar */
-  .nav-spacer{height:122px}
-  </style>
-
-</head>
-<body>
-<nav class="navbar">
-  <a href="index.html" class="nav-logo">Cakerie</a>
-  
-  <ul class="nav-links">
-    <li><a href="index.html" >Home</a></li>
-    <li><a href="explore.html">Explore Cakes</a></li>
-    <li><a href="build.html">Build Your Cake</a></li>
-    <li><a href="order.html" >Orders</a></li>
-  </ul>
-  
-  <div class="nav-right">
-    <div class="nav-icons">
-      
-      <a href="cart.html" class="nav-icon active" title="Cart">
-        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-          <line x1="3" y1="6" x2="21" y2="6"/>
-          <path d="M16 10a4 4 0 0 1-8 0"/>
-        </svg>
-        <span class="cart-count" aria-hidden="true">0</span>
-      </a>
-      <a href="#" class="nav-icon" title="Settings">
-        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="3"/>
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-        </svg>
-      </a>
-    </div>
-    
-   
-    <div class="hamburger">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#e8957a" class="size-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-</svg>
-  </div>
-  </div>
-</nav>
-<div class="nav-spacer" aria-hidden="true"></div>
-
-
-<div id="View" style="display:none">
-  <main>
-    <div class="cart-header">
-      <span class="section-label">Your Selections</span>
-      <h1 class="cart-title">Shopping Cart</h1>
-      <p class="cart-subtitle">Review your chosen cakes and proceed to checkout for sweet delivery.</p>
-    </div>
-
-    <div class="cart-empty" id="Empty">
-      <h3>Your cart is empty</h3>
-      <p>Add some delicious cakes to get started!</p>
-      <a href="explore.html">Browse Cakes</a>
-    </div>
-  </main>
-</div>
-
-
-
-
-
-
-<div class="cart-hero">
-  <h1>Your Order</h1>
-  <p>Review your items, select payment, and place your order — crafted with love.</p>
-</div>
-
-<div class="cart-wrap">
-  <div class="cart-grid">
-    <section class="cart-list" aria-labelledby="cart-heading">
-      <h2 id="cart-heading" style="font-family:Playfair Display;margin:0 0 12px">Items in Cart</h2>
-      <div id="items"></div>
-      <div id="empty" class="cart-empty" style="display:none">
-        <h3>Your cart is empty</h3>
-        <p>Add some delicious cakes to get started!</p>
-        <a href="explore.html">Browse Cakes</a>
-      </div>
-    </section>
-
-    <aside class="checkout-panel">
-      <h3>Checkout</h3>
-      <div class="totals">
-        <div class="row"><div class="small-muted">Subtotal</div><div id="subtotal">₹0</div></div>
-        <div class="row"><div class="small-muted">Delivery</div><div id="shipping">₹0</div></div>
-        <div class="row total"><div>Total</div><div id="total">₹0</div></div>
-      </div>
-
-      <div class="delivery-method">
-        <div style="font-weight:600;margin-bottom:10px">Delivery option</div>
-        <div class="delivery-methods">
-          <label><input type="radio" name="delivery_option" value="home"> Home Delivery <span class="option-tag">₹80</span></label>
-          <label><input type="radio" name="delivery_option" value="pickup"> Shop Pickup <span class="option-tag">Free</span></label>
-        </div>
-        <div id="deliveryHint" class="small-muted" style="margin-top:10px">Select a delivery option to unlock payment.</div>
-      </div>
-
-      <div id="paymentSection" class="hidden">
-        <div style="font-weight:600;margin-bottom:8px">Payment</div>
-        <div class="pay-methods">
-          <label><input type="radio" name="pay" value="card"> Credit / Debit Card</label>
-          <label><input type="radio" name="pay" value="upi"> UPI</label>
-        </div>
-      </div>
-
-      <div id="deliveryContactBlock" class="hidden">
-        <div style="font-weight:600;margin-bottom:8px">Customer Details</div>
-        <div class="delivery-details">
-          <input id="name" placeholder="Full name">
-          <input id="phone" placeholder="Phone number">
-          <input id="email" placeholder="Email address">
-        </div>
-      </div>
-
-      <div id="deliveryBlock" class="hidden">
-        <div style="font-weight:600;margin-bottom:8px">Delivery Address</div>
-        <div class="delivery-details">
-          <textarea id="addr" placeholder="Full address" rows="3"></textarea>
-        </div>
-      </div>
-
-      <div style="margin-top:14px;display:flex;gap:8px;flex-direction:column">
-        <button id="placeOrder" class="btn-place">Place Order</button>
-        <button id="clearCart" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:#fff;padding:10px;border-radius:8px;cursor:pointer">Clear Cart</button>
-      </div>
-
-      <div id="orderMsg" style="margin-top:12px;color:#bfe6c8;display:none"></div>
-    </aside>
-  </div>
-</div>
-
-<script>
 (function(){
   function readCart(){ try{ return JSON.parse(localStorage.getItem('cakerie_cart')||'[]') }catch(e){return[]} }
   function writeCart(c){ localStorage.setItem('cakerie_cart', JSON.stringify(c)); }
   function format(v){ return '₹' + v.toLocaleString(); }
+  var paymentSection = document.getElementById('paymentSection');
   var deliveryBlock = document.getElementById('deliveryBlock');
-  var deliveryContactBlock = document.getElementById('deliveryContactBlock');
   var deliveryHint = document.getElementById('deliveryHint');
 
   var itemsEl = document.getElementById('items');
@@ -210,7 +15,7 @@ body{background:linear-gradient(135deg,#0b0b0b,#1a1515);color:#fff;font-family:P
   var cartCountEls = document.querySelectorAll('.cart-count');
   var checkoutPanel = document.querySelector('.checkout-panel');
   var deliverySection = document.querySelector('.delivery-method');
-  var paymentSection = document.getElementById('paymentSection');
+  var paymentSection = document.querySelector('.payment-section');
   var nameEl = document.getElementById('name');
   var phoneEl = document.getElementById('phone');
   var emailEl = document.getElementById('email');
@@ -253,10 +58,6 @@ body{background:linear-gradient(135deg,#0b0b0b,#1a1515);color:#fff;font-family:P
     return { sub: sub, shipping: shipping, discount: discount, total: total, loyaltyPointsUsed: loyaltyUsedPoints, loyaltyDiscount: loyaltyDiscount };
   }
 
-  function getDeliveryOption(){
-    return (document.querySelector('input[name="delivery_option"]:checked') || {}).value || '';
-  }
-
   function estimateDelivery(days){
     var d = new Date(); d.setDate(d.getDate() + days);
     return d.toLocaleDateString();
@@ -287,9 +88,6 @@ body{background:linear-gradient(135deg,#0b0b0b,#1a1515);color:#fff;font-family:P
     }
     if(paymentSection){
       paymentSection.classList.toggle('hidden', !getDeliveryOption());
-    }
-    if(deliveryContactBlock){
-      deliveryContactBlock.classList.toggle('hidden', !getDeliveryOption());
     }
     if(deliveryBlock){
       deliveryBlock.classList.toggle('hidden', getDeliveryOption() !== 'home');
@@ -444,8 +242,3 @@ body{background:linear-gradient(135deg,#0b0b0b,#1a1515);color:#fff;font-family:P
   // initial render
   updateCartUI();
 })();
-</script>
-<script src="script.js"></script>
-<script src="cart.js"></script>
-</body>
-</html>

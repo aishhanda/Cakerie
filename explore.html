@@ -284,6 +284,35 @@ body::before {
   animation: priceFlash 2s ease infinite;
 }
 
+.weight-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.weight-control .weight-btn {
+  border: 1px solid rgba(255, 111, 145, 0.35);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border-radius: 999px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.weight-control .weight-value {
+  font-size: 13px;
+  color: #ddd;
+  min-width: 62px;
+  text-align: center;
+}
+
 .card:hover {
   transform: translateY(-15px) scale(1.02);
   border-color: rgba(255, 111, 145, 0.6);
@@ -690,12 +719,7 @@ body::before {
   
   <div class="nav-right">
     <div class="nav-icons">
-      <a href="#" class="nav-icon" title="Search">
-        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <circle cx="11" cy="11" r="8"/>
-          <path d="m21 21-4.35-4.35"/>
-        </svg>
-      </a>
+      
       <a href="cart.html" class="nav-icon" title="Cart">
         <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
@@ -740,7 +764,7 @@ body::before {
   <div class="card-content">
     <small>Birthday</small>
     <h3>Strawberry Bliss</h3>
-    <div class="price">₹799</div>
+    <div class="price">₹399</div>
   </div>
 </div>
 
@@ -749,7 +773,7 @@ body::before {
   <div class="card-content">
     <small>Birthday</small>
     <h3>Rainbow Carnival</h3>
-    <div class="price">1,199</div>
+    <div class="price">499</div>
   </div>
 </div>
 
@@ -758,7 +782,7 @@ body::before {
   <div class="card-content">
     <small>Wedding</small>
     <h3>Ivory Elegance</h3>
-    <div class="price">₹1,999</div>
+    <div class="price">₹599</div>
   </div>
 </div>
 
@@ -767,7 +791,7 @@ body::before {
   <div class="card-content">
     <small>Wedding</small>
     <h3>Golden Tier Royale</h3>
-    <div class="price">₹999</div>
+    <div class="price">₹699</div>
   </div>
 </div>
 
@@ -776,7 +800,7 @@ body::before {
   <div class="card-content">
     <small>Theme</small>
     <h3>Midnight Galaxy</h3>
-    <div class="price">₹1,299</div>
+    <div class="price">₹299</div>
   </div>
 </div>
 
@@ -785,7 +809,7 @@ body::before {
   <div class="card-content">
     <small>Theme</small>
     <h3>Enchanted Unicorn</h3>
-    <div class="price">₹1,899</div>
+    <div class="price">₹899</div>
   </div>
 </div>
 
@@ -803,7 +827,7 @@ body::before {
   <div class="card-content">
     <small>Cupcakes</small>
     <h3>Salted Caramel Dozen</h3>
-    <div class="price">₹1,499</div>
+    <div class="price">₹499</div>
   </div>
 </div>
 
@@ -812,7 +836,7 @@ body::before {
   <div class="card-content">
     <small>Wedding</small>
     <h3>Royal Red Velvet Tower</h3>
-    <div class="price">₹1,799</div>
+    <div class="price">₹799</div>
   </div>
 </div>
 
@@ -821,7 +845,7 @@ body::before {
   <div class="card-content">
     <small>Birthday</small>
     <h3>Photo Memory Cake</h3>
-    <div class="price">₹1,199</div>
+    <div class="price">₹199</div>
   </div>
 </div>
 
@@ -830,7 +854,7 @@ body::before {
   <div class="card-content">
     <small>Birthday</small>
     <h3>KitKat Celebration Cake</h3>
-    <div class="price">₹1,999</div>
+    <div class="price">₹999</div>
   </div>
 </div>
 
@@ -857,7 +881,7 @@ body::before {
   <div class="card-content">
     <small>Theme</small>
     <h3>Royal Celebration Delight</h3>
-    <div class="price">₹1,899</div>
+    <div class="price">₹1,099</div>
   </div>
 </div>
 
@@ -875,7 +899,7 @@ body::before {
   <div class="card-content">
     <small>Theme</small>
     <h3>Rose Pistachio Delight</h3>
-    <div class="price">₹1,499</div>
+    <div class="price">₹499</div>
   </div>
 </div>
 
@@ -1005,13 +1029,59 @@ document.addEventListener('DOMContentLoaded', function () {
     if(i===0) b.classList.add('active-filter');
   });
 
+  function formatRupee(value){
+    return '₹' + Number(value || 0).toLocaleString('en-IN');
+  }
+
+  function parseCartPrice(priceText){
+    return parseFloat((priceText||'').replace(/,/g,'').replace(/[^0-9.]/g,'')) || 0;
+  }
+
+  function clampWeight(value){
+    var weight = Math.round((value || 1) * 2) / 2;
+    return Math.max(1, Math.min(5, weight));
+  }
+
+  function setCardWeight(card, weight){
+    var basePrice = parseFloat(card.dataset.basePrice || 0) || 0;
+    weight = clampWeight(weight);
+    card.dataset.weight = weight.toFixed(1);
+    var priceEl = card.querySelector('.card-content .price');
+    if(priceEl){ priceEl.textContent = formatRupee(basePrice * weight); }
+    var weightLabel = card.querySelector('.weight-value');
+    if(weightLabel){ weightLabel.textContent = weight.toFixed(1) + ' lb'; }
+  }
+
   document.querySelectorAll('.card').forEach(function(card){
     var titleEl = card.querySelector('.card-content h3');
     var priceEl = card.querySelector('.card-content .price');
     var imgEl = card.querySelector('img');
+    var category = (card.querySelector('.card-content small') && card.querySelector('.card-content small').textContent || '').trim().toLowerCase();
     var title = titleEl ? titleEl.textContent.trim() : 'Item';
     var priceText = priceEl ? priceEl.textContent.trim() : '0';
-    var price = parseFloat(priceText.replace(/[^0-9.]/g,'')) || 0;
+    var basePrice = parseCartPrice(priceText);
+    card.dataset.basePrice = basePrice;
+    card.dataset.weight = '1.0';
+    if(priceEl) priceEl.textContent = formatRupee(basePrice);
+
+    if(category !== 'cupcakes'){
+      var weightControl = document.createElement('div');
+      weightControl.className = 'weight-control';
+      weightControl.innerHTML = '<button type="button" class="weight-btn dec">-</button>' +
+                                 '<span class="weight-value">1.0 lb</span>' +
+                                 '<button type="button" class="weight-btn inc">+</button>';
+      card.querySelector('.card-content').appendChild(weightControl);
+      weightControl.querySelector('.dec').addEventListener('click', function(e){
+        e.stopPropagation();
+        var current = parseFloat(card.dataset.weight || 1) || 1;
+        setCardWeight(card, current - 0.5);
+      });
+      weightControl.querySelector('.inc').addEventListener('click', function(e){
+        e.stopPropagation();
+        var current = parseFloat(card.dataset.weight || 1) || 1;
+        setCardWeight(card, current + 0.5);
+      });
+    }
 
     var btn = document.createElement('button');
     btn.className = 'add-cart'; btn.type = 'button'; btn.setAttribute('aria-label', 'Add to cart');
@@ -1020,10 +1090,12 @@ document.addEventListener('DOMContentLoaded', function () {
     btn.addEventListener('click', function(e){
       e.stopPropagation();
       var cart = readCart();
-      var id = (title + '|' + price).replace(/\s+/g,'_');
+      var weight = parseFloat(card.dataset.weight || 1) || 1;
+      var effectivePrice = basePrice * weight;
+      var id = (title + '|' + effectivePrice + '|' + weight).replace(/\s+/g,'_');
       var existing = cart.find(function(it){ return it.id === id; });
       if(existing){ existing.qty = (existing.qty || 1) + 1; }
-      else { cart.push({ id: id, title: title, price: price, qty: 1, img: imgEl ? imgEl.src : '' }); }
+      else { cart.push({ id: id, title: title, price: effectivePrice, qty: 1, img: imgEl ? imgEl.src : '', weight: weight, unitPrice: basePrice }); }
       writeCart(cart);
       updateCartCount();
       showCartToast(title + ' added to cart');

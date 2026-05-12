@@ -374,6 +374,12 @@ ul { list-style: none; }
   }
 
   .nav-icons {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+  }
+
+  .nav-icons .nav-icon[title="Search"] {
     display: none;
   }
   
