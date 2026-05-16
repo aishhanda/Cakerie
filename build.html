@@ -1029,6 +1029,7 @@
 
       <div class="build-content">
         <form class="form-wrapper">
+
           <div class="form-section">
             <h3 class="section-title">Cake Base & Size</h3>
 
@@ -1202,8 +1203,8 @@
                     <label for="ApricotGlaze">Apricot Glaze</label>
                   </div>
                   <div class="checkbox-option">
-                    <input type="checkbox" id="cSugar Pearls" name="filling" value="Sugar Pearls">
-                    <label for="chocolate-fill">Sugar Pearls</label>
+                    <input type="checkbox" id="sugar-pearls" name="filling" value="Sugar Pearls">
+                    <label for="sugar-pearls">Sugar Pearls</label>  
                   </div>
                 </div>
 
@@ -1253,11 +1254,6 @@
             <div class="form-group">
               <label for="topper-text">Custom Cake Topper Text</label>
               <input type="text" id="topper-text" name="topper_text" placeholder="e.g., Happy Birthday Sarah!">
-            </div>
-
-            <div class="form-group">
-              <label for="color">Frosting Color Preference</label>
-              <input type="text" id="color" name="color" placeholder="e.g., Blush Pink, Navy Blue, Gold">
             </div>
 
             <div class="form-group">
@@ -1338,6 +1334,8 @@
             </button>
           </div>
         </form>
+
+
         <div class="price-sidebar">
           <div class="price-card">
             <div class="price-title">Order Summary</div>
@@ -1352,16 +1350,8 @@
                 <span class="price-amount">₹500</span>
               </div>
               <div class="price-item">
-                <span>Customization</span>
-                <span class="price-amount">₹300</span>
-              </div>
-              <div class="price-item">
                 <span>Delivery</span>
                 <span class="price-amount">₹100</span>
-              </div>
-              <div class="price-item">
-                <span>Design Reference</span>
-                <span class="price-amount">₹250</span>
               </div>
             </div>
 
@@ -1397,168 +1387,63 @@
     <div class="footer-grid">
       <div>
         <a href="index.html" class="footer-logo">Cakerie</a>
-
+        <p class="footer-tagline">Artisan cakes crafted with love for life's most precious moments.</p>
         <div class="footer-socials">
           <a href="#" class="social-icon" title="Instagram">
-            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-              <path
-                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-            </svg>
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
           </a>
           <a href="#" class="social-icon" title="Facebook">
-            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-              <path
-                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-            </svg>
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
           </a>
           <a href="#" class="social-icon" title="Pinterest">
-            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-              <path
-                d="M12 0c-6.627 0-12 5.372-12 12 0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z" />
-            </svg>
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.372-12 12 0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
           </a>
           <a href="#" class="social-icon" title="YouTube">
-            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-              <path
-                d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z" />
-            </svg>
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
           </a>
         </div>
       </div>
-    </div>
-    <script src="cart.js"></script>
-    <script>
-      // handle build page form submit -> save order and redirect to orders
-      (function () {
-        var form = document.querySelector('.form-wrapper');
-        if (!form) return;
-        form.addEventListener('submit', function (e) {
-          e.preventDefault();
-          // collect basic details
-          var name = document.getElementById('full-name').value || '';
-          var phone = document.getElementById('phone').value || '';
-          var addr = document.getElementById('address').value || '';
-          var notes = document.getElementById('special-notes') ? document.getElementById('special-notes').value : '';
-          // read summary price if present
-          var priceEl = document.querySelector('.price-value');
-          var total = 0;
-          if (priceEl) total = parseFloat(priceEl.textContent.replace(/[^0-9.]/g, '')) || 0;
-
-          // build order description from selected options (collect checked inputs)
-          var selections = [];
-          Array.prototype.slice.call(form.querySelectorAll('input:checked, select')).forEach(function (el) {
-            if (el.tagName.toLowerCase() === 'select') {
-              if (el.value) selections.push(el.options[el.selectedIndex].text);
-            } else if (el.type === 'radio' || el.type === 'checkbox') {
-              var label = form.querySelector('label[for="' + el.id + '"]');
-              if (label) selections.push(label.textContent.trim());
-            }
-          });
-
-          var order = {
-            items: [{ name: 'Custom Cake', desc: selections.join(', '), qty: 1, price: total }],
-            totals: { sub: total, shipping: 100, tax: Math.round(total * 0.05), total: Math.round(total + 100 + total * 0.05) },
-            customer: { name: name, phone: phone, address: addr, notes: notes },
-            status: 'Preparing'
-          };
-
-          // if loyalty checkbox is checked, redeem points and adjust totals
-          try {
-            var applyEl = document.getElementById('applyLoyaltyBuild');
-            if (applyEl && applyEl.checked && window.readPoints && window.redeemPoints) {
-              var avail = window.readPoints();
-              var sub = total || 0;
-              var ptsUse = Math.min(avail, Math.floor(sub));
-              if (ptsUse > 0) {
-                var discount = ptsUse; // 1 point = ₹1
-                window.redeemPoints(ptsUse, sub);
-                order.totals.loyalty_redeemed = ptsUse;
-                order.totals.loyalty_discount = discount;
-                order.totals.total = Math.round(order.totals.total - discount);
-                order.items[0].price = Math.round(order.items[0].price - discount);
-              }
-            }
-          } catch (e) { }
-          if (window.saveOrder) window.saveOrder(order);
-          // show simple confirmation then go to orders
-          alert('Order received. You will be redirected to Orders.');
-          window.location.href = 'order.html';
-        });
-        // sidebar place order button triggers the same submit flow
-        var sidebarBtn = document.getElementById('placeOrderSidebar');
-        if (sidebarBtn) {
-          sidebarBtn.addEventListener('click', function () {
-            if (form.requestSubmit) form.requestSubmit();
-            else {
-              var s = form.querySelector('button[type="submit"]');
-              if (s) s.click();
-            }
-          });
-        }
-
-        // show loyalty points balance in sidebar and allow simple preview of discount
-        try {
-          function refreshBuildPoints() { var el = document.getElementById('buildPoints'); if (!el) return; var pts = (window.readPoints && window.readPoints()) || parseInt(localStorage.getItem('cakerie_points') || '0', 10) || 0; el.textContent = pts; refreshBuildPreview(); }
-          refreshBuildPoints();
-          window.addEventListener('storage', function (e) { if (e.key === 'cakerie_points' || e.key === 'cakerie_cart') refreshBuildPoints(); });
-          var applyEl = document.getElementById('applyLoyaltyBuild');
-          var priceEl = document.querySelector('.price-value');
-          if (priceEl && !priceEl.getAttribute('data-original')) { var num = parseFloat(priceEl.textContent.replace(/[^0-9.]/g, '')) || 0; priceEl.setAttribute('data-original', String(num)); }
-          function refreshBuildPreview() {
-            try {
-              if (!priceEl) return; var orig = parseFloat(priceEl.getAttribute('data-original') || '0') || 0; var pts = (window.readPoints && window.readPoints()) || 0; var previewEl = document.getElementById('buildLoyaltyPreview'); var btn = document.getElementById('applyLoyaltyBuildBtn'); var chk = applyEl; if (!previewEl) return; var ptsUse = Math.min(pts, Math.floor(orig)); if (ptsUse <= 0) { previewEl.textContent = 'No points available'; if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; } } else { var discount = ptsUse; previewEl.textContent = 'You save: ₹' + discount; if (btn) { btn.disabled = false; btn.style.opacity = '1'; } } if (chk && chk.checked) {
-                var applied = Math.min(pts, Math.floor(orig)); previewEl.textContent = 'Applied: -₹' + applied; if (btn) btn.textContent = 'Remove points'; // show reduced price in the UI
-                priceEl.textContent = '₹' + (orig - applied).toLocaleString();
-              } else { if (btn) btn.textContent = 'Apply points'; priceEl.textContent = '₹' + orig.toLocaleString(); }
-            } catch (e) { }
-          }
-          // toggle button toggles the hidden checkbox and updates preview/price
-          var btn = document.getElementById('applyLoyaltyBuildBtn'); if (btn) { btn.addEventListener('click', function () { var chk = document.getElementById('applyLoyaltyBuild'); chk.checked = !chk.checked; if (chk.checked) this.textContent = 'Remove points'; else this.textContent = 'Apply points'; refreshBuildPreview(); try { window.dispatchEvent(new Event('cartchange')); } catch (e) { } }); }
-          if (applyEl) { applyEl.addEventListener('change', function () { refreshBuildPoints(); refreshBuildPreview(); }); }
-          refreshBuildPreview();
-        } catch (e) { }
-      })();
-    </script>
-    <div class="footer-heading">Quick Links</div>
-    <div class="footer-links">
-      <a href="index.html">Home</a>
-      <a href="explore.html">Explore Cakes</a>
-      <a href="build.html">Build Your Cake</a>
-
-    </div>
-    </div>
-    <div>
-      <div class="footer-heading">Support</div>
-      <div class="footer-links">
-        <a href="#">Customize a Cake</a>
-        <a href="#">Delivery Info</a>
-        <a href="#">Contact Us</a>
-        <a href="#">FAQ</a>
+      <div>
+        <div class="footer-heading">Quick Links</div>
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="explore.html">Explore Cakes</a>
+          <a href="build.html">Build Your Cake</a>
+          
+        </div>
       </div>
-    </div>
-    <div>
-      <div class="footer-heading">Visit Us</div>
-      <div class="footer-contact-item">
-        <span class="footer-contact-icon">📍</span>
-        <span>12 Pâtisserie Lane, Mumbai 400001</span>
+      <div>
+        <div class="footer-heading">Support</div>
+        <div class="footer-links">
+          <a href="#">Customize a Cake</a>
+          <a href="#">Delivery Info</a>
+          <a href="#">Contact Us</a>
+          <a href="#">FAQ</a>
+        </div>
       </div>
-      <div class="footer-contact-item">
-        <span class="footer-contact-icon">📞</span>
-        <span>+91 98765 43210</span>
+      <div>
+        <div class="footer-heading">Visit Us</div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">📍</span>
+          <span>12 Pâtisserie Lane, Mumbai 400001</span>
+        </div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">📞</span>
+          <span>+91 98765 43210</span>
+        </div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">✉</span>
+          <span>hello@cakerie.in</span>
+        </div>
       </div>
-      <div class="footer-contact-item">
-        <span class="footer-contact-icon">✉</span>
-        <span>hello@cakerie.in</span>
-      </div>
-    </div>
     </div>
     <div class="footer-bottom">
-      © 2025 CAKERIE. All rights reserved. Crafted with <span class="heart">❤</span>
+      ©️ 2025 CAKERIE. All rights reserved. Crafted with <span class="heart">❤</span>
     </div>
   </footer>
 
   <script src="script.js"></script>
-
+  <script src="cart.js"></script>
 </body>
 
 </html>
