@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function(){
     itemsEl.style.display = 'none';
     checkoutPanel.style.display = 'none';
     heroEl.style.display = 'none';
-    cartWrap.style.display = 'none';
+    cartWrap.style.display = 'block';   
   }
 
   function updateCartUI(){
@@ -395,6 +395,22 @@ if(loyaltyBtn && loyaltyChk){
       }
 
       const orderId = saveOrder(orderObj);
+      writeCart([]);
+  
+  
+  showToast('✅ Order placed! ID: ' + orderId);
+  
+  
+  document.body.removeChild(backdrop);
+  
+
+  updateCartUI();
+  refreshLoyaltyUI();
+  
+  
+  setTimeout(function() {
+    window.location.href = 'order.html';
+  }, 2000);
     });
   });
 

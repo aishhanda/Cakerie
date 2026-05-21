@@ -95,14 +95,7 @@
       background: var(--accent);
       color: #111;
     }
-    .order-actions .btn-reorder {
-      border: 1px solid rgba(255, 182, 193, 0.45);
-      color: #fff;
-      background: transparent;
-    }
-    .order-actions .btn-reorder:hover {
-      background: rgba(255, 182, 193, 0.12);
-    }
+    
     .track-bar {
       height: 8px;
       background: rgba(255,255,255,0.08);
@@ -219,7 +212,7 @@
         </div>
         <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px">
           <button id="modalClose" class="btn-plain">Close</button>
-          <button id="modalReorder" class="btn-plain">Reorder</button>
+          
         </div>
       </div>
     </div>
@@ -280,231 +273,185 @@
   <script src="cart.js"></script>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', () => {
+    
+    function getStoredOrders() {
+      return readOrders();
+    }
+
+    // Helper: save orders to localStorage
+    function saveOrders(orders) {
+      if (window.writeOrders) window.writeOrders(orders);
+      else localStorage.setItem('cakerie_orders', JSON.stringify(orders));
+    }
+
+    // Render all orders from fresh data
+    function renderOrders() {
+      const orders = getStoredOrders();
+      const grid = document.getElementById('ordersGrid');
+      grid.innerHTML = '';
+
+      if (!orders.length) {
+        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#bbb;padding:48px">No orders yet.</div>';
+        return;
+      }
+
+      orders.forEach(order => {
+        const card = document.createElement('div');
+        card.className = 'order-card';
+
+        const firstItem = order.items && order.items[0];
+        const imgSrc = (firstItem && firstItem.img) 
+          ? firstItem.img 
+          : 'https://plus.unsplash.com/premium_vector-1713986485734-8d5eea98b771?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+
+        const orderTitle = (firstItem && (firstItem.title || firstItem.name)) || 'Order';
+        const orderStatus = order.status || 'Preparing';
+        let progress = 30;
+        if (orderStatus === 'Delivered') progress = 100;
+        else if (orderStatus === 'Cancelled') progress = 20;
+        else if (orderStatus === 'Out for Delivery') progress = 70;
+
+        const statusClass = orderStatus === 'Delivered' ? 'status-delivered' 
+                          : (orderStatus === 'Cancelled' ? 'status-cancelled' : 'status-pending');
+
+        card.innerHTML = `
+          <div class="order-thumb"><img src="${imgSrc}" alt="order thumbnail"></div>
+          <div class="order-meta">
+            <div class="order-title">${orderTitle}</div>
+            <div class="order-details">Order ID: ${order.id}</div>
+            <div class="order-details">Date: ${order.date ? new Date(order.date).toLocaleString() : ''}</div>
+            <div class="order-status ${statusClass}">${orderStatus}</div>
+            <div style="margin-top:8px">${order.note || ''}</div>
+            <div class="order-actions" style="margin-top:12px">
+              <button class="btn-plain btn-view" data-id="${order.id}">View</button>
+            </div>
+          </div>
+          <div style="width:120px;flex-shrink:0">
+            <div class="track-bar"><div class="progress" style="width:${progress}%"></div></div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      document.querySelectorAll('.btn-view').forEach(btn => {
+        btn.removeEventListener('click', viewHandler);
+        btn.addEventListener('click', viewHandler);
+      });
+    }
+
+    // View order modal
+    function viewHandler(e) {
+      const id = e.currentTarget.getAttribute('data-id');
+      openOrderModal(id);
+    }
+
+    function openOrderModal(id) {
+      const orders = getStoredOrders();
+      const ord = orders.find(o => o.id && o.id.toString() === id.toString());
+      if (!ord) return alert('Order not found');
+
+      const itemsEl = document.getElementById('modalItems');
+      itemsEl.innerHTML = '';
       
-      function getStoredOrders() {
-        return readOrders();
-      }
-
-      // Helper: save orders to localStorage
-      function saveOrders(orders) {
-        if (window.writeOrders) window.writeOrders(orders);
-        else localStorage.setItem('cakerie_orders', JSON.stringify(orders));
-      }
-
-      // Render all orders from fresh data
-      function renderOrders() {
-        const orders = getStoredOrders();
-        const grid = document.getElementById('ordersGrid');
-        grid.innerHTML = '';
-
-        if (!orders.length) {
-          grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#bbb;padding:48px">No orders yet.</div>';
-          return;
-        }
-
-        orders.forEach(order => {
-          const card = document.createElement('div');
-          card.className = 'order-card';
-
-          // Find thumbnail image
-          const firstItem = order.items && order.items[0];
-          const imgSrc = (firstItem && firstItem.img) 
-            ? firstItem.img 
-            : 'https://plus.unsplash.com/premium_vector-1713986485734-8d5eea98b771?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
-
-          const orderTitle = (firstItem && (firstItem.title || firstItem.name)) || 'Order';
-          const orderStatus = order.status || 'Preparing';
-          let progress = 30;
-          if (orderStatus === 'Delivered') progress = 100;
-          else if (orderStatus === 'Cancelled') progress = 20;
-          else if (orderStatus === 'Out for Delivery') progress = 70;
-
-          const statusClass = orderStatus === 'Delivered' ? 'status-delivered' 
-                            : (orderStatus === 'Cancelled' ? 'status-cancelled' : 'status-pending');
-
-          card.innerHTML = `
-            <div class="order-thumb"><img src="${imgSrc}" alt="order thumbnail"></div>
-            <div class="order-meta">
-              <div class="order-title">${orderTitle}</div>
-              <div class="order-details">Order ID: ${order.id}</div>
-              <div class="order-details">Date: ${order.date ? new Date(order.date).toLocaleString() : ''}</div>
-              <div class="order-status ${statusClass}">${orderStatus}</div>
-              <div style="margin-top:8px">${order.note || ''}</div>
-              <div class="order-actions" style="margin-top:12px">
-                <button class="btn-plain btn-view" data-id="${order.id}">View</button>
-                <button class="btn-plain btn-reorder" data-id="${order.id}">Reorder</button>
-              </div>
-            </div>
-            <div style="width:120px;flex-shrink:0">
-              <div class="track-bar"><div class="progress" style="width:${progress}%"></div></div>
-            </div>
-          `;
-          grid.appendChild(card);
-        });
-
-        // Attach event listeners to dynamically created buttons
-        document.querySelectorAll('.btn-view').forEach(btn => {
-          btn.removeEventListener('click', viewHandler);
-          btn.addEventListener('click', viewHandler);
-        });
-        document.querySelectorAll('.btn-reorder').forEach(btn => {
-          btn.removeEventListener('click', reorderHandler);
-          btn.addEventListener('click', reorderHandler);
-        });
-      }
-
-      // View order modal
-      function viewHandler(e) {
-        const id = e.currentTarget.getAttribute('data-id');
-        openOrderModal(id);
-      }
-
-      function reorderHandler(e) {
-        const id = e.currentTarget.getAttribute('data-id');
-        doReorder(id);
-      }
-
-      function openOrderModal(id) {
-        const orders = getStoredOrders();
-        const ord = orders.find(o => o.id && o.id.toString() === id.toString());
-        if (!ord) return alert('Order not found');
-
-        const itemsEl = document.getElementById('modalItems');
-        itemsEl.innerHTML = '';
+      (ord.items || []).forEach(it => {
+        const row = document.createElement('div');
+        row.className = 'order-item-row';
         
-        (ord.items || []).forEach(it => {
+        const img = document.createElement('img');
+        img.src = it.img || 'https://plus.unsplash.com/premium_vector-1713986485734-8d5eea98b771?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+        img.alt = it.title || it.name || 'Item';
+        
+        const info = document.createElement('div');
+        info.style.flex = '1';
+        info.innerHTML = `<div style="font-weight:600">${it.title || it.name || 'Item'}</div><div style="color:#bbb">Qty: ${it.qty || it.quantity || 1}</div>`;
+        
+        const price = document.createElement('div');
+        price.innerHTML = `<div style="font-weight:700;color:var(--accent)">₹${it.price || 0}</div>`;
+        
+        row.append(img, info, price);
+        itemsEl.appendChild(row);
+      });
+
+      const totals = ord.totals || { sub: 0, shipping: 0, tax: 0, total: 0 };
+      document.getElementById('modalSubtotal').textContent = '₹' + (totals.sub || 0);
+      document.getElementById('modalShipping').textContent = '₹' + (totals.shipping || 0);
+      document.getElementById('modalTax').textContent = '₹' + (totals.tax || 0);
+      document.getElementById('modalTotal').textContent = '₹' + (totals.total || 0);
+
+      // Loyalty discount row
+      let loyaltyAmt = totals.loyalty_discount || totals.loyalty_redeemed || 0;
+      let existingRow = document.getElementById('modalLoyaltyRow');
+      if (loyaltyAmt > 0) {
+        if (!existingRow) {
           const row = document.createElement('div');
-          row.className = 'order-item-row';
-          
-          const img = document.createElement('img');
-          img.src = it.img || 'https://plus.unsplash.com/premium_vector-1713986485734-8d5eea98b771?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
-          img.alt = it.title || it.name || 'Item';
-          
-          const info = document.createElement('div');
-          info.style.flex = '1';
-          info.innerHTML = `<div style="font-weight:600">${it.title || it.name || 'Item'}</div><div style="color:#bbb">Qty: ${it.qty || it.quantity || 1}</div>`;
-          
-          const price = document.createElement('div');
-          price.innerHTML = `<div style="font-weight:700;color:var(--accent)">₹${it.price || 0}</div>`;
-          
-          row.append(img, info, price);
-          itemsEl.appendChild(row);
-        });
-
-        const totals = ord.totals || { sub: 0, shipping: 0, tax: 0, total: 0 };
-        document.getElementById('modalSubtotal').textContent = '₹' + (totals.sub || 0);
-        document.getElementById('modalShipping').textContent = '₹' + (totals.shipping || 0);
-        document.getElementById('modalTax').textContent = '₹' + (totals.tax || 0);
-        document.getElementById('modalTotal').textContent = '₹' + (totals.total || 0);
-
-        // Loyalty discount row
-        let loyaltyAmt = totals.loyalty_discount || totals.loyalty_redeemed || 0;
-        let existingRow = document.getElementById('modalLoyaltyRow');
-        if (loyaltyAmt > 0) {
-          if (!existingRow) {
-            const row = document.createElement('div');
-            row.className = 'row';
-            row.id = 'modalLoyaltyRow';
-            row.innerHTML = '<div><strong>Loyalty discount</strong></div><div id="modalLoyalty">-₹0</div>';
-            const modalContent = document.getElementById('modalContent');
-            const rows = modalContent.querySelectorAll('.row');
-            if (rows[1]) rows[1].parentNode.insertBefore(row, rows[2] || null);
-            else modalContent.insertBefore(row, document.getElementById('modalTotal'));
-            existingRow = row;
-          }
-          document.getElementById('modalLoyalty').textContent = '-₹' + loyaltyAmt;
-        } else if (existingRow) {
-          existingRow.remove();
+          row.className = 'row';
+          row.id = 'modalLoyaltyRow';
+          row.innerHTML = '<div><strong>Loyalty discount</strong></div><div id="modalLoyalty">-₹0</div>';
+          const modalContent = document.getElementById('modalContent');
+          const rows = modalContent.querySelectorAll('.row');
+          if (rows[1]) rows[1].parentNode.insertBefore(row, rows[2] || null);
+          else modalContent.insertBefore(row, document.getElementById('modalTotal'));
+          existingRow = row;
         }
-
-        const cust = ord.customer || {};
-        document.getElementById('modalCustomer').innerHTML = `<div>${cust.name || ''}</div><div>${cust.phone || ''}</div><div style="color:#bbb">${cust.address || ''}</div>`;
-
-        document.getElementById('modalReorder').setAttribute('data-id', ord.id);
-        document.getElementById('orderModalBackdrop').style.display = 'flex';
-      }
-      function doReorder(id) {
-        const orders = getStoredOrders();
-        const ord = orders.find(o => o.id && o.id.toString() === id.toString());
-        if (!ord) return alert('Order not found');
-
-        try {
-          let cart = window.readCart ? window.readCart() : JSON.parse(localStorage.getItem('cakerie_cart') || '[]');
-          (ord.items || []).forEach(it => {
-            const existing = cart.find(c => (c.title === it.title || c.name === it.name));
-            if (existing) {
-              existing.qty = (existing.qty || 1) + (it.qty || it.quantity || 1);
-            } else {
-              cart.push({
-                title: it.title || it.name,
-                img: it.img,
-                price: it.price || 0,
-                qty: it.qty || it.quantity || 1
-              });
-            }
-          });
-          if (window.writeCart) window.writeCart(cart);
-          else localStorage.setItem('cakerie_cart', JSON.stringify(cart));
-          if (window.updateCartCount) window.updateCartCount();
-          document.getElementById('orderModalBackdrop').style.display = 'none';
-          window.location.href = 'cart.html';
-        } catch(e) {
-          alert('Failed to reorder');
-        }
+        document.getElementById('modalLoyalty').textContent = '-₹' + loyaltyAmt;
+      } else if (existingRow) {
+        existingRow.remove();
       }
 
-      // Automatically advance order status every 8 seconds (without reload)
-      function advanceOrderStatuses() {
-        let orders = getStoredOrders();
-        let changed = false;
-        orders = orders.map(o => {
-          if (o.status === 'Preparing') {
-            o.status = 'Out for Delivery';
-            changed = true;
-          } else if (o.status === 'Out for Delivery') {
-            o.status = 'Delivered';
-            changed = true;
-          }
-          return o;
-        });
-        if (changed) {
-          saveOrders(orders);
-          renderOrders();     // refresh UI without reloading
+      const cust = ord.customer || {};
+      document.getElementById('modalCustomer').innerHTML = `<div>${cust.name || ''}</div><div>${cust.phone || ''}</div><div style="color:#bbb">${cust.address || ''}</div>`;
+
+      document.getElementById('orderModalBackdrop').style.display = 'flex';
+    }
+
+    // Automatically advance order status every 8 seconds
+    function advanceOrderStatuses() {
+      let orders = getStoredOrders();
+      let changed = false;
+      orders = orders.map(o => {
+        if (o.status === 'Preparing') {
+          o.status = 'Out for Delivery';
+          changed = true;
+        } else if (o.status === 'Out for Delivery') {
+          o.status = 'Delivered';
+          changed = true;
         }
+        return o;
+      });
+      if (changed) {
+        saveOrders(orders);
+        renderOrders();
       }
+    }
 
-      // Initial render
-      renderOrders();
+    // Initial render
+    renderOrders();
 
-      // Start auto‑status updater (every 8 seconds)
-      setInterval(advanceOrderStatuses, 8000);
+    // Start auto-status updater
+    setInterval(advanceOrderStatuses, 8000);
 
-      // Modal close buttons
-      document.getElementById('modalClose').addEventListener('click', () => {
-        document.getElementById('orderModalBackdrop').style.display = 'none';
-      });
-      document.getElementById('modalReorder').addEventListener('click', (e) => {
-        const id = e.currentTarget.getAttribute('data-id');
-        if (id) doReorder(id);
-      });
-
-      // Simple progress bar animation on load (cosmetic)
-      setTimeout(() => {
-        document.querySelectorAll('.progress').forEach(bar => {
-          const w = bar.style.width;
-          bar.style.width = '0%';
-          setTimeout(() => { bar.style.width = w; }, 50);
-        });
-      }, 100);
-
-      // Hover glow on status (cosmetic)
-      document.querySelectorAll('.order-status').forEach(status => {
-        status.addEventListener('mouseenter', () => status.style.textShadow = '0 0 10px currentColor');
-        status.addEventListener('mouseleave', () => status.style.textShadow = 'none');
-      });
+    // Modal close button
+    document.getElementById('modalClose').addEventListener('click', () => {
+      document.getElementById('orderModalBackdrop').style.display = 'none';
     });
-  </script>
+
+    // Progress bar animation
+    setTimeout(() => {
+      document.querySelectorAll('.progress').forEach(bar => {
+        const w = bar.style.width;
+        bar.style.width = '0%';
+        setTimeout(() => { bar.style.width = w; }, 50);
+      });
+    }, 100);
+
+    // Hover glow on status
+    document.querySelectorAll('.order-status').forEach(status => {
+      status.addEventListener('mouseenter', () => status.style.textShadow = '0 0 10px currentColor');
+      status.addEventListener('mouseleave', () => status.style.textShadow = 'none');
+    });
+  });
+</script>
   
 </body>
 </html>
