@@ -608,7 +608,7 @@
     .submit-btn:hover {
       transform: translateY(-3px);
       box-shadow: 0 15px 40px rgba(200, 116, 90, 0.5);
-      animation: buttonHoverGlow 1.5s ease infinite;
+      
     }
 
     .submit-btn:hover::before {
@@ -1035,7 +1035,7 @@
       </div>
 
       <div class="build-content">
-        <form class="form-wrapper">
+        <form class="form-wrapper" id="build-form">
 
           <div class="form-section">
             <h3 class="section-title">Cake Base & Size</h3>
@@ -1335,10 +1335,6 @@
                 <label for="terms" style="margin: 0;">I agree to the terms and conditions</label>
               </div>
             </div>
-
-            <button type="submit" class="submit-btn">
-              <span>Complete Your Order</span>
-            </button>
           </div>
         </form>
 

@@ -191,36 +191,121 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   calculatePrice();
 
-  if (form) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const total = calculatePrice();
+  const placeOrderSidebar = document.getElementById('placeOrderSidebar');
+if (placeOrderSidebar) {
+  placeOrderSidebar.addEventListener('click', () => {
+    const buildForm = document.getElementById('build-form');
 
-      
-      const size = (document.getElementById('cake-size') || {}).value || 'Not selected';
-      const flavor = (document.querySelector('input[name="flavor"]:checked') || {}).value || 'Not selected';
-      const frost = (document.querySelector('input[name="frosting"]:checked') || {}).value || 'Not selected';
-      const fillings = getCheckedValues('input[name="filling"]');
-      const toppings = getCheckedValues('input[name="topping"]');
-      const topper = (document.getElementById('topper-text') || {}).value || '';
+    if (buildForm && !buildForm.checkValidity()) {
+      buildForm.reportValidity();
+      return;
+    }
 
-      let summary = `Order summary:\n\nSize: ${size}\nFlavor: ${flavor}\nFrosting: ${frost}\nFillings: ${fillings.join(', ') || 'None'}\nToppings: ${toppings.join(', ') || 'None'}\nTopper Text: ${topper || 'None'}\n\nTotal Price: ₹${total.toLocaleString('en-IN')}\n\nProceed to confirm your order?`;
+    const pts = readPoints();
+    const buildLoyaltyChk = document.getElementById('applyLoyaltyBuild');
+    const applyLoyalty = buildLoyaltyChk ? buildLoyaltyChk.checked : false;
+    const total = calculatePrice();
+    const loyaltyUsed = applyLoyalty ? Math.min(pts, Math.floor(total)) : 0;
+    const finalTotal = total - loyaltyUsed;
 
-      if (confirm(summary)) {
-        alert('Thank you! Your order request has been submitted. We will contact you with the final quote.');
-        form.reset();
-        
-        const designFile = document.getElementById('design-file');
-        if (designFile) {
-          const fileLabel = designFile.nextElementSibling;
-          const fileIcon = fileLabel.querySelector('.file-icon');
-          const fileText = fileLabel.querySelector('span:last-child');
-          fileIcon.textContent = '📁';
-          fileText.textContent = 'Click to upload your design reference image';
-        }
-        calculatePrice();
+    const size = (document.getElementById('cake-size') || {}).value || 'Not selected';
+    const flavor = (document.querySelector('input[name="flavor"]:checked') || {}).value || 'Not selected';
+    const frost = (document.querySelector('input[name="frosting"]:checked') || {}).value || 'Not selected';
+    const fillings = getCheckedValues('input[name="filling"]');
+    const toppings = getCheckedValues('input[name="topping"]');
+    const topper = (document.getElementById('topper-text') || {}).value || '';
+
+    let summary = `Order summary:\n\nSize: ${size}\nFlavor: ${flavor}\nFrosting: ${frost}\nFillings: ${fillings.join(', ') || 'None'}\nToppings: ${toppings.join(', ') || 'None'}\nTopper Text: ${topper || 'None'}\n\nTotal Price: ₹${finalTotal.toLocaleString('en-IN')}\n\nProceed to confirm your order?`;
+
+    if (confirm(summary)) {
+      // Deduct loyalty points if applied
+      if (loyaltyUsed > 0) redeemPoints(loyaltyUsed);
+
+      // Save order to localStorage
+      const orderObj = {
+        items: [{
+          title: `Custom Cake (${size})`,
+          img: '',
+          qty: 1,
+          price: finalTotal
+        }],
+        totals: {
+          sub: total,
+          shipping: 0,
+          tax: 0,
+          total: finalTotal,
+          loyaltyPoints: loyaltyUsed
+        },
+        customer: {
+          name: (document.getElementById('full-name') || {}).value || '',
+          phone: (document.getElementById('phone') || {}).value || '',
+          address: (document.getElementById('address') || {}).value || ''
+        },
+        paymentMethod: 'TBD',
+        status: 'Preparing'
+      };
+
+      saveOrder(orderObj);
+
+      if (buildForm) buildForm.reset();
+      const designFile = document.getElementById('design-file');
+      if (designFile) {
+        const fileLabel = designFile.nextElementSibling;
+        const fileIcon = fileLabel.querySelector('.file-icon');
+        const fileText = fileLabel.querySelector('span:last-child');
+        fileIcon.textContent = '📁';
+        fileText.textContent = 'Click to upload your design reference image';
       }
-    });
+      calculatePrice();
+      refreshBuildLoyalty();
+
+      showToast('✅ Order placed! Redirecting...');
+      setTimeout(() => { window.location.href = 'order.html'; }, 2000);
+    }
+  });
+}
+  
+
+    
+
+// Loyalty points on build page
+const buildPointsEl = document.getElementById('buildPoints');
+const buildPreviewEl = document.getElementById('buildLoyaltyPreview');
+const buildLoyaltyChk = document.getElementById('applyLoyaltyBuild');
+const buildLoyaltyBtn = document.getElementById('applyLoyaltyBuildBtn');
+
+function refreshBuildLoyalty() {
+  const pts = readPoints();
+  if (buildPointsEl) buildPointsEl.textContent = pts;
+  if (!buildLoyaltyChk || !buildPreviewEl) return;
+  const total = calculatePrice();
+  const ptsUse = Math.min(pts, Math.floor(total));
+  if (ptsUse <= 0) {
+    buildPreviewEl.textContent = 'No points available';
+    buildLoyaltyBtn && (buildLoyaltyBtn.disabled = true);
+  } else {
+    buildPreviewEl.textContent = buildLoyaltyChk.checked
+      ? 'Applied: -₹' + ptsUse
+      : 'You save: ₹' + ptsUse;
+    buildLoyaltyBtn && (buildLoyaltyBtn.disabled = false);
   }
+}
+
+if (buildLoyaltyBtn) {
+  buildLoyaltyBtn.addEventListener('click', () => {
+    buildLoyaltyChk.checked = !buildLoyaltyChk.checked;
+    buildLoyaltyBtn.textContent = buildLoyaltyChk.checked ? 'Remove points' : 'Apply points';
+    refreshBuildLoyalty();
+  });
+}
+
+refreshBuildLoyalty();
+
+// keep loyalty preview in sync when price changes
+inputsToWatch.forEach(selector => {
+  document.querySelectorAll(selector).forEach(el => {
+    el.addEventListener('change', refreshBuildLoyalty);
+  });
+});
 
 });

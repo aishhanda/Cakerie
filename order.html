@@ -96,20 +96,6 @@
       color: #111;
     }
     
-    .track-bar {
-      height: 8px;
-      background: rgba(255,255,255,0.08);
-      border-radius: 999px;
-      overflow: hidden;
-      margin-top: 12px;
-    }
-    .progress {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #ffb6c1, #e8957a);
-      border-radius: 999px;
-      transition: width 0.5s ease;
-    }
     .order-note {
       font-size: 13px;
       color: var(--text-muted);
@@ -279,13 +265,12 @@
       return readOrders();
     }
 
-    // Helper: save orders to localStorage
+  
     function saveOrders(orders) {
       if (window.writeOrders) window.writeOrders(orders);
       else localStorage.setItem('cakerie_orders', JSON.stringify(orders));
     }
 
-    // Render all orders from fresh data
     function renderOrders() {
       const orders = getStoredOrders();
       const grid = document.getElementById('ordersGrid');
@@ -307,10 +292,7 @@
 
         const orderTitle = (firstItem && (firstItem.title || firstItem.name)) || 'Order';
         const orderStatus = order.status || 'Preparing';
-        let progress = 30;
-        if (orderStatus === 'Delivered') progress = 100;
-        else if (orderStatus === 'Cancelled') progress = 20;
-        else if (orderStatus === 'Out for Delivery') progress = 70;
+        
 
         const statusClass = orderStatus === 'Delivered' ? 'status-delivered' 
                           : (orderStatus === 'Cancelled' ? 'status-cancelled' : 'status-pending');
@@ -327,9 +309,6 @@
               <button class="btn-plain btn-view" data-id="${order.id}">View</button>
             </div>
           </div>
-          <div style="width:120px;flex-shrink:0">
-            <div class="track-bar"><div class="progress" style="width:${progress}%"></div></div>
-          </div>
         `;
         grid.appendChild(card);
       });
@@ -340,7 +319,6 @@
       });
     }
 
-    // View order modal
     function viewHandler(e) {
       const id = e.currentTarget.getAttribute('data-id');
       openOrderModal(id);
@@ -379,7 +357,6 @@
       document.getElementById('modalTax').textContent = '₹' + (totals.tax || 0);
       document.getElementById('modalTotal').textContent = '₹' + (totals.total || 0);
 
-      // Loyalty discount row
       let loyaltyAmt = totals.loyalty_discount || totals.loyalty_redeemed || 0;
       let existingRow = document.getElementById('modalLoyaltyRow');
       if (loyaltyAmt > 0) {
@@ -405,47 +382,12 @@
       document.getElementById('orderModalBackdrop').style.display = 'flex';
     }
 
-    // Automatically advance order status every 8 seconds
-    function advanceOrderStatuses() {
-      let orders = getStoredOrders();
-      let changed = false;
-      orders = orders.map(o => {
-        if (o.status === 'Preparing') {
-          o.status = 'Out for Delivery';
-          changed = true;
-        } else if (o.status === 'Out for Delivery') {
-          o.status = 'Delivered';
-          changed = true;
-        }
-        return o;
-      });
-      if (changed) {
-        saveOrders(orders);
-        renderOrders();
-      }
-    }
-
-    // Initial render
+    
     renderOrders();
 
-    // Start auto-status updater
-    setInterval(advanceOrderStatuses, 8000);
-
-    // Modal close button
     document.getElementById('modalClose').addEventListener('click', () => {
       document.getElementById('orderModalBackdrop').style.display = 'none';
     });
-
-    // Progress bar animation
-    setTimeout(() => {
-      document.querySelectorAll('.progress').forEach(bar => {
-        const w = bar.style.width;
-        bar.style.width = '0%';
-        setTimeout(() => { bar.style.width = w; }, 50);
-      });
-    }, 100);
-
-    // Hover glow on status
     document.querySelectorAll('.order-status').forEach(status => {
       status.addEventListener('mouseenter', () => status.style.textShadow = '0 0 10px currentColor');
       status.addEventListener('mouseleave', () => status.style.textShadow = 'none');
