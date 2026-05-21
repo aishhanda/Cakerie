@@ -170,12 +170,20 @@
             <path d="M16 10a4 4 0 0 1-8 0"/>
           </svg>
         </a>
-        <a href="#" class="nav-icon" title="Settings">
-          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-          </svg>
-        </a>
+        <a href="#" class="nav-icon nav-coin" title="Loyalty Points">
+  <svg class="coin-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="8" fill="url(#g)" stroke="none"></circle>
+    <defs>
+      <linearGradient id="g" x1="0" x2="1">
+        <stop offset="0" stop-color="#ffd27a"/>
+        <stop offset="1" stop-color="#ffb86b"/>
+      </linearGradient>
+    </defs>
+    <text x="12" y="15" text-anchor="middle" font-size="10" font-family="sans-serif" fill="#111" font-weight="700">¢</text>
+  </svg>
+  <span class="coin-badge" id="coinBadge">0</span>
+  <div class="coin-tooltip" id="coinTooltip">Earn: 10 points per ₹1000. 1 point = ₹1. Redeem instantly at checkout.</div>
+</a>
       </div>
       <div class="hamburger">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#e8957a" class="size-6">
@@ -193,13 +201,12 @@
     </div>
 
     <div id="ordersGrid" class="orders-grid">
-      <!-- orders will be rendered here -->
+     
     </div>
 
-    <!-- Order modal -->
+   
     <div id="orderModalBackdrop" class="order-modal-backdrop" aria-hidden="true">
       <div class="order-modal" role="dialog" aria-modal="true">
-        <h3 id="modalTitle">Order</h3>
         <div id="modalContent">
           <div class="order-items" id="modalItems"></div>
           <div class="row"><div><strong>Subtotal</strong></div><div id="modalSubtotal">₹0</div></div>
@@ -271,251 +278,231 @@
 
   <script src="script.js"></script>
   <script src="cart.js"></script>
-  
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Animate progress bars on load
-      const progressBars = document.querySelectorAll('.progress');
-      progressBars.forEach(bar => {
-        const width = bar.style.width;
-        bar.style.width = '0%';
-        setTimeout(() => {
-          bar.style.width = width;
-        }, 500);
-      });
-
-      // Add click effect to reorder buttons
-      const reorderBtns = document.querySelectorAll('.btn-reorder');
-      reorderBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          btn.textContent = 'Added to Cart!';
-          btn.style.background = 'var(--accent)';
-          btn.style.color = '#111';
-          setTimeout(() => {
-            btn.textContent = 'Reorder';
-            btn.style.background = 'transparent';
-            btn.style.color = '#fff';
-          }, 2000);
-        });
-      });
-
-      // Add glow effect to status on hover
-      const statuses = document.querySelectorAll('.order-status');
-      statuses.forEach(status => {
-        status.addEventListener('mouseenter', () => {
-          status.style.textShadow = '0 0 10px currentColor';
-        });
-        status.addEventListener('mouseleave', () => {
-          status.style.textShadow = 'none';
-        });
-      });
-
-      // Simulate real-time updates with confetti for delivered orders
-      function createConfetti() {
-        const confetti = document.createElement('div');
-        confetti.style.position = 'absolute';
-        confetti.style.width = '10px';
-        confetti.style.height = '10px';
-        confetti.style.background = 'var(--accent)';
-        confetti.style.borderRadius = '50%';
-        confetti.style.pointerEvents = 'none';
-        confetti.style.animation = 'fall 3s linear forwards';
-        document.body.appendChild(confetti);
-
-        const x = Math.random() * window.innerWidth;
-        const y = Math.random() * window.innerHeight;
-        confetti.style.left = x + 'px';
-        confetti.style.top = y + 'px';
-
-        setTimeout(() => confetti.remove(), 3000);
+      
+      function getStoredOrders() {
+        return readOrders();
       }
 
-      // Enhanced tracking simulation
-      // load orders from localStorage (most recent first)
-      var stored = [];
-      try{ stored = window.readOrders ? window.readOrders() : JSON.parse(localStorage.getItem('cakerie_orders')||'[]'); }catch(e){ stored = []; }
-      const orderData = stored.map(function(o){
-        return {
-          id: o.id || ('#' + Math.floor(Math.random()*90000+10000)),
-          title: (o.items && o.items[0] && (o.items[0].title||o.items[0].name)) || 'Order',
-          status: o.status || 'Preparing',
-          progress: o.status === 'Delivered' ? 100 : (o.status === 'Cancelled' ? 20 : 30),
-          note: o.customer && o.customer.notes ? o.customer.notes : (o.note || ''),
-          date: o.date ? new Date(o.date).toLocaleString() : new Date().toLocaleString()
-        };
-      });
+      // Helper: save orders to localStorage
+      function saveOrders(orders) {
+        if (window.writeOrders) window.writeOrders(orders);
+        else localStorage.setItem('cakerie_orders', JSON.stringify(orders));
+      }
 
-      const statusClasses = {
-        Delivered: 'status-delivered',
-        Pending: 'status-pending',
-        Cancelled: 'status-cancelled',
-        'Out for Delivery': 'status-pending',
-        Preparing: 'status-pending'
-      };
-
+      // Render all orders from fresh data
       function renderOrders() {
-        var grid = document.getElementById('ordersGrid');
+        const orders = getStoredOrders();
+        const grid = document.getElementById('ordersGrid');
         grid.innerHTML = '';
-        if(!orderData || !orderData.length){ grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#bbb;padding:48px">No orders yet.</div>'; return; }
-        orderData.forEach(function(order){
-            var card = document.createElement('div'); card.className = 'order-card';
-            // determine thumbnail from stored orders, fallback to provided Unsplash image
-            var stored = getStoredOrders();
-            var storedOrder = (stored||[]).find(function(o){ return (o.id && o.id.toString()===order.id.toString()); });
-            var imgSrc = (storedOrder && storedOrder.items && storedOrder.items[0] && storedOrder.items[0].img) ? storedOrder.items[0].img : 'https://plus.unsplash.com/premium_vector-1713986485734-8d5eea98b771?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
-            var thumb = '<div class="order-thumb"><img src="'+imgSrc+'" alt="order thumbnail"></div>';
-            var meta = '<div class="order-meta">'+
-              '<div class="order-title">'+(order.title||'Order')+'</div>'+
-              '<div class="order-details">Order ID: '+order.id+'</div>'+
-              '<div class="order-details">Date: '+(order.date||'')+'</div>'+
-              '<div class="order-status '+(order.status === 'Delivered' ? 'status-delivered' : (order.status === 'Cancelled' ? 'status-cancelled' : 'status-pending'))+'">'+order.status+'</div>'+
-              '<div style="margin-top:8px">'+(order.note||'')+'</div>'+
-              '<div class="order-actions" style="margin-top:12px">'+
-                '<button class="btn-plain btn-view" data-id="'+order.id+'">View</button>'+
-                '<button class="btn-plain btn-reorder" data-id="'+order.id+'">Reorder</button>'+
-              '</div>'+
-              '</div>';
-            var prog = '<div style="width:120px;flex-shrink:0"><div class="track-bar"><div class="progress" style="width:'+ (order.progress||0) +'%"></div></div></div>';
-            card.innerHTML = thumb + meta + prog;
-            grid.appendChild(card);
-          });
 
-        // wire buttons
-        document.querySelectorAll('.btn-view').forEach(function(b){ b.addEventListener('click', function(e){ e.preventDefault(); openOrderModal(b.getAttribute('data-id')); }); });
-        document.querySelectorAll('.btn-reorder').forEach(function(b){ b.addEventListener('click', function(e){ e.preventDefault(); doReorder(b.getAttribute('data-id')); }); });
-      }
-
-      function getStoredOrders(){ try{ return window.readOrders ? window.readOrders() : JSON.parse(localStorage.getItem('cakerie_orders')||'[]'); }catch(e){ return []; } }
-
-      function openOrderModal(id){
-        var orders = getStoredOrders();
-        var ord = orders.find(function(o){ return (o.id && o.id.toString()===id.toString()); });
-        if(!ord) return alert('Order not found');
-        // populate modal
-        document.getElementById('modalTitle').textContent = (ord.items && ord.items[0] && (ord.items[0].title||ord.items[0].name)) || 'Order '+ord.id;
-        var itemsEl = document.getElementById('modalItems'); itemsEl.innerHTML = '';
-        (ord.items||[]).forEach(function(it){
-          var row = document.createElement('div'); row.className = 'order-item-row';
-          var img = document.createElement('img'); img.src = it.img || 'https://plus.unsplash.com/premium_vector-1713986485734-8d5eea98b771?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
-          var txt = document.createElement('div'); txt.innerHTML = '<div style="font-weight:600">'+(it.title||it.name||'Item')+'</div><div style="color:#bbb">Qty: '+(it.qty||it.quantity||1)+'</div>';
-          var price = document.createElement('div'); price.innerHTML = '<div style="font-weight:700;color:var(--accent)">₹'+(it.price||0)+'</div>';
-          row.appendChild(img); row.appendChild(txt); row.appendChild(price);
-          itemsEl.appendChild(row);
-        });
-        var totals = ord.totals || { sub:0, shipping:0, tax:0, total:0 };
-        document.getElementById('modalSubtotal').textContent = '₹'+(totals.sub||0);
-        document.getElementById('modalShipping').textContent = '₹'+(totals.shipping||0);
-
-        // show loyalty discount row if present
-        var existingLoyalty = document.getElementById('modalLoyaltyRow');
-        var loyaltyAmt = 0;
-        if(totals.loyalty_discount) loyaltyAmt = Number(totals.loyalty_discount) || 0;
-        else if(totals.loyalty_redeemed) loyaltyAmt = Number(totals.loyalty_redeemed) || 0;
-        if(loyaltyAmt > 0){
-          if(!existingLoyalty){
-            var div = document.createElement('div'); div.className = 'row'; div.id = 'modalLoyaltyRow';
-            div.innerHTML = '<div><strong>Loyalty discount</strong></div><div id="modalLoyalty">-₹0</div>';
-            var modalContent = document.getElementById('modalContent');
-            // insert after shipping row (which is 2nd row). Find the shipping node and insert after it.
-            var rows = modalContent.querySelectorAll('.row');
-            if(rows && rows[1]) rows[1].parentNode.insertBefore(div, rows[2] || null);
-            else modalContent.insertBefore(div, document.getElementById('modalTotal'));
-          }
-          document.getElementById('modalLoyalty').textContent = '-₹' + (loyaltyAmt);
-        } else {
-          if(existingLoyalty) existingLoyalty.parentNode.removeChild(existingLoyalty);
+        if (!orders.length) {
+          grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#bbb;padding:48px">No orders yet.</div>';
+          return;
         }
 
-        document.getElementById('modalTax').textContent = '₹'+(totals.tax||0);
-        document.getElementById('modalTotal').textContent = '₹'+(totals.total||0);
-        var cust = ord.customer || {};
-        document.getElementById('modalCustomer').innerHTML = '<div>'+ (cust.name||'') +'</div><div>'+ (cust.phone||'') +'</div><div style="color:#bbb">'+ (cust.address||'') +'</div>';
-        // store current order id on modal reorder btn
+        orders.forEach(order => {
+          const card = document.createElement('div');
+          card.className = 'order-card';
+
+          // Find thumbnail image
+          const firstItem = order.items && order.items[0];
+          const imgSrc = (firstItem && firstItem.img) 
+            ? firstItem.img 
+            : 'https://plus.unsplash.com/premium_vector-1713986485734-8d5eea98b771?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+
+          const orderTitle = (firstItem && (firstItem.title || firstItem.name)) || 'Order';
+          const orderStatus = order.status || 'Preparing';
+          let progress = 30;
+          if (orderStatus === 'Delivered') progress = 100;
+          else if (orderStatus === 'Cancelled') progress = 20;
+          else if (orderStatus === 'Out for Delivery') progress = 70;
+
+          const statusClass = orderStatus === 'Delivered' ? 'status-delivered' 
+                            : (orderStatus === 'Cancelled' ? 'status-cancelled' : 'status-pending');
+
+          card.innerHTML = `
+            <div class="order-thumb"><img src="${imgSrc}" alt="order thumbnail"></div>
+            <div class="order-meta">
+              <div class="order-title">${orderTitle}</div>
+              <div class="order-details">Order ID: ${order.id}</div>
+              <div class="order-details">Date: ${order.date ? new Date(order.date).toLocaleString() : ''}</div>
+              <div class="order-status ${statusClass}">${orderStatus}</div>
+              <div style="margin-top:8px">${order.note || ''}</div>
+              <div class="order-actions" style="margin-top:12px">
+                <button class="btn-plain btn-view" data-id="${order.id}">View</button>
+                <button class="btn-plain btn-reorder" data-id="${order.id}">Reorder</button>
+              </div>
+            </div>
+            <div style="width:120px;flex-shrink:0">
+              <div class="track-bar"><div class="progress" style="width:${progress}%"></div></div>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+
+        // Attach event listeners to dynamically created buttons
+        document.querySelectorAll('.btn-view').forEach(btn => {
+          btn.removeEventListener('click', viewHandler);
+          btn.addEventListener('click', viewHandler);
+        });
+        document.querySelectorAll('.btn-reorder').forEach(btn => {
+          btn.removeEventListener('click', reorderHandler);
+          btn.addEventListener('click', reorderHandler);
+        });
+      }
+
+      // View order modal
+      function viewHandler(e) {
+        const id = e.currentTarget.getAttribute('data-id');
+        openOrderModal(id);
+      }
+
+      function reorderHandler(e) {
+        const id = e.currentTarget.getAttribute('data-id');
+        doReorder(id);
+      }
+
+      function openOrderModal(id) {
+        const orders = getStoredOrders();
+        const ord = orders.find(o => o.id && o.id.toString() === id.toString());
+        if (!ord) return alert('Order not found');
+
+        const itemsEl = document.getElementById('modalItems');
+        itemsEl.innerHTML = '';
+        
+        (ord.items || []).forEach(it => {
+          const row = document.createElement('div');
+          row.className = 'order-item-row';
+          
+          const img = document.createElement('img');
+          img.src = it.img || 'https://plus.unsplash.com/premium_vector-1713986485734-8d5eea98b771?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+          img.alt = it.title || it.name || 'Item';
+          
+          const info = document.createElement('div');
+          info.style.flex = '1';
+          info.innerHTML = `<div style="font-weight:600">${it.title || it.name || 'Item'}</div><div style="color:#bbb">Qty: ${it.qty || it.quantity || 1}</div>`;
+          
+          const price = document.createElement('div');
+          price.innerHTML = `<div style="font-weight:700;color:var(--accent)">₹${it.price || 0}</div>`;
+          
+          row.append(img, info, price);
+          itemsEl.appendChild(row);
+        });
+
+        const totals = ord.totals || { sub: 0, shipping: 0, tax: 0, total: 0 };
+        document.getElementById('modalSubtotal').textContent = '₹' + (totals.sub || 0);
+        document.getElementById('modalShipping').textContent = '₹' + (totals.shipping || 0);
+        document.getElementById('modalTax').textContent = '₹' + (totals.tax || 0);
+        document.getElementById('modalTotal').textContent = '₹' + (totals.total || 0);
+
+        // Loyalty discount row
+        let loyaltyAmt = totals.loyalty_discount || totals.loyalty_redeemed || 0;
+        let existingRow = document.getElementById('modalLoyaltyRow');
+        if (loyaltyAmt > 0) {
+          if (!existingRow) {
+            const row = document.createElement('div');
+            row.className = 'row';
+            row.id = 'modalLoyaltyRow';
+            row.innerHTML = '<div><strong>Loyalty discount</strong></div><div id="modalLoyalty">-₹0</div>';
+            const modalContent = document.getElementById('modalContent');
+            const rows = modalContent.querySelectorAll('.row');
+            if (rows[1]) rows[1].parentNode.insertBefore(row, rows[2] || null);
+            else modalContent.insertBefore(row, document.getElementById('modalTotal'));
+            existingRow = row;
+          }
+          document.getElementById('modalLoyalty').textContent = '-₹' + loyaltyAmt;
+        } else if (existingRow) {
+          existingRow.remove();
+        }
+
+        const cust = ord.customer || {};
+        document.getElementById('modalCustomer').innerHTML = `<div>${cust.name || ''}</div><div>${cust.phone || ''}</div><div style="color:#bbb">${cust.address || ''}</div>`;
+
         document.getElementById('modalReorder').setAttribute('data-id', ord.id);
         document.getElementById('orderModalBackdrop').style.display = 'flex';
       }
+      function doReorder(id) {
+        const orders = getStoredOrders();
+        const ord = orders.find(o => o.id && o.id.toString() === id.toString());
+        if (!ord) return alert('Order not found');
 
-      document.getElementById('modalClose').addEventListener('click', function(){ document.getElementById('orderModalBackdrop').style.display = 'none'; });
-      document.getElementById('modalReorder').addEventListener('click', function(){ var id = this.getAttribute('data-id'); doReorder(id); });
-
-      function doReorder(id){
-        var orders = getStoredOrders();
-        var ord = orders.find(function(o){ return (o.id && o.id.toString()===id.toString()); });
-        if(!ord) return alert('Order not found');
-        // merge items into cart
-        try{
-          var cart = window.readCart ? window.readCart() : JSON.parse(localStorage.getItem('cakerie_cart')||'[]');
-          (ord.items||[]).forEach(function(it){
-            // try to find same item by name
-            var existing = cart.find(function(c){ return (c.title===it.title || c.name===it.name); });
-            if(existing){ existing.qty = (existing.qty||existing.quantity||1) + (it.qty||it.quantity||1); }
-            else { cart.push({ title: it.title||it.name, img: it.img, price: it.price||0, qty: it.qty||it.quantity||1 }); }
+        try {
+          let cart = window.readCart ? window.readCart() : JSON.parse(localStorage.getItem('cakerie_cart') || '[]');
+          (ord.items || []).forEach(it => {
+            const existing = cart.find(c => (c.title === it.title || c.name === it.name));
+            if (existing) {
+              existing.qty = (existing.qty || 1) + (it.qty || it.quantity || 1);
+            } else {
+              cart.push({
+                title: it.title || it.name,
+                img: it.img,
+                price: it.price || 0,
+                qty: it.qty || it.quantity || 1
+              });
+            }
           });
-          if(window.writeCart) window.writeCart(cart); else localStorage.setItem('cakerie_cart', JSON.stringify(cart));
-          // update cart counts if available
-          if(window.updateCartCount) window.updateCartCount();
-          // close modal and navigate to cart
+          if (window.writeCart) window.writeCart(cart);
+          else localStorage.setItem('cakerie_cart', JSON.stringify(cart));
+          if (window.updateCartCount) window.updateCartCount();
           document.getElementById('orderModalBackdrop').style.display = 'none';
           window.location.href = 'cart.html';
-        }catch(e){ alert('Failed to reorder'); }
+        } catch(e) {
+          alert('Failed to reorder');
+        }
       }
 
-      function getNextStatus(current) {
-        if (current === 'Preparing') return 'Out for Delivery';
-        if (current === 'Out for Delivery') return 'Delivered';
-        return current;
-      }
-
-      function getProgressForStatus(status) {
-        if (status === 'Preparing') return 30;
-        if (status === 'Out for Delivery') return 70;
-        if (status === 'Delivered') return 100;
-        if (status === 'Cancelled') return 20;
-        return 0;
-      }
-
-      function simulateTracking() {
-        orderData.forEach(order => {
-          if (order.status === 'Preparing' || order.status === 'Out for Delivery') {
-            order.status = getNextStatus(order.status);
-            order.progress = getProgressForStatus(order.status);
-            order.note = order.status === 'Out for Delivery'
-              ? 'Your cake is on the way — soon at your doorstep.'
-              : 'Delivered successfully. Enjoy!';
+      // Automatically advance order status every 8 seconds (without reload)
+      function advanceOrderStatuses() {
+        let orders = getStoredOrders();
+        let changed = false;
+        orders = orders.map(o => {
+          if (o.status === 'Preparing') {
+            o.status = 'Out for Delivery';
+            changed = true;
+          } else if (o.status === 'Out for Delivery') {
+            o.status = 'Delivered';
+            changed = true;
           }
+          return o;
         });
-        updateOrderCards();
+        if (changed) {
+          saveOrders(orders);
+          renderOrders();     // refresh UI without reloading
+        }
       }
 
+      // Initial render
       renderOrders();
 
-      // Simulate status progress every 8 seconds (advance stored orders)
-      setInterval(function(){
-        // advance statuses in storage
-        try{
-          var orders = window.readOrders ? window.readOrders() : JSON.parse(localStorage.getItem('cakerie_orders')||'[]');
-          var changed = false;
-          orders = orders.map(function(o){
-            if(o.status === 'Preparing'){ o.status = 'Out for Delivery'; changed = true; }
-            else if(o.status === 'Out for Delivery'){ o.status = 'Delivered'; changed = true; }
-            return o;
-          });
-          if(changed){ localStorage.setItem('cakerie_orders', JSON.stringify(orders)); location.reload(); }
-        }catch(e){}
-      }, 8000);
+      // Start auto‑status updater (every 8 seconds)
+      setInterval(advanceOrderStatuses, 8000);
 
-      // Add CSS for confetti animation
-      const style = document.createElement('style');
-      style.innerHTML = `
-        @keyframes fall {
-          to {
-            transform: translateY(100vh) rotate(360deg);
-            opacity: 0;
-          }
-        }
-      `;
-      document.head.appendChild(style);
+      // Modal close buttons
+      document.getElementById('modalClose').addEventListener('click', () => {
+        document.getElementById('orderModalBackdrop').style.display = 'none';
+      });
+      document.getElementById('modalReorder').addEventListener('click', (e) => {
+        const id = e.currentTarget.getAttribute('data-id');
+        if (id) doReorder(id);
+      });
+
+      // Simple progress bar animation on load (cosmetic)
+      setTimeout(() => {
+        document.querySelectorAll('.progress').forEach(bar => {
+          const w = bar.style.width;
+          bar.style.width = '0%';
+          setTimeout(() => { bar.style.width = w; }, 50);
+        });
+      }, 100);
+
+      // Hover glow on status (cosmetic)
+      document.querySelectorAll('.order-status').forEach(status => {
+        status.addEventListener('mouseenter', () => status.style.textShadow = '0 0 10px currentColor');
+        status.addEventListener('mouseleave', () => status.style.textShadow = 'none');
+      });
     });
   </script>
   

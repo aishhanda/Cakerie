@@ -728,12 +728,20 @@ body::before {
         </svg>
         <span class="cart-count" aria-hidden="true">0</span>
       </a>
-      <a href="#" class="nav-icon" title="Settings">
-        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="3"/>
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-        </svg>
-      </a>
+      <a href="#" class="nav-icon nav-coin" title="Loyalty Points">
+  <svg class="coin-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="8" fill="url(#g)" stroke="none"></circle>
+    <defs>
+      <linearGradient id="g" x1="0" x2="1">
+        <stop offset="0" stop-color="#ffd27a"/>
+        <stop offset="1" stop-color="#ffb86b"/>
+      </linearGradient>
+    </defs>
+    <text x="12" y="15" text-anchor="middle" font-size="10" font-family="sans-serif" fill="#111" font-weight="700">¢</text>
+  </svg>
+  <span class="coin-badge" id="coinBadge">0</span>
+  <div class="coin-tooltip" id="coinTooltip">Earn: 10 points per ₹1000. 1 point = ₹1. Redeem instantly at checkout.</div>
+</a>
     </div>
     
    
@@ -1148,7 +1156,7 @@ body::before {
         
         writeCart(cart);
         updateCartCount();
-        showCartToast(title + ' added to cart');
+        showToast(title + ' added to cart');
       });
 
       card.appendChild(btn);

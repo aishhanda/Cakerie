@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return total;
   }
 
-  // wire up listeners
+
   const inputsToWatch = [
     '#cake-size',
     'input[name="filling"]',
@@ -189,8 +189,6 @@ document.addEventListener('DOMContentLoaded', () => {
       el.addEventListener('input', calculatePrice);
     });
   });
-
-  // initial calculate
   calculatePrice();
 
   if (form) {
@@ -198,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       const total = calculatePrice();
 
-      // build a compact order summary
+      
       const size = (document.getElementById('cake-size') || {}).value || 'Not selected';
       const flavor = (document.querySelector('input[name="flavor"]:checked') || {}).value || 'Not selected';
       const frost = (document.querySelector('input[name="frosting"]:checked') || {}).value || 'Not selected';
@@ -211,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (confirm(summary)) {
         alert('Thank you! Your order request has been submitted. We will contact you with the final quote.');
         form.reset();
-        // restore design-file label text/icon if present
+        
         const designFile = document.getElementById('design-file');
         if (designFile) {
           const fileLabel = designFile.nextElementSibling;

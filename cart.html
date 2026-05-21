@@ -6,61 +6,357 @@
 <title>Cakerie Cart</title>
 <link rel="stylesheet" href="style.css" />
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
 <style>
 
-body{background:linear-gradient(135deg,#0b0b0b,#1a1515);color:#fff;font-family:Poppins, sans-serif;margin:0}
-.cart-hero{max-width:1100px;margin:28px auto;  padding:22px;border-radius:14px;background:linear-gradient(135deg,rgba(255,111,145,0.03),transparent);border:1px solid rgba(255,111,145,0.06)}
-.cart-hero h1{margin:0;font-family:Playfair Display;font-size:28px;color:#fff}
-.cart-hero p{margin:6px 0 0;color:#ddd;font-size:14px}
-.cart-wrap{max-width:1100px;margin:20px auto;padding:0 16px}
-.cart-grid{display:grid;grid-template-columns:1fr 360px;gap:24px}
-.cart-list{background:linear-gradient(135deg,#0f0f0f,#141414);padding:18px;border-radius:12px;border:1px solid rgba(255,111,145,0.04)}
-.cart-item{display:flex;gap:16px;padding:14px;border-radius:10px;align-items:center;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);margin-bottom:12px}
-.cart-item img{width:110px;height:78px;object-fit:cover;border-radius:8px;flex-shrink:0}
-.cart-item .meta h3{margin:0;font-family:Playfair Display;font-size:16px;color:#fff}
-.cart-item .meta .meta-sub{color:#bbb;font-size:13px;margin-top:6px}
-.cart-item .meta .price{margin-top:8px;color:var(--accent);font-weight:700}
-.cart-item .controls{margin-left:auto;text-align:right;display:flex;flex-direction:column;gap:8px}
-.qty-controls{display:flex;gap:8px;align-items:center}
-.qty-controls button{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#fff;padding:6px 10px;border-radius:8px;cursor:pointer}
-.remove-link{background:transparent;border:none;color:#ff9aac;cursor:pointer;font-size:13px}
-.checkout-panel{background:linear-gradient(135deg,#0f0f0f,#111);padding:20px;border-radius:12px;border:1px solid rgba(255,111,145,0.04)}
-.checkout-panel h3{margin:0 0 12px;font-family:Playfair Display}
-.totals{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
-.totals .row{display:flex;justify-content:space-between;color:#ccc}
-.totals .total{font-size:20px;color:#fff;font-weight:700}
-.pay-methods{display:flex;flex-direction:column;gap:8px;margin:12px 0}
-.pay-methods label{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;background:rgba(255,255,255,0.04);cursor:pointer;border:1px solid rgba(255,255,255,0.08);transition:all 0.25s ease}
-.pay-methods label:hover{background:rgba(255,255,255,0.08)}
-.delivery-methods{display:flex;flex-direction:column;gap:10px;margin-top:10px}
-.delivery-methods label{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:12px;background:rgba(255,255,255,0.04);cursor:pointer;border:1px solid rgba(255,255,255,0.08);transition:all 0.25s ease}
-.delivery-methods label:hover{background:rgba(255,255,255,0.08)}
-.option-tag{font-size:12px;color:#b5f2c7;font-weight:700}
-.delivery-details{margin-top:16px;display:grid;grid-template-columns:1fr;gap:10px}
-.delivery-details input,.delivery-details textarea{width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:#fff}
-.hidden{display:none!important}
-.addr input,.addr textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:#fff}
-.btn-place{display:block;width:100%;padding:12px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:700;cursor:pointer}
-.small-muted{font-size:13px;color:#bbb}
-.promo-applied{color:#bfe6c8;font-weight:700}
-.est-delivery{font-size:13px;color:#ddd;margin-top:8px}
-.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:9999}
-.modal{background:#0f0f0f;padding:20px;border-radius:12px;width:90%;max-width:520px;border:1px solid rgba(255,111,145,0.06)}
-.modal h4{margin:0 0 12px}
-.modal .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
-@media(max-width:900px){.cart-grid{grid-template-columns:1fr}.cart-hero{margin:18px 12px}}
-  /* cartDishant empty-view styles (merged) */
-  .cart-header{text-align:center;margin-bottom:40px}
-  .cart-title{font-family:Playfair Display, serif;font-size:34px;color:var(--text-primary,#fff);margin-bottom:10px}
-  .cart-subtitle{color:var(--text-light,#ddd);font-size:14px;max-width:680px;margin:0 auto;line-height:1.8}
-  .cart-empty{text-align:center;padding:60px 20px}
-  .cart-empty h3{color:var(--text-primary,#fff);margin-bottom:20px;font-size:22px}
-  .cart-empty p{color:#bbb;margin-bottom:20px}
-  .cart-empty a{background:var(--accent,#221f20);color:#111;padding:12px 20px;border-radius:999px;text-decoration:none;font-weight:600}
-  @media(max-width:900px){.cart-empty{padding:40px 12px}}
-  /* spacer to offset fixed navbar */
-  .nav-spacer{height:122px}
-  </style>
+
+  body {
+    background: linear-gradient(135deg, #0b0b0b, #1a1515);
+    color: #fff;
+    font-family: Poppins, sans-serif;
+    margin: 0;
+  }
+
+ 
+  .cart-hero {
+    max-width: 1100px;
+    margin: 28px auto;
+    padding: 22px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(255, 111, 145, 0.03), transparent);
+    border: 1px solid rgba(255, 111, 145, 0.06);
+  }
+
+  .cart-hero h1 {
+    margin: 0;
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: #fff;
+  }
+
+  .cart-hero p {
+    margin: 6px 0 0;
+    color: #ddd;
+    font-size: 14px;
+  }
+
+
+  .cart-wrap {
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 0 16px;
+  }
+
+  
+  .cart-grid {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 24px;
+  }
+
+  @media (max-width: 900px) {
+    .cart-grid {
+      grid-template-columns: 1fr;
+    }
+    .cart-hero {
+      margin: 18px 12px;
+    }
+  }
+
+
+  .cart-list {
+    background: linear-gradient(135deg, #0f0f0f, #141414);
+    padding: 18px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 111, 145, 0.04);
+  }
+
+  .cart-item {
+    display: flex;
+    gap: 16px;
+    padding: 14px;
+    border-radius: 10px;
+    align-items: center;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), transparent);
+    margin-bottom: 12px;
+  }
+
+  .cart-item img {
+    width: 110px;
+    height: 78px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+
+  .cart-item .meta h3 {
+    margin: 0;
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    color: #fff;
+  }
+
+  .cart-item .meta .meta-sub {
+    color: #bbb;
+    font-size: 13px;
+    margin-top: 6px;
+  }
+
+  .cart-item .meta .price {
+    margin-top: 8px;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .cart-item .controls {
+    margin-left: auto;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+
+  .qty-controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .qty-controls button {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .remove-link {
+    background: transparent;
+    border: none;
+    color: #ff9aac;
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+
+  .checkout-panel {
+    background: linear-gradient(135deg, #0f0f0f, #111);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 111, 145, 0.04);
+  }
+
+  .checkout-panel h3 {
+    margin: 0 0 12px;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .totals {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .totals .row {
+    display: flex;
+    justify-content: space-between;
+    color: #ccc;
+  }
+
+  .totals .total {
+    font-size: 20px;
+    color: #fff;
+    font-weight: 700;
+  }
+
+
+  .pay-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 12px 0;
+  }
+
+  .pay-methods label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.25s ease;
+  }
+
+  .pay-methods label:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+
+  .delivery-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .delivery-methods label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.25s ease;
+  }
+
+  .delivery-methods label:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .option-tag {
+    font-size: 12px;
+    color: #b5f2c7;
+    font-weight: 700;
+  }
+
+  .delivery-details {
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .delivery-details input,
+  .delivery-details textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
+    color: #fff;
+  }
+
+
+  .hidden {
+    display: none !important;
+  }
+
+
+  .addr input,
+  .addr textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: transparent;
+    color: #fff;
+  }
+
+
+  .btn-place {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .small-muted {
+    font-size: 13px;
+    color: #bbb;
+  }
+
+  .promo-applied {
+    color: #bfe6c8;
+    font-weight: 700;
+  }
+
+  .est-delivery {
+    font-size: 13px;
+    color: #ddd;
+    margin-top: 8px;
+  }
+
+  
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+
+  .modal {
+    background: #0f0f0f;
+    padding: 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 520px;
+    border: 1px solid rgba(255, 111, 145, 0.06);
+  }
+
+  .modal h4 {
+    margin: 0 0 12px;
+  }
+
+  .modal .actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 12px;
+  }
+
+  
+  .cart-empty {
+    text-align: center;
+    padding: 60px 20px;
+  }
+
+  .cart-empty h3 {
+    color: var(--text-primary, #fff);
+    margin-bottom: 20px;
+    font-size: 22px;
+  }
+
+  .cart-empty p {
+    color: #bbb;
+    margin-bottom: 20px;
+  }
+
+  .cart-empty a {
+    background: var(--accent, #221f20);
+    color: #111;
+    padding: 12px 20px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  @media (max-width: 900px) {
+    .cart-empty {
+      padding: 40px 12px;
+    }
+  }
+
+  
+  .nav-spacer {
+    height: 122px;
+  }
+</style>
 
 </head>
 <body>
@@ -83,13 +379,22 @@ body{background:linear-gradient(135deg,#0b0b0b,#1a1515);color:#fff;font-family:P
           <line x1="3" y1="6" x2="21" y2="6"/>
           <path d="M16 10a4 4 0 0 1-8 0"/>
         </svg>
-        <span class="cart-count" aria-hidden="true">0</span>
+        <span class="cart-count" >0</span>
       </a>
-      <a href="#" class="nav-icon" title="Settings">
-        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="3"/>
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      
+      <a href="#" class="nav-icon nav-coin" title="Loyalty Points">
+        <svg class="coin-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="8" fill="url(#g)" stroke="none"></circle>
+    <defs>
+      <linearGradient id="g" x1="0" x2="1">
+        <stop offset="0" stop-color="#ffd27a"/>
+        <stop offset="1" stop-color="#ffb86b"/>
+      </linearGradient>
+    </defs>
+    <text x="12" y="15" text-anchor="middle" font-size="10" font-family="sans-serif" fill="#111" font-weight="700">¢</text>
         </svg>
+        <span class="coin-badge" id="coinBadge">0</span>
+        <div class="coin-tooltip" id="coinTooltip">Earn: 10 points per ₹1000. 1 point = ₹1. Redeem instantly at checkout.</div>
       </a>
     </div>
     
@@ -101,29 +406,8 @@ body{background:linear-gradient(135deg,#0b0b0b,#1a1515);color:#fff;font-family:P
   </div>
   </div>
 </nav>
+
 <div class="nav-spacer" aria-hidden="true"></div>
-
-
-<div id="View" style="display:none">
-  <main>
-    <div class="cart-header">
-      <span class="section-label">Your Selections</span>
-      <h1 class="cart-title">Shopping Cart</h1>
-      <p class="cart-subtitle">Review your chosen cakes and proceed to checkout for sweet delivery.</p>
-    </div>
-
-    <div class="cart-empty" id="Empty">
-      <h3>Your cart is empty</h3>
-      <p>Add some delicious cakes to get started!</p>
-      <a href="explore.html">Browse Cakes</a>
-    </div>
-  </main>
-</div>
-
-
-
-
-
 
 <div class="cart-hero">
   <h1>Your Order</h1>
@@ -132,8 +416,8 @@ body{background:linear-gradient(135deg,#0b0b0b,#1a1515);color:#fff;font-family:P
 
 <div class="cart-wrap">
   <div class="cart-grid">
-    <section class="cart-list" aria-labelledby="cart-heading">
-      <h2 id="cart-heading" style="font-family:Playfair Display;margin:0 0 12px">Items in Cart</h2>
+    <section class="cart-list">
+      <h2 id="cart-heading" style="font-family:Playfair Display; margin:0 0 12px">Items in Cart</h2>
       <div id="items"></div>
       <div id="empty" class="cart-empty" style="display:none">
         <h3>Your cart is empty</h3>
@@ -149,9 +433,24 @@ body{background:linear-gradient(135deg,#0b0b0b,#1a1515);color:#fff;font-family:P
         <div class="row"><div class="small-muted">Delivery</div><div id="shipping">₹0</div></div>
         <div class="row total"><div>Total</div><div id="total">₹0</div></div>
       </div>
+    
+    
+      <div id="loyaltyBlock" style="margin-top: 12px;">
+        <div style="font-weight:600; margin-bottom:6px">Loyalty Points</div>
+        <div style="display:flex; gap:8px; align-items:center">
+          <div id="loyaltyBalance" class="small-muted">Points: 0</div>
+          <input type="checkbox" id="applyLoyalty" style="display:none">
+          <button id="applyLoyaltyBtn" style="margin-left:auto; padding:8px 12px; border-radius:8px; border:none; background:linear-gradient(135deg,#ffd27a,#ffb86b); color:#111; font-weight:700; cursor:pointer">
+            Apply points
+          </button>
+          <div id="loyaltyPreview" style="margin-left:8px; color:#bfe6c8; font-size:13px; white-space:nowrap">
+            You save: ₹0
+          </div>
+        </div>
+      </div>
 
       <div class="delivery-method">
-        <div style="font-weight:600;margin-bottom:10px">Delivery option</div>
+        <div style="font-weight:600; margin-bottom:10px">Delivery option</div>
         <div class="delivery-methods">
           <label><input type="radio" name="delivery_option" value="home"> Home Delivery <span class="option-tag">₹80</span></label>
           <label><input type="radio" name="delivery_option" value="pickup"> Shop Pickup <span class="option-tag">Free</span></label>
@@ -160,7 +459,7 @@ body{background:linear-gradient(135deg,#0b0b0b,#1a1515);color:#fff;font-family:P
       </div>
 
       <div id="paymentSection" class="hidden">
-        <div style="font-weight:600;margin-bottom:8px">Payment</div>
+        <div style="font-weight:600; margin-bottom:8px">Payment</div>
         <div class="pay-methods">
           <label><input type="radio" name="pay" value="card"> Credit / Debit Card</label>
           <label><input type="radio" name="pay" value="upi"> UPI</label>
@@ -168,7 +467,7 @@ body{background:linear-gradient(135deg,#0b0b0b,#1a1515);color:#fff;font-family:P
       </div>
 
       <div id="deliveryContactBlock" class="hidden">
-        <div style="font-weight:600;margin-bottom:8px">Customer Details</div>
+        <div style="font-weight:600; margin-bottom:8px">Customer Details</div>
         <div class="delivery-details">
           <input id="name" placeholder="Full name">
           <input id="phone" placeholder="Phone number">
@@ -183,268 +482,15 @@ body{background:linear-gradient(135deg,#0b0b0b,#1a1515);color:#fff;font-family:P
         </div>
       </div>
 
-      <div style="margin-top:14px;display:flex;gap:8px;flex-direction:column">
+      <div style="margin-top:14px; display:flex; gap:8px; flex-direction:column">
         <button id="placeOrder" class="btn-place">Place Order</button>
-        <button id="clearCart" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:#fff;padding:10px;border-radius:8px;cursor:pointer">Clear Cart</button>
+        <button id="clearCart" style="background:transparent; border:1px solid rgba(255,255,255,0.06); color:#fff;padding:10px; border-radius:8px; cursor:pointer">Clear Cart</button>
       </div>
 
-      <div id="orderMsg" style="margin-top:12px;color:#bfe6c8;display:none"></div>
+      <div id="orderMsg" style="margin-top:12px; color:#bfe6c8; display:none"></div>
     </aside>
   </div>
 </div>
-
-<script>
-(function(){
-  function readCart(){ try{ return JSON.parse(localStorage.getItem('cakerie_cart')||'[]') }catch(e){return[]} }
-  function writeCart(c){ localStorage.setItem('cakerie_cart', JSON.stringify(c)); }
-  function format(v){ return '₹' + v.toLocaleString(); }
-  var deliveryBlock = document.getElementById('deliveryBlock');
-  var deliveryContactBlock = document.getElementById('deliveryContactBlock');
-  var deliveryHint = document.getElementById('deliveryHint');
-
-  var itemsEl = document.getElementById('items');
-  var emptyEl = document.getElementById('empty');
-  var subtotalEl = document.getElementById('subtotal');
-  var shippingEl = document.getElementById('shipping');
-  var totalEl = document.getElementById('total');
-  var cartCountEls = document.querySelectorAll('.cart-count');
-  var checkoutPanel = document.querySelector('.checkout-panel');
-  var deliverySection = document.querySelector('.delivery-method');
-  var paymentSection = document.getElementById('paymentSection');
-  var nameEl = document.getElementById('name');
-  var phoneEl = document.getElementById('phone');
-  var emailEl = document.getElementById('email');
-  var addrEl = document.getElementById('addr');
-  var View = document.getElementById('View');
-  var heroEl = document.querySelector('.cart-hero');
-  var cartWrap = document.querySelector('.cart-wrap');
-
-  function parseCartItemPrice(price){
-    if(typeof price === 'number' && !isNaN(price)) return price;
-    if(typeof price === 'string'){
-      return parseFloat(price.replace(/,/g,'').replace(/[^0-9.]/g, '')) || 0;
-    }
-    return 0;
-  }
-
-  function calcTotals(cart){
-    var sub = cart.reduce(function(s,it){
-      var itemPrice = parseCartItemPrice(it.price || 0);
-      return s + itemPrice * (it.qty || 1);
-    }, 0);
-    var deliveryOption = (document.querySelector('input[name="delivery_option"]:checked') || {}).value;
-    var shipping = deliveryOption === 'home' ? 80 : deliveryOption === 'pickup' ? 0 : 0;
-    var discount = 0;
-    // loyalty redemption rules (new):
-    // Points Earned = floor(order ÷ 1000) * 10; 1 point = ₹1; instant redeem up to order value
-    var loyaltyUsedPoints = 0;
-    var loyaltyDiscount = 0;
-    try{
-      var apply = document.getElementById('applyLoyalty');
-      if(apply && apply.checked){
-        var availPts = (window.readPoints && window.readPoints()) || parseInt(localStorage.getItem('cakerie_points')||'0',10) || 0;
-        var remaining = Math.max(0, sub - discount);
-        var ptsToUse = Math.min(availPts, Math.floor(remaining));
-        if(ptsToUse > 0){ loyaltyUsedPoints = ptsToUse; loyaltyDiscount = ptsToUse; }
-      }
-    }catch(e){}
-    discount += loyaltyDiscount;
-    var total = sub - discount + shipping;
-    return { sub: sub, shipping: shipping, discount: discount, total: total, loyaltyPointsUsed: loyaltyUsedPoints, loyaltyDiscount: loyaltyDiscount };
-  }
-
-  function getDeliveryOption(){
-    return (document.querySelector('input[name="delivery_option"]:checked') || {}).value || '';
-  }
-
-  function estimateDelivery(days){
-    var d = new Date(); d.setDate(d.getDate() + days);
-    return d.toLocaleDateString();
-  }
-
-  function renderEmpty(){
-    emptyEl.style.display = 'block';
-    itemsEl.innerHTML = '';
-    itemsEl.style.display = 'none';
-    if(checkoutPanel) checkoutPanel.style.display = 'none';
-    if(heroEl) heroEl.style.display = 'none';
-    if(cartWrap) cartWrap.style.display = 'none';
-    if(View) View.style.display = 'block';
-  }
-
-  function updateCartUI(){
-    var cart = readCart();
-    itemsEl.innerHTML = '';
-    if(!cart.length){ renderEmpty(); }
-    else {
-      emptyEl.style.display = 'none';
-      itemsEl.style.display = 'block';
-      if(checkoutPanel) checkoutPanel.style.display = 'block';
-      if(heroEl) heroEl.style.display = 'block';
-      if(cartWrap) cartWrap.style.display = 'block';
-    if(deliveryHint){
-      deliveryHint.textContent = getDeliveryOption() ? 'Payment options are now available.' : 'Select a delivery option to unlock payment.';
-    }
-    if(paymentSection){
-      paymentSection.classList.toggle('hidden', !getDeliveryOption());
-    }
-    if(deliveryContactBlock){
-      deliveryContactBlock.classList.toggle('hidden', !getDeliveryOption());
-    }
-    if(deliveryBlock){
-      deliveryBlock.classList.toggle('hidden', getDeliveryOption() !== 'home');
-    }
-      if(View) View.style.display = 'none';
-    }
-
-    cart.forEach(function(it, idx){
-      var node = document.createElement('div'); node.className = 'cart-item';
-      node.innerHTML = '\n        <img src="'+(it.img||'')+'">\n        <div class="meta">\n          <h3>'+ (it.title||'Item') +'</h3>\n          <div class="meta-sub">Qty: '+(it.qty||1)+'</div>' + (it.weight ? '\n          <div class="meta-sub">Weight: '+(parseFloat(it.weight).toFixed(1))+' lb</div>' : '') + (it.unitPrice ? '\n          <div class="meta-sub">Unit: '+ format(it.unitPrice) +'/lb</div>' : '') + '\n          <div class="price">'+ format(it.price||0) +'</div>\n        </div>\n      ';
-      var controls = document.createElement('div'); controls.className = 'controls';
-      controls.innerHTML = '\n        <div class="qty-controls">\n          <button class="dec">-</button>\n          <div class="count">'+(it.qty||1)+'</div>\n          <button class="inc">+</button>\n        </div>\n        <button class="remove-link">Remove</button>\n      ';
-      node.appendChild(controls);
-      itemsEl.appendChild(node);
-
-      controls.querySelector('.inc').addEventListener('click', function(){ it.qty = (it.qty||1) + 1; writeCart(cart); updateCartUI(); window.dispatchEvent(new Event('cartchange')); });
-      controls.querySelector('.dec').addEventListener('click', function(){ it.qty = Math.max(1, (it.qty||1) - 1); writeCart(cart); updateCartUI(); window.dispatchEvent(new Event('cartchange')); });
-      controls.querySelector('.remove-link').addEventListener('click', function(){ cart.splice(idx,1); writeCart(cart); updateCartUI(); window.dispatchEvent(new Event('cartchange')); });
-    });
-
-    var t = calcTotals(cart);
-    subtotalEl.textContent = format(t.sub);
-    shippingEl.textContent = format(t.shipping);
-
-    // show loyalty discount row if applicable
-    var existing = document.getElementById('loyaltyRow');
-      if(t.loyaltyDiscount && t.loyaltyDiscount > 0){
-      if(!existing){
-        existing = document.createElement('div'); existing.className = 'row'; existing.id = 'loyaltyRow';
-        existing.innerHTML = '<div class="small-muted">Loyalty discount</div><div id="loyaltyAmount" class="promo-applied">-₹0</div>';
-        // insert before total row
-        var totalsWrap = document.querySelector('.totals');
-        var totalRow = totalsWrap.querySelector('.total');
-        totalsWrap.insertBefore(existing, totalRow);
-      }
-      document.getElementById('loyaltyAmount').textContent = '-₹' + (+t.loyaltyDiscount).toFixed(2);
-    } else {
-      if(existing) existing.parentNode.removeChild(existing);
-    }
-
-    // final total
-    totalEl.textContent = format(t.total);
-
-    // update nav counts
-    var count = cart.reduce(function(s,i){return s + (i.qty||0)},0);
-    cartCountEls.forEach(function(el){ el.textContent = count; });
-
-    // estimated delivery
-    var ed = document.querySelector('.est-delivery');
-    if(ed) ed.textContent = 'Estimated delivery: ' + (cart.length ? estimateDelivery(3) : '-');
-  }
-
-  // loyalty UI (points) injection
-  (function addLoyaltyUI(){
-    try{
-      var parent = document.querySelector('.checkout-panel');
-      var div = document.createElement('div'); div.style.marginTop = '12px';
-      div.id = 'loyaltyBlock';
-      // hidden checkbox remains for compatibility with calcTotals()
-      div.innerHTML = '<div style="font-weight:600;margin-bottom:6px">Loyalty Points</div>' +
-        '<div style="display:flex;gap:8px;align-items:center"><div id="loyaltyBalance" class="small-muted">Points: 0</div>' +
-        '<input type="checkbox" id="applyLoyalty" style="display:none">' +
-        '<button id="applyLoyaltyBtn" style="margin-left:auto;padding:8px 12px;border-radius:8px;border:none;background:linear-gradient(135deg,#ffd27a,#ffb86b);color:#111;font-weight:700;cursor:pointer">Apply points</button>' +
-        '<div id="loyaltyPreview" style="margin-left:8px;color:#bfe6c8;font-size:13px;white-space:nowrap">You save: ₹0</div></div>';
-      // insert before totals so totals render after loyalty UI
-      parent.insertBefore(div, parent.querySelector('.totals'));
-
-      // update balance and preview
-      function refreshPoints(){ var pts = (window.readPoints && window.readPoints()) || parseInt(localStorage.getItem('cakerie_points')||'0',10) || 0; document.getElementById('loyaltyBalance').textContent = 'Points: ' + pts; refreshPreview(); }
-      function refreshPreview(){ try{ var pts = (window.readPoints && window.readPoints()) || parseInt(localStorage.getItem('cakerie_points')||'0',10) || 0; var totals = calcTotals(readCart()); var sub = totals.sub || 0; var previewEl = document.getElementById('loyaltyPreview'); var chk = document.getElementById('applyLoyalty'); if(!previewEl) return; var ptsUse = Math.min(pts, Math.floor(Math.max(0, sub))); if(ptsUse <= 0){ previewEl.textContent = 'No points available'; document.getElementById('applyLoyaltyBtn').disabled = true; document.getElementById('applyLoyaltyBtn').style.opacity = '0.6'; } else { var discount = ptsUse; previewEl.textContent = 'You save: ₹' + discount; document.getElementById('applyLoyaltyBtn').disabled = false; document.getElementById('applyLoyaltyBtn').style.opacity = '1'; } if(chk && chk.checked){ var applied = Math.min(pts, Math.floor(Math.max(0, sub))); previewEl.textContent = 'Applied: -₹' + applied; document.getElementById('applyLoyaltyBtn').textContent = 'Remove points'; } else { document.getElementById('applyLoyaltyBtn').textContent = 'Apply points'; } }catch(e){} }
-      refreshPoints();
-      document.getElementById('applyLoyaltyBtn').addEventListener('click', function(){ var chk = document.getElementById('applyLoyalty'); chk.checked = !chk.checked; if(chk.checked) this.textContent = 'Remove points'; else this.textContent = 'Apply points'; window.dispatchEvent(new Event('cartchange')); updateCartUI(); refreshPreview(); });
-      window.addEventListener('storage', function(e){ if(e.key === 'cakerie_points' || e.key === 'cakerie_cart') refreshPoints(); });
-      // also refresh preview on cartchange so subtotal updates preview
-      window.addEventListener('cartchange', refreshPreview);
-    }catch(e){}
-  })();
-
-  // place order with confirmation modal
-  document.getElementById('placeOrder').addEventListener('click', function(){
-    var cart = readCart(); if(!cart.length){ alert('Cart is empty.'); return; }
-    var name = nameEl.value.trim();
-    var phone = phoneEl.value.trim();
-    var email = emailEl.value.trim();
-    var deliveryOption = (document.querySelector('input[name="delivery_option"]:checked') || {}).value;
-    var address = addrEl.value.trim();
-    if(!deliveryOption){ alert('Please select home delivery or pickup'); return; }
-    if(!name || !phone || !email){ alert('Please fill your name, phone and email'); return; }
-    if(deliveryOption === 'home' && !address){ alert('Please provide your full delivery address'); return; }
-
-    var paymentMethod = (document.querySelector('input[name="pay"]:checked') || {}).value;
-    if(!paymentMethod){ alert('Please select a payment method'); return; }
-    var totals = calcTotals(cart);
-    // show modal
-    var backdrop = document.createElement('div'); backdrop.className = 'modal-backdrop';
-    var modal = document.createElement('div'); modal.className = 'modal';
-    modal.innerHTML = '<h4>Confirm Order</h4>' +
-      '<div>Items: '+cart.length+'</div>' +
-      '<div>Subtotal: '+format(totals.sub)+'</div>' +
-      '<div>Discount: '+format(totals.discount)+'</div>' +
-      '<div>Shipping: '+format(totals.shipping)+'</div>' +
-      '<div class="row" style="margin-top:8px;font-weight:700">Total: '+format(totals.total)+'</div>' +
-      '<div class="actions"><button id="confirmOrder" class="btn-place">Confirm</button><button id="cancelOrder" class="remove-link">Cancel</button></div>';
-    backdrop.appendChild(modal); document.body.appendChild(backdrop);
-
-    modal.querySelector('#cancelOrder').addEventListener('click', function(){ document.body.removeChild(backdrop); });
-    modal.querySelector('#confirmOrder').addEventListener('click', function(){
-      // build order object and save to localStorage orders
-      var orderId;
-      try{
-        var paymentMethod = (document.querySelector('input[name="pay"]:checked') || {}).value || 'card';
-        var orderObj = {
-          items: cart,
-          totals: totals,
-          paymentMethod: paymentMethod,
-          customer: {
-            name: name,
-            phone: phone,
-            email: email,
-            deliveryOption: deliveryOption,
-            address: deliveryOption === 'home' ? address : ''
-          },
-          status: 'Preparing'
-        };
-        // if loyalty applied, redeem the used points now (redeemPoints expects points and subtotal)
-        try{
-          var ct = orderObj.totals || calcTotals(cart);
-          var usedPts = ct.loyaltyPointsUsed || 0;
-          if(usedPts && window.redeemPoints) window.redeemPoints(usedPts, ct.sub);
-          if(usedPts) { orderObj.totals.loyalty_redeemed = usedPts; orderObj.totals.loyalty_discount = ct.loyaltyDiscount || 0; }
-        }catch(e){}
-        if(window.saveOrder) orderId = window.saveOrder(orderObj);
-        else orderId = 'ORD' + Date.now();
-      }catch(e){ orderId = 'ORD' + Date.now(); }
-
-      writeCart([]); updateCartUI(); document.body.removeChild(backdrop);
-      var msgEl = document.getElementById('orderMsg'); msgEl.style.display = 'block'; msgEl.textContent = 'Order placed — ' + orderId + '. Confirmation sent.';
-      setTimeout(function(){ window.location.href = 'order.html'; }, 1400);
-    });
-  });
-
-  var deliveryInputs = document.querySelectorAll('input[name="delivery_option"]');
-  deliveryInputs.forEach(function(input){
-    input.addEventListener('change', function(){ updateCartUI(); });
-  });
-
-  document.getElementById('clearCart').addEventListener('click', function(){ if(confirm('Clear cart?')){ writeCart([]); updateCartUI(); } });
-
-  // respond to other tabs updating cart
-  window.addEventListener('storage', function(e){ if(e.key === 'cakerie_cart'){ updateCartUI(); } });
-
-  // initial render
-  updateCartUI();
-})();
-</script>
 <script src="script.js"></script>
 <script src="cart.js"></script>
 </body>

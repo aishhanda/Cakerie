@@ -254,6 +254,48 @@ ul { list-style: none; }
 }
 .nav-icon.active::before { transform: scale(1); }
 
+/* ===== Loyalty Coin Icon ===== */
+.nav-coin {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-coin .coin-badge {
+  background: linear-gradient(135deg, #ffd27a, #ffb86b);
+  color: #111;
+  padding: 2px 6px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+.coin-tooltip {
+  position: absolute;
+  right: 0;
+  top: 40px;
+  min-width: 220px;
+  background: rgba(15, 15, 15, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  padding: 12px;
+  border-radius: 8px;
+  color: #ddd;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  display: none;
+  z-index: 3000;
+}
+
+.coin-icon {
+  animation: coinShine 2.5s infinite linear;
+}
+
+@keyframes coinShine {
+  0%   { filter: drop-shadow(0 0 0 rgba(255, 200, 100, 0.0)); }
+  50%  { filter: drop-shadow(0 0 10px rgba(255, 200, 100, 0.6)); }
+  100% { filter: drop-shadow(0 0 0 rgba(255, 200, 100, 0.0)); }
+}
 
 .hamburger {
   display: none;
