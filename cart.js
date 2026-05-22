@@ -336,8 +336,6 @@ if(loyaltyBtn && loyaltyChk){
   
   document.getElementById('placeOrder').addEventListener('click', function(){
     let cart = readCart();
-    if(!cart.length){ alert('Cart is empty.'); return; }
-
     let name = nameEl.value.trim();
     let phone = phoneEl.value.trim();
     let email = emailEl.value.trim();

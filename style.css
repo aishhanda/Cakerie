@@ -355,7 +355,6 @@ ul { list-style: none; }
   z-index: 2;
 }
 
-/* small toast */
 .cart-toast {
   position: fixed;
   right: 24px;

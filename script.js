@@ -192,15 +192,13 @@ document.addEventListener('DOMContentLoaded', () => {
   calculatePrice();
 
   const placeOrderSidebar = document.getElementById('placeOrderSidebar');
-if (placeOrderSidebar) {
+  if (placeOrderSidebar) {
   placeOrderSidebar.addEventListener('click', () => {
     const buildForm = document.getElementById('build-form');
-
     if (buildForm && !buildForm.checkValidity()) {
       buildForm.reportValidity();
       return;
     }
-
     const pts = readPoints();
     const buildLoyaltyChk = document.getElementById('applyLoyaltyBuild');
     const applyLoyalty = buildLoyaltyChk ? buildLoyaltyChk.checked : false;
@@ -218,10 +216,8 @@ if (placeOrderSidebar) {
     let summary = `Order summary:\n\nSize: ${size}\nFlavor: ${flavor}\nFrosting: ${frost}\nFillings: ${fillings.join(', ') || 'None'}\nToppings: ${toppings.join(', ') || 'None'}\nTopper Text: ${topper || 'None'}\n\nTotal Price: ₹${finalTotal.toLocaleString('en-IN')}\n\nProceed to confirm your order?`;
 
     if (confirm(summary)) {
-      // Deduct loyalty points if applied
+      
       if (loyaltyUsed > 0) redeemPoints(loyaltyUsed);
-
-      // Save order to localStorage
       const orderObj = {
         items: [{
           title: `Custom Cake (${size})`,
@@ -241,7 +237,7 @@ if (placeOrderSidebar) {
           phone: (document.getElementById('phone') || {}).value || '',
           address: (document.getElementById('address') || {}).value || ''
         },
-        paymentMethod: 'TBD',
+        paymentMethod: 'Pay at Store',
         status: 'Preparing'
       };
 
@@ -260,15 +256,12 @@ if (placeOrderSidebar) {
       refreshBuildLoyalty();
 
       showToast('✅ Order placed! Redirecting...');
-      setTimeout(() => { window.location.href = 'order.html'; }, 2000);
+      setTimeout(() => { window.location.href = 'order.html'; }, 1500);
     }
   });
 }
   
 
-    
-
-// Loyalty points on build page
 const buildPointsEl = document.getElementById('buildPoints');
 const buildPreviewEl = document.getElementById('buildLoyaltyPreview');
 const buildLoyaltyChk = document.getElementById('applyLoyaltyBuild');
@@ -301,7 +294,7 @@ if (buildLoyaltyBtn) {
 
 refreshBuildLoyalty();
 
-// keep loyalty preview in sync when price changes
+
 inputsToWatch.forEach(selector => {
   document.querySelectorAll(selector).forEach(el => {
     el.addEventListener('change', refreshBuildLoyalty);
