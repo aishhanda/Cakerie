@@ -145,7 +145,6 @@ document.addEventListener('DOMContentLoaded', function(){
   function updateCartUI(){
     let cart = readCart();
     itemsEl.innerHTML = '';
-
     if(!cart.length){
       renderEmpty();
     } else {
@@ -343,7 +342,14 @@ if(loyaltyBtn && loyaltyChk){
     let address = addrEl.value.trim();
 
     if(!deliveryOption){ alert('Please select home delivery or pickup'); return; }
-    if(!name || !phone || !email){ alert('Please fill your name, phone and email'); return; }
+    if(!name || !phone || !email){ alert('Please fill your name, phone and email');
+       return; }
+       //if not valid phone, alert and return
+       if(!Number(phone) ){ alert('Please fill valid phone');
+       return; }
+       //if not valid mail, alert and return
+        if(!email.includes('@') || !email.includes('.')){ alert('Please fill valid email');
+        return; }
     if(deliveryOption === 'home' && !address){ alert('Please provide your full delivery address'); return; }
 
     let paymentMethod = (document.querySelector('input[name="pay"]:checked') || {}).value;
